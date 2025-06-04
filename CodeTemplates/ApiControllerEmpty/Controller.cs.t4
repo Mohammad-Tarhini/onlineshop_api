@@ -1,0 +1,22 @@
+﻿<#@ template language="C#" HostSpecific="True" #>
+<#@ output extension="cs" #>
+<#@ parameter type="System.String" name="ControllerName" #>
+<#@ parameter type="System.String" name="ControllerRootName" #>
+<#@ parameter type="System.String" name="Namespace" #>
+<#
+string routePrefix = "api/" + ControllerRootName;
+#>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+
+namespace <#= Namespace #>
+{
+    [Route("<#= routePrefix #>/{id?}")]
+    public class <#= ControllerName #> : ApiController
+    {
+    }
+}
