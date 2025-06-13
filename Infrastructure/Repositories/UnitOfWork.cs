@@ -13,10 +13,16 @@ namespace onlineshopowner_api.Infrastructure.Repositories
     {
         private readonly online_shopEntities _db;
         public IpersonRepository PersonRepository { get;  set; }
-        public UnitOfWork(online_shopEntities dbContext, IpersonRepository personRepository)
+    
+        public IcategoryRepository CategoryRepository { get; set; }
+        public IShopRepository ShopRepository { get; set; }
+        public UnitOfWork(online_shopEntities dbContext, IpersonRepository personRepository, IShopRepository shopRepository, IcategoryRepository categoryRepository,IShopRepository shopRepository1)
         {
             _db = dbContext;
             PersonRepository = personRepository;
+           
+            CategoryRepository = categoryRepository;
+            ShopRepository = shopRepository1;
         }
         public async Task<int> CommitAsync()
         {

@@ -52,11 +52,11 @@ namespace onlineshopowner_api.Application.Services
                     try
                     {
                         var (IsSucces1, ClientAlreadyExist, message1) = await _registrationshelp.Registeronclient(isfound, personToProcess);
-                        if (!issuccess)
+                        if (!IsSucces1)
                         {
                             return(false, false, null, message1);
                         }
-                        var token = _tokenGenerator.GenerateToken(personToProcess.PersonId, roleToAssign, 60);
+                        var token = _tokenGenerator.GenerateToken(personToProcess.PersonId, 60);
 
 
 
@@ -76,7 +76,7 @@ namespace onlineshopowner_api.Application.Services
 
                         await _unitOfWork.CommitAsync();
 
-                        var token = _tokenGenerator.GenerateToken(personToProcess.PersonId, roleToAssign, 60);
+                        var token = _tokenGenerator.GenerateToken(personToProcess.PersonId,  60);
                         return (IsSucces1, ShopOwnerAlreadyExist, token, message1);
                     }
                     catch (Exception ex)

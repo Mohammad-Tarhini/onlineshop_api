@@ -8,10 +8,11 @@ using System.Web;
 using System.Web.Mvc;
 using onlineshopowner_api.Domain;
 using Microsoft.Ajax.Utilities;
+using onlineshopowner_api.Application.Interfaces.Ivalidator;
 
 namespace onlineshopowner_api.Application.Validatorandclean
 {
-    public class loginhelper
+    public class loginhelper:ILoginhelper
     {
         private readonly IUnityOfWork _unitOfWork;
         public loginhelper(IUnityOfWork unitOfWork)

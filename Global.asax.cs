@@ -17,6 +17,7 @@ namespace onlineshopowner_api
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             UnityConfig.RegisterComponents();
+            
         }
     }
 }

@@ -1,39 +1,35 @@
-﻿using onlineshopowner_api.Application.Interfaces.Itoken;
-using onlineshopowner_api.Application.Interfaces.Ivalidator;
-using onlineshopowner_api.Domain.Interfaces.IRepository;
-using onlineshopowner_api.Infrastructure.Models;
-using onlineshopowner_api.Application.Interfaces;
-using onlineshopowner_api.Application.Validatorandclean;
-using onlineshopowner_api.Infrastructure.Repositories;
+using onlineshopowner_api.App_Start.Setting;
 using onlineshopowner_api.Application.Interfaces.Iservices;
+using onlineshopowner_api.Application.Interfaces.Itoken;
+using onlineshopowner_api.Application.Interfaces.Ivalidator;
 using onlineshopowner_api.Application.Services;
-using onlineshopowner_api.Infrastructure.Token;
-using onlineshopowner_api.Domain;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
-using Unity.Lifetime;
-using Unity;
-using AutoMapper;
-using System.Runtime.InteropServices;
-using Unity.WebApi;
+using onlineshopowner_api.Application.Validatorandclean;
+using onlineshopowner_api.Domain.Interfaces.IRepository;
 using onlineshopowner_api.Domain.Interfaces;
 using onlineshopowner_api.Infrastructure.MappingDomainModel;
-using System.Reflection;
+using onlineshopowner_api.Infrastructure.Models;
+using onlineshopowner_api.Infrastructure.Repositories;
+using onlineshopowner_api.Infrastructure.Token;
+using System.Configuration;
+using System.Web.Http;
+using Unity;
+using Unity.Lifetime;
+using Unity.WebApi;
 
-namespace onlineshopowner_api.App_Start
+namespace onlineshopowner_api
 {
-    public class UnityConfig
+    public static class UnityConfig
     {
         public static void RegisterComponents()
         {
-            var container = new UnityContainer();
+			var container = new UnityContainer();
 
-           
+            // register all your components with the container here
+            // it is NOT necessary to register your controllers
 
+            // e.g. container.RegisterType<ITestService, TestService>();
+
+            container.AddExtension(new Diagnostic());
             // Register your DbContext, Repositories, UoW, Services
             container.RegisterType<online_shopEntities>(new HierarchicalLifetimeManager());
 
@@ -41,15 +37,35 @@ namespace onlineshopowner_api.App_Start
 
             container.RegisterType<IjwtTokenGenerator, JwtTokenGenerator>();
             container.RegisterType<IUnityOfWork, UnitOfWork>();
-
+            container.RegisterType<IUserContextService, UserContextServices>();
             container.RegisterType<Iregistrationhelper, Registerationhelper>();
             container.RegisterType<IpersonRepository, PersonRepository>();
+            container.RegisterType<IShopRepository, ShopRepository>();
+            container.RegisterType<IcategoryRepository, CategoryRepository>();
             container.RegisterType<IRegisterationServices, RegisterationServices>(new HierarchicalLifetimeManager());
-
+            container.RegisterType<ILogin, LoginServices>();
+            container.RegisterType<ILoginhelper, loginhelper>();
+            container.RegisterType<IImageService, ImageService>();
+            container.RegisterType<IAddCategoryservices, AddCategoryservices>();
+            container.RegisterType<IOpenNewShopServices,OpenNewShopServices>();
+            container.RegisterType<IUpdateProfileShop, UpdateProfileShop>();
 
             container.RegisterType<IMapper<Domain.Entities.Client, Client>, ClientMapper>(new HierarchicalLifetimeManager());
             container.RegisterType<IMapper<Domain.Entities.Person, Person>, PersonMapper>(new HierarchicalLifetimeManager());
             container.RegisterType<IMapper<Domain.Entities.ShopOwner, ShopOwner>, ShopOwnerMapper>(new HierarchicalLifetimeManager());
+            container.RegisterType<IMapper<Domain.Entities.shop, Shop>, ShopMapper>(new HierarchicalLifetimeManager());
+            var imgurSettings = new ImgurSettings
+            {
+                ClientId = "6df469619d45ea8"
+            };
+            container.RegisterInstance(imgurSettings);
+            var jwtSettings = new JwtSettings
+            {
+                SecretKey = ConfigurationManager.AppSettings["JwtSecretKey"],
+                Issuer = ConfigurationManager.AppSettings["JwtIssuer"],
+                Audience = ConfigurationManager.AppSettings["JwtAudience"]
+            };
+            container.RegisterInstance(jwtSettings);
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

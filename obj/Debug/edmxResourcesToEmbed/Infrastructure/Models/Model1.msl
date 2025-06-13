@@ -128,6 +128,7 @@
     <EntitySetMapping Name="Shops">
       <EntityTypeMapping TypeName="online_shopModel.Shop">
         <MappingFragment StoreEntitySet="Shop">
+          <ScalarProperty Name="deletehashimage" ColumnName="deletehashimage" />
           <ScalarProperty Name="shop_id" ColumnName="shop_id" />
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="logo_url" ColumnName="logo_url" />
@@ -151,6 +152,14 @@
         <MappingFragment StoreEntitySet="ShopOwner">
           <ScalarProperty Name="shopowner_id" ColumnName="shopowner_id" />
           <ScalarProperty Name="person_id" ColumnName="person_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="admains">
+      <EntityTypeMapping TypeName="online_shopModel.admain">
+        <MappingFragment StoreEntitySet="admain">
+          <ScalarProperty Name="person_id" ColumnName="person_id" />
+          <ScalarProperty Name="admin_id" ColumnName="admin_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

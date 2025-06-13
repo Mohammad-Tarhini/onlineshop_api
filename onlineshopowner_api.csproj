@@ -46,11 +46,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=8.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>packages\AutoMapper.8.1.1\lib\net461\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>packages\AutoMapper.10.1.1\lib\net461\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="BCrypt.Net-Next, Version=4.0.3.0, Culture=neutral, PublicKeyToken=1e11be04b6288443, processorArchitecture=MSIL">
       <HintPath>packages\BCrypt.Net-Next.4.0.3\lib\net48\BCrypt.Net-Next.dll</HintPath>
+    </Reference>
+    <Reference Include="D3K.Diagnostics.Common, Version=5.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\D3K.Diagnostics.Common.5.1.0\lib\netstandard2.0\D3K.Diagnostics.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="D3K.Diagnostics.Core, Version=5.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\D3K.Diagnostics.Core.5.1.0\lib\netstandard2.0\D3K.Diagnostics.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="D3K.Diagnostics.Unity, Version=5.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\D3K.Diagnostics.Unity.5.1.0\lib\netstandard2.0\D3K.Diagnostics.Unity.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
@@ -68,17 +77,17 @@
     <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Extensions.Logging.Abstractions.2.1.0\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.Abstractions, Version=8.11.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.IdentityModel.Abstractions.8.11.0\lib\net472\Microsoft.IdentityModel.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.Abstractions, Version=8.12.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IdentityModel.Abstractions.8.12.0\lib\net472\Microsoft.IdentityModel.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=8.11.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.IdentityModel.JsonWebTokens.8.11.0\lib\net472\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=8.12.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IdentityModel.JsonWebTokens.8.12.0\lib\net472\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.Logging, Version=8.11.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.IdentityModel.Logging.8.11.0\lib\net472\Microsoft.IdentityModel.Logging.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=8.12.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IdentityModel.Logging.8.12.0\lib\net472\Microsoft.IdentityModel.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.Tokens, Version=8.11.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.IdentityModel.Tokens.8.11.0\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=8.12.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IdentityModel.Tokens.8.12.0\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\MSTest.TestFramework.3.9.1\lib\net462\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
@@ -102,13 +111,16 @@
       <HintPath>packages\System.Diagnostics.DiagnosticSource.6.0.2\lib\net461\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
-    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=8.11.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\System.IdentityModel.Tokens.Jwt.8.11.0\lib\net472\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=8.12.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\System.IdentityModel.Tokens.Jwt.8.12.0\lib\net472\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
     <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Linq.Dynamic.Core, Version=1.2.18.0, Culture=neutral, PublicKeyToken=0f07ec44de6ac832, processorArchitecture=MSIL">
+      <HintPath>packages\System.Linq.Dynamic.Core.1.2.18\lib\net46\System.Linq.Dynamic.Core.dll</HintPath>
     </Reference>
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
@@ -128,6 +140,7 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Security" />
     <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
@@ -207,10 +220,16 @@
       <HintPath>packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Abstractions, Version=5.11.7.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>packages\Unity.5.11.10\lib\net48\Unity.Abstractions.dll</HintPath>
+      <HintPath>packages\Unity.Abstractions.5.11.7\lib\net48\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Configuration, Version=5.11.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>packages\Unity.Configuration.5.11.2\lib\net47\Unity.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Container, Version=5.11.11.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>packages\Unity.5.11.10\lib\net48\Unity.Container.dll</HintPath>
+      <HintPath>packages\Unity.Container.5.11.11\lib\net48\Unity.Container.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Interception, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>packages\Unity.Interception.5.11.1\lib\net47\Unity.Interception.dll</HintPath>
     </Reference>
     <Reference Include="Unity.WebApi, Version=5.4.0.0, Culture=neutral, PublicKeyToken=43da31bc42a85347, processorArchitecture=MSIL">
       <HintPath>packages\Unity.WebAPI.5.4.0\lib\net45\Unity.WebApi.dll</HintPath>
@@ -230,35 +249,64 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\Dtos\CategoryDto.cs" />
+    <Compile Include="Application\Dtos\UpdatProfileShopeDto.cs" />
+    <Compile Include="Application\Dtos\OpenNewShopDto.cs" />
     <Compile Include="Application\Dtos\LoginRequestDto.cs" />
     <Compile Include="Application\Dtos\RegisterationRequestDto.cs" />
+    <Compile Include="Application\Interfaces\Iservices\IAddCategoryservices.cs" />
+    <Compile Include="Application\Interfaces\Iservices\IUpdateProfileShop.cs" />
+    <Compile Include="Application\Interfaces\Iservices\IOpenNewShopServices.cs" />
     <Compile Include="Application\Interfaces\Iservices\ILogin.cs" />
+    <Compile Include="Application\Interfaces\Iservices\IUserContextService.cs" />
     <Compile Include="Application\Interfaces\Iservices\IUnityOfWork.cs" />
     <Compile Include="Application\Interfaces\Iservices\IRegisterationServices.cs" />
     <Compile Include="Application\Interfaces\Itoken\IjwtTokenGenerator.cs" />
     <Compile Include="Application\Interfaces\Ivalidator\ILoginhelper.cs" />
+    <Compile Include="Application\Interfaces\Ivalidator\IImageService .cs" />
     <Compile Include="Application\Interfaces\Ivalidator\Iregistrationhelper.cs" />
-    <Compile Include="Application\Services\Login.cs" />
+    <Compile Include="Application\Services\AddCategoryservices.cs" />
+    <Compile Include="Application\Services\UpdateProfileShop.cs" />
+    <Compile Include="Application\Services\OpenNewShopServices.cs" />
+    <Compile Include="Application\Services\LoginServices.cs" />
     <Compile Include="Application\Services\RegisterationServices.cs" />
+    <Compile Include="Application\Validatorandclean\ImageService .cs" />
+    <Compile Include="Application\Validatorandclean\UserContextServices.cs" />
     <Compile Include="Application\Validatorandclean\loginhelper.cs" />
     <Compile Include="Application\Validatorandclean\HashingPassword.cs" />
     <Compile Include="Application\Validatorandclean\Clean.cs" />
     <Compile Include="Application\Validatorandclean\Registerationhelper.cs" />
+    <Compile Include="App_Start\Setting\JwtSettings.cs" />
+    <Compile Include="App_Start\Setting\ImgurSettings.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AddCategoryByAdminController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Controllers\RegisterationController.cs" />
     <Compile Include="Domain\Constant\ResultCheckdb.cs" />
     <Compile Include="Domain\Constant\UpdateDataProcess.cs" />
     <Compile Include="Domain\Constant\UserRoles.cs" />
+    <Compile Include="Domain\Entities\Category.cs" />
+    <Compile Include="Domain\Entities\Admain.cs" />
+    <Compile Include="Domain\Entities\shop.cs" />
     <Compile Include="Domain\Entities\ShopOwner.cs" />
     <Compile Include="Domain\Entities\Client.cs" />
     <Compile Include="Domain\Entities\Person.cs" />
+    <Compile Include="Domain\Interfaces\IExternalServices\IImgur.cs" />
     <Compile Include="Domain\Interfaces\IMapper.cs" />
+    <Compile Include="Domain\Interfaces\IRepository\IcategoryRepository.cs" />
+    <Compile Include="Domain\Interfaces\IRepository\IShopRepository.cs" />
     <Compile Include="Domain\Interfaces\IRepository\IpersonRepository.cs" />
+    <Compile Include="Infrastructure\BinderModel\UpdateProfileShopDtoModelBinder.cs" />
+    <Compile Include="Infrastructure\ExternalServices\Imgur.cs" />
+    <Compile Include="Infrastructure\MappingDomainModel\ShopMapper.cs" />
     <Compile Include="Infrastructure\MappingDomainModel\ShopOwnerMapper.cs" />
     <Compile Include="Infrastructure\MappingDomainModel\ClientMapper.cs" />
     <Compile Include="Infrastructure\MappingDomainModel\PersonMapper.cs" />
+    <Compile Include="Infrastructure\Models\admain.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Infrastructure\Models\branch.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -313,8 +361,11 @@
     <Compile Include="Infrastructure\Models\Product.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Repositories\CategoryRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\ShopRepository.cs" />
     <Compile Include="Infrastructure\Repositories\PersonRepository.cs" />
     <Compile Include="Infrastructure\Repositories\UnitOfWork.cs" />
+    <Compile Include="Infrastructure\Token\JwtAuthorizeAttribute .cs" />
     <Compile Include="Infrastructure\Token\JwtTokenGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Infrastructure\Models\Shop.cs">
@@ -358,15 +409,13 @@
     <Content Include="Infrastructure\Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="CodeTemplates\ApiControllerWithContext\Controller.cs.t4" />
-    <Content Include="CodeTemplates\ApiControllerWithActions\Controller.cs.t4" />
-    <Content Include="CodeTemplates\ApiControllerEmpty\Controller.cs.t4" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="packages\MSTest.Analyzers.3.9.1\analyzers\dotnet\cs\MSTest.Analyzers.CodeFixes.dll" />
     <Analyzer Include="packages\MSTest.Analyzers.3.9.1\analyzers\dotnet\cs\MSTest.Analyzers.dll" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="online_shopModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="admain">
+    <Key>
+      <PropertyRef Name="admin_id" />
+    </Key>
+    <Property Name="admin_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="person_id" Type="int" />
+  </EntityType>
   <EntityType Name="branch">
     <Key>
       <PropertyRef Name="id" />
@@ -122,6 +129,7 @@
     <Property Name="created_date" Type="datetime" />
     <Property Name="description" Type="text" />
     <Property Name="shopowner_id" Type="int" />
+    <Property Name="deletehashimage" Type="varchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="ShopCategory">
     <Key>
@@ -138,6 +146,18 @@
     <Property Name="shopowner_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="person_id" Type="int" />
   </EntityType>
+  <Association Name="FK__admain__person_i__6FE99F9F">
+    <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+    <End Role="admain" Type="Self.admain" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="person_id" />
+      </Principal>
+      <Dependent Role="admain">
+        <PropertyRef Name="person_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__branch__location__693CA210">
     <End Role="Location" Type="Self.Location" Multiplicity="0..1" />
     <End Role="branch" Type="Self.branch" Multiplicity="*" />
@@ -355,6 +375,7 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="online_shopModelStoreContainer">
+    <EntitySet Name="admain" EntityType="Self.admain" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="branch" EntityType="Self.branch" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
@@ -370,6 +391,10 @@
     <EntitySet Name="Shop" EntityType="Self.Shop" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ShopCategory" EntityType="Self.ShopCategory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ShopOwner" EntityType="Self.ShopOwner" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__admain__person_i__6FE99F9F" Association="Self.FK__admain__person_i__6FE99F9F">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="admain" EntitySet="admain" />
+    </AssociationSet>
     <AssociationSet Name="FK__branch__location__693CA210" Association="Self.FK__branch__location__693CA210">
       <End Role="Location" EntitySet="Location" />
       <End Role="branch" EntitySet="branch" />

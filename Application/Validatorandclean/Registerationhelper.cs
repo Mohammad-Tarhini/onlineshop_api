@@ -76,9 +76,9 @@ namespace onlineshopowner_api.Application.Validatorandclean
      phonenumber: dto.phonenumber, password: HashingPassword.HashPassword(dto.password));
             try { 
                 await _unitOfWork.PersonRepository.AddPersonAsync(personToProcess);
-                await _unitOfWork.CommitAsync();
+               
             }
-            catch (Exception ex) { return (false, false, null,"error in RSH M1"); };
+            catch (Exception ex) { return (false, false, null,"error in RSH M1"+ex.Message); };
 
             return (true,false,personToProcess,theexistperson3.Error);
 
@@ -88,43 +88,34 @@ namespace onlineshopowner_api.Application.Validatorandclean
         public async Task<(bool IsSuccess, bool arleadyExistClient, string message)>Registeronclient(bool arleadexistperson,Domain.Entities.Person personToProcess)
         {
           
-            try { 
-           
-                if (!arleadexistperson)
+            try {
+
+                if (arleadexistperson)
                 {
-                    try
-                    {
-                        await _unitOfWork.PersonRepository.AssignClientRoleToPersonAsync(personToProcess);
-                        await _unitOfWork.CommitAsync();
-                        return (true,false, null);
-                    }
-                    catch (Exception ex)
-                    {
-                        return (false,false, "error RSM m2 1");
-                    }
-                }
-                else
-                {
+
                     var client = await _unitOfWork.PersonRepository.GetClientByPersonAsync(personToProcess);
                     if (!client.IsSuccess)
                     {
-                        return (false,false, client.Error);
+                        return (false, false, client.Error);
                     }
                     if (client.IsFound)
                     {
-                        return (true ,true ,client.Error);
+                        return (true, true, client.Error);
                     }
+                }
                     try
                     {
                         await _unitOfWork.PersonRepository.AssignClientRoleToPersonAsync(personToProcess);
                         await _unitOfWork.CommitAsync();
 
-                        return (true,false, "New client registered successfully.");
+                        return (true, false, "New client registered successfully.");
                     }
-                    catch (Exception ex) { return (false,false, "error RSH M2 2"); }
-                   
+                    catch (Exception ex) { return (false, false, "error RSH M2 2" + ex.Message); }
 
-                }
+                
+
+
+
             }
             catch (Exception ex) {
                 return (false,false, ex.Message);

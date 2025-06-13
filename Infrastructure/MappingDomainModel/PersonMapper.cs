@@ -33,7 +33,7 @@ namespace onlineshopowner_api.Infrastructure.MappingDomainModel
                 Sex=person.sex,
                 Password=person.password,
                 PhoneNumber=person.phone_number,
-                CreatedDate=person.created_date ?? DateTime.UtcNow,
+                CreatedDate=person.created_date.Value,
                 
 
                 

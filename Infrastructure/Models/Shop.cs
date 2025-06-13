@@ -28,6 +28,7 @@ namespace onlineshopowner_api.Infrastructure.Models
         public Nullable<System.DateTime> created_date { get; set; }
         public string description { get; set; }
         public Nullable<int> shopowner_id { get; set; }
+        public string deletehashimage { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<branch> branches { get; set; }

@@ -39,5 +39,6 @@ namespace onlineshopowner_api.Controllers
             return Ok(new { Token });
         }
 
+
     }
 }

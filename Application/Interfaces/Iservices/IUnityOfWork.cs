@@ -11,6 +11,8 @@ namespace onlineshopowner_api.Application.Interfaces.Iservices
     {
         Task<int> CommitAsync();
         IpersonRepository PersonRepository { get; set; }
-
+       
+        IcategoryRepository CategoryRepository { get; set; }
+        IShopRepository ShopRepository { get; set; }
     }
 }

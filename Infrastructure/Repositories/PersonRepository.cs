@@ -162,7 +162,7 @@ namespace onlineshopowner_api.Infrastructure.Repositories
                     {
                         IsSuccess = true,
                         IsFound = false,
-                        Error = "This person is already registered as a client."
+                        Error = "the person is not exist on client ."
 
                     };
                 }
@@ -223,6 +223,75 @@ namespace onlineshopowner_api.Infrastructure.Repositories
             }
 
         }
+        public async Task<ResultCheckdb<Domain.Entities.Person>> GetPersonByPersonId(int personid)
+        {
+            try
+            {
+                var person =  _dbContext.People.Find(personid);
+                if (person == null)
+                    return new ResultCheckdb<Domain.Entities.Person>
+                    {
+                        IsSuccess = false,
+                        IsFound = false,
+
+                    };
+                return new ResultCheckdb<Domain.Entities.Person>
+                {
+                    IsSuccess = true,
+                    IsFound = true,
+                    Value =_personmapper.ToDomain(person)
+                };
+
+
+            }
+            catch (Exception ex)
+            {
+                return new ResultCheckdb<Domain.Entities.Person>
+                {
+                    IsSuccess = false,
+                    IsFound = false,
+                    Error=ex.Message
+
+                };
+            }
+            }
+
+        public async Task<ResultCheckdb<Domain.Entities.Admain>> checkAdmainbypersonid(int personid)
+        {
+
+            try
+            {
+                var admaindb = _dbContext.admains.Find(personid);
+                if(admaindb == null)
+                {
+                    return new ResultCheckdb<Admain>
+                    {
+                        IsSuccess = true,
+                        IsFound = false,
+                    };
+                }
+
+                return new ResultCheckdb<Admain>
+                {
+                    IsSuccess = true,
+                    IsFound = true,
+                    Value = new Admain
+                    {
+                        admainId = admaindb.admin_id,
+                        personid = admaindb.person_id.Value,
+                    }
+                };
+
+            }catch(Exception ex)
+            {
+                return new ResultCheckdb<Admain>
+                {
+                    IsSuccess = false,
+                    Error = ex.Message
+                };
+            }
+        }
+
 
         public async Task<UpdateDataProcess> AddPersonAsync(Domain.Entities.Person person) {
 
@@ -290,5 +359,7 @@ namespace onlineshopowner_api.Infrastructure.Repositories
                 return UpdateDataProcess.catchError;
             }
         }
+
+
     }
 }

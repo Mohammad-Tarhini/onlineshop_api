@@ -4,7 +4,14 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="online_shopModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="online_shopModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="admain">
+          <Key>
+            <PropertyRef Name="admin_id" />
+          </Key>
+          <Property Name="admin_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="person_id" Type="int" />
+        </EntityType>
         <EntityType Name="branch">
           <Key>
             <PropertyRef Name="id" />
@@ -127,6 +134,7 @@
           <Property Name="created_date" Type="datetime" />
           <Property Name="description" Type="text" />
           <Property Name="shopowner_id" Type="int" />
+          <Property Name="deletehashimage" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="ShopCategory">
           <Key>
@@ -143,6 +151,18 @@
           <Property Name="shopowner_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="person_id" Type="int" />
         </EntityType>
+        <Association Name="FK__admain__person_i__6FE99F9F">
+          <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+          <End Role="admain" Type="Self.admain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="person_id" />
+            </Principal>
+            <Dependent Role="admain">
+              <PropertyRef Name="person_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__branch__location__693CA210">
           <End Role="Location" Type="Self.Location" Multiplicity="0..1" />
           <End Role="branch" Type="Self.branch" Multiplicity="*" />
@@ -360,6 +380,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="online_shopModelStoreContainer">
+          <EntitySet Name="admain" EntityType="Self.admain" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="branch" EntityType="Self.branch" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
@@ -375,6 +396,10 @@
           <EntitySet Name="Shop" EntityType="Self.Shop" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ShopCategory" EntityType="Self.ShopCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ShopOwner" EntityType="Self.ShopOwner" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__admain__person_i__6FE99F9F" Association="Self.FK__admain__person_i__6FE99F9F">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="admain" EntitySet="admain" />
+          </AssociationSet>
           <AssociationSet Name="FK__branch__location__693CA210" Association="Self.FK__branch__location__693CA210">
             <End Role="Location" EntitySet="Location" />
             <End Role="branch" EntitySet="branch" />
@@ -448,8 +473,7 @@
             <End Role="ShopOwner" EntitySet="ShopOwner" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="online_shopModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -575,6 +599,7 @@
           <NavigationProperty Name="Delivers" Relationship="Self.FK__Deliver__person___6383C8BA" FromRole="Person" ToRole="Deliver" />
           <NavigationProperty Name="DeliverPartnerpersons" Relationship="Self.FK__DeliverPa__perso__3F466844" FromRole="Person" ToRole="DeliverPartnerperson" />
           <NavigationProperty Name="ShopOwners" Relationship="Self.FK__ShopOwner__perso__45F365D3" FromRole="Person" ToRole="ShopOwner" />
+          <NavigationProperty Name="admains" Relationship="online_shopModel.FK__admain__person_i__6FE99F9F" FromRole="Person" ToRole="admain" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -607,6 +632,7 @@
           <NavigationProperty Name="Products" Relationship="Self.FK__Product__shop_id__5441852A" FromRole="Shop" ToRole="Product" />
           <NavigationProperty Name="ShopOwner" Relationship="Self.FK__Shop__shopowner___4AB81AF0" FromRole="Shop" ToRole="ShopOwner" />
           <NavigationProperty Name="ShopCategories" Relationship="Self.FK__ShopCateg__shop___5070F446" FromRole="Shop" ToRole="ShopCategory" />
+          <Property Name="deletehashimage" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ShopCategory">
           <Key>
@@ -931,7 +957,32 @@
             <End Role="Shop" EntitySet="Shops" />
             <End Role="ShopCategory" EntitySet="ShopCategories" />
           </AssociationSet>
+          <EntitySet Name="admains" EntityType="online_shopModel.admain" />
+          <AssociationSet Name="FK__admain__person_i__6FE99F9F" Association="online_shopModel.FK__admain__person_i__6FE99F9F">
+            <End Role="Person" EntitySet="People" />
+            <End Role="admain" EntitySet="admains" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="admain">
+          <Key>
+            <PropertyRef Name="admin_id" />
+          </Key>
+          <Property Name="admin_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="person_id" Type="Int32" />
+          <NavigationProperty Name="Person" Relationship="online_shopModel.FK__admain__person_i__6FE99F9F" FromRole="admain" ToRole="Person" />
+        </EntityType>
+        <Association Name="FK__admain__person_i__6FE99F9F">
+          <End Type="online_shopModel.Person" Role="Person" Multiplicity="0..1" />
+          <End Type="online_shopModel.admain" Role="admain" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="person_id" />
+            </Principal>
+            <Dependent Role="admain">
+              <PropertyRef Name="person_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1065,6 +1116,7 @@
           <EntitySetMapping Name="Shops">
             <EntityTypeMapping TypeName="online_shopModel.Shop">
               <MappingFragment StoreEntitySet="Shop">
+                <ScalarProperty Name="deletehashimage" ColumnName="deletehashimage" />
                 <ScalarProperty Name="shop_id" ColumnName="shop_id" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="logo_url" ColumnName="logo_url" />
@@ -1088,6 +1140,14 @@
               <MappingFragment StoreEntitySet="ShopOwner">
                 <ScalarProperty Name="shopowner_id" ColumnName="shopowner_id" />
                 <ScalarProperty Name="person_id" ColumnName="person_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="admains">
+            <EntityTypeMapping TypeName="online_shopModel.admain">
+              <MappingFragment StoreEntitySet="admain">
+                <ScalarProperty Name="person_id" ColumnName="person_id" />
+                <ScalarProperty Name="admin_id" ColumnName="admin_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

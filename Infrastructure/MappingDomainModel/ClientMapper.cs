@@ -11,6 +11,7 @@ namespace onlineshopowner_api.Infrastructure.MappingDomainModel
     {
         public Domain.Entities.Client  ToDomain(Models.Client client)
         {
+
             return new Domain.Entities.Client(client.client_id, client.person_id ?? throw new ArgumentNullException(nameof(client.person_id)));
         }
         public Models.Client ToEntity(Domain.Entities.Client client) {

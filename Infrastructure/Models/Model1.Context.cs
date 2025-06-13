@@ -40,5 +40,6 @@ namespace onlineshopowner_api.Infrastructure.Models
         public virtual DbSet<Shop> Shops { get; set; }
         public virtual DbSet<ShopCategory> ShopCategories { get; set; }
         public virtual DbSet<ShopOwner> ShopOwners { get; set; }
+        public virtual DbSet<admain> admains { get; set; }
     }
 }
