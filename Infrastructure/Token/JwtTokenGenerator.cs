@@ -24,7 +24,7 @@ namespace onlineshopowner_api.Infrastructure.Token
             _issuer = jwtSettings.Issuer;
             _audience =jwtSettings.Audience;
         }
-        public string GenerateToken(int userId, int expireMinutes = 60)
+        public string GenerateToken(int userId, string role, int expireMinutes = 60)
         {
             var symmetricKey = Encoding.UTF8.GetBytes(_secretKey);
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -32,7 +32,10 @@ namespace onlineshopowner_api.Infrastructure.Token
             var claims = new[]
             {
             new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-            
+                new Claim("sub", userId.ToString()),
+                new Claim(ClaimTypes.Role,role),
+
+
         };
 
             var tokenDescriptor = new SecurityTokenDescriptor

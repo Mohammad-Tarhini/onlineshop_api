@@ -11,5 +11,6 @@ namespace onlineshopowner_api.Application.Interfaces.Ivalidator
     {
         Task<(bool isfound, Domain.Entities.Person person, string message)> CheckExistPersonByEmail(LoginRequestDto dto);
         Task<(bool isfound, Domain.Entities.Person person, string message)> CheckExistPersonByPhoneNumber(LoginRequestDto dto);
+
     }
 }

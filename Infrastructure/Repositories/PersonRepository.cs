@@ -18,13 +18,15 @@ namespace onlineshopowner_api.Infrastructure.Repositories
         private readonly online_shopEntities _dbContext;
         private readonly IMapper<Domain.Entities.Person, Models.Person> _personmapper;
         private readonly IMapper<Domain.Entities.ShopOwner, Models.ShopOwner> _shopownermapper;
+        private readonly IMapper<Domain.Entities.Admin,Models.admain> _adminmapper;
         private readonly IMapper<Domain.Entities.Client, Models.Client> _clientmapper;
-        public PersonRepository(online_shopEntities dbContext, IMapper<Domain.Entities.Person, Models.Person> personmapper,IMapper<Domain.Entities.Client,Models.Client> clientmapper,IMapper<Domain.Entities.ShopOwner,Models.ShopOwner> shopownermapper)
+        public PersonRepository(online_shopEntities dbContext, IMapper<Domain.Entities.Person, Models.Person> personmapper,IMapper<Domain.Entities.Client,Models.Client> clientmapper,IMapper<Domain.Entities.ShopOwner,Models.ShopOwner> shopownermapper, IMapper<Domain.Entities.Admin, Models.admain> adminmapper)
         {
             _dbContext = dbContext;
             _personmapper = personmapper;
             _clientmapper = clientmapper;
             _shopownermapper=shopownermapper;
+            _adminmapper = adminmapper;
         }
 
         public async Task<ResultCheckdb<Domain.Entities.Person>> GetPersonByEmailAsync(string email)
@@ -61,7 +63,7 @@ namespace onlineshopowner_api.Infrastructure.Repositories
                 }
                
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 return new ResultCheckdb<Domain.Entities.Person>
                 {
@@ -223,6 +225,47 @@ namespace onlineshopowner_api.Infrastructure.Repositories
             }
 
         }
+        public async Task<ResultCheckdb<Domain.Entities.Admin>> GetAdminByPersonAsync(Domain.Entities.Person person)
+        {
+            if (person == null) return new ResultCheckdb<Domain.Entities.Admin>
+            {
+                IsSuccess = false,
+                Error = "Invalid person"
+            };
+            try
+            {
+
+                var dbadmin= await _dbContext.admains
+                                              .FirstOrDefaultAsync(so => so.person_id == person.PersonId);
+                if (dbadmin == null)
+                {
+                    return new ResultCheckdb<Domain.Entities.Admin>
+                    {
+                        IsSuccess = true,
+                        IsFound = false,
+                    };
+                }
+                else
+                {
+                    return new ResultCheckdb<Domain.Entities.Admin>
+                    {
+                        IsSuccess = true,
+                        IsFound = true,
+                        Value = _adminmapper.ToDomain(dbadmin)
+                    };
+                }
+            }
+
+            catch (Exception ex)
+            {
+                return new ResultCheckdb<Domain.Entities.Admin>
+                {
+                    IsSuccess = false,
+                    Error =ex.Message + " | " + ex.StackTrace
+                };
+            }
+
+        }
         public async Task<ResultCheckdb<Domain.Entities.Person>> GetPersonByPersonId(int personid)
         {
             try
@@ -256,35 +299,33 @@ namespace onlineshopowner_api.Infrastructure.Repositories
             }
             }
 
-        public async Task<ResultCheckdb<Domain.Entities.Admain>> checkAdmainbypersonid(int personid)
+        public async Task<ResultCheckdb<Domain.Entities.Admin>> checkAdmainbypersonid(int personid)
         {
 
             try
             {
-                var admaindb = _dbContext.admains.Find(personid);
-                if(admaindb == null)
+               
+                var admindb = _dbContext.admains.Find(personid);
+                if(admindb == null)
                 {
-                    return new ResultCheckdb<Admain>
+                    return new ResultCheckdb<Admin>
                     {
                         IsSuccess = true,
                         IsFound = false,
                     };
                 }
 
-                return new ResultCheckdb<Admain>
+                return new ResultCheckdb<Admin>
                 {
                     IsSuccess = true,
                     IsFound = true,
-                    Value = new Admain
-                    {
-                        admainId = admaindb.admin_id,
-                        personid = admaindb.person_id.Value,
-                    }
+                    Value = new Admin(admindb.admin_id, admindb.person_id.Value)
+
                 };
 
             }catch(Exception ex)
             {
-                return new ResultCheckdb<Admain>
+                return new ResultCheckdb<Admin>
                 {
                     IsSuccess = false,
                     Error = ex.Message
@@ -359,7 +400,28 @@ namespace onlineshopowner_api.Infrastructure.Repositories
                 return UpdateDataProcess.catchError;
             }
         }
+        public async Task<UpdateDataProcess> AssignAdmintRoleToPersonAsync(Domain.Entities.Person person)
+        {
+            if (person == null)
+                return UpdateDataProcess.yourdatanull;
+            var dbAdmin = new Infrastructure.Models.admain
+            {
+                person_id = person.PersonId,
 
+            };
+            try
+            {
+
+                _dbContext.admains.Add(dbAdmin);
+                return UpdateDataProcess.Success;
+            }
+            catch (DbUpdateException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return UpdateDataProcess.catchError;
+            }
+
+        }
 
     }
 }

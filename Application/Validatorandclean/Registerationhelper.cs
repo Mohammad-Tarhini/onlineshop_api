@@ -110,12 +110,8 @@ namespace onlineshopowner_api.Application.Validatorandclean
 
                         return (true, false, "New client registered successfully.");
                     }
-                    catch (Exception ex) { return (false, false, "error RSH M2 2" + ex.Message); }
-
-                
-
-
-
+                    catch (Exception ex) { return (false, false, "error RSH M2 2" + ex.Message);
+                }
             }
             catch (Exception ex) {
                 return (false,false, ex.Message);
@@ -126,37 +122,27 @@ namespace onlineshopowner_api.Application.Validatorandclean
             try
             {
 
-                if (!arleadexistperson)
+                if (arleadexistperson)
                 {
-                    try
+
+                    var shopowner = await _unitOfWork.PersonRepository.GetShopOwnerByPersonAsync(personToProcess);
+                    if (!shopowner.IsSuccess)
                     {
-                      await _unitOfWork.PersonRepository.AssignShopOwnerRoleToPersonAsync(personToProcess);
-                        return (true,false ,null);
+                        return (false, false, shopowner.Error);
                     }
-                    catch (Exception ex)
+                    if (shopowner.IsFound)
                     {
-                        return (false, false,ex.Message);
+                        return (true, true, shopowner.Error);
                     }
                 }
-                else
+                try
                 {
-                    var client = await _unitOfWork.PersonRepository.GetShopOwnerByPersonAsync(personToProcess);
-                    if (!client.IsSuccess)
-                    {
-                        return (false,false ,client.Error);
-                    }
-                    if (client.IsFound)
-                    {
-                        return (true,true ,client.Error);
-                    }
-                    try
-                    {
-                        await _unitOfWork.PersonRepository.AssignShopOwnerRoleToPersonAsync(personToProcess);
-                        return (true,false ,"New client registered successfully.");
-                    }
-                    catch (Exception ex) { return (false, false,ex.Message); }
+                    await _unitOfWork.PersonRepository.AssignShopOwnerRoleToPersonAsync(personToProcess);
+                    await _unitOfWork.CommitAsync();
 
-
+                    return (true, false, "New shopowner  registered successfully.");
+                }
+                catch (Exception ex) { return (false, false, "error RSH M2 2" + ex.Message); 
                 }
             }
             catch (Exception ex)
@@ -166,19 +152,56 @@ namespace onlineshopowner_api.Application.Validatorandclean
 
         }
 
-    
+        public async Task<(bool IsSuccess, bool arleadyExistadmin, string message)> Registeradmin(bool arleadexistperson, Domain.Entities.Person personToProcess)
+        {
+
+            try
+            {
+
+                if (arleadexistperson)
+                {
+
+                    var admain = await _unitOfWork.PersonRepository.GetAdminByPersonAsync(personToProcess);
+                    if (!admain.IsSuccess)
+                    {
+                        return (false, false, admain.Error);
+                    }
+                    if (admain.IsFound)
+                    {
+                        return (true, true, admain.Error);
+                    }
+                }
+                try
+                {
+                    await _unitOfWork.PersonRepository.AssignAdmintRoleToPersonAsync(personToProcess);
+                    await _unitOfWork.CommitAsync();
+
+                    return (true, false, "New admin registered successfully.");
+                }
+                catch (Exception ex)
+                {
+                    return (false, false, "error RSH M2 2" + ex.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                return (false, false, ex.Message);
+            }
+        }
 
 
 
 
 
-    public void ValidateInput(RegisterationRequestDto dto)
+
+
+        public void ValidateInput(RegisterationRequestDto dto)
         {
 
             dto.CleanStrings();
             if (string.IsNullOrWhiteSpace(dto.role))
                 throw new ArgumentNullException(nameof(dto.role), "role can not be null");
-            if (dto.role != "client" && dto.role != "shopowner")
+            if (dto.role != "client" && dto.role != "shopowner"&& dto.role !="admin")
             {
                 throw new ArgumentException(nameof(dto.role), "role should be client or shopowner");
             }

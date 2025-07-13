@@ -10,11 +10,14 @@ using onlineshopowner_api.Infrastructure.MappingDomainModel;
 using onlineshopowner_api.Infrastructure.Models;
 using onlineshopowner_api.Infrastructure.Repositories;
 using onlineshopowner_api.Infrastructure.Token;
+using onlineshopowner_api.Domain.Interfaces.IExternalServices;
 using System.Configuration;
 using System.Web.Http;
 using Unity;
 using Unity.Lifetime;
 using Unity.WebApi;
+using onlineshopowner_api.Infrastructure.ExternalServices;
+using onlineshopowner_api.Infrastructure.ExternalServices.onlineshopowner_api.Infrastructure.ExternalServices;
 
 namespace onlineshopowner_api
 {
@@ -49,11 +52,16 @@ namespace onlineshopowner_api
             container.RegisterType<IAddCategoryservices, AddCategoryservices>();
             container.RegisterType<IOpenNewShopServices,OpenNewShopServices>();
             container.RegisterType<IUpdateProfileShop, UpdateProfileShop>();
+            container.RegisterType<IImgur, Imgur>();
 
             container.RegisterType<IMapper<Domain.Entities.Client, Client>, ClientMapper>(new HierarchicalLifetimeManager());
             container.RegisterType<IMapper<Domain.Entities.Person, Person>, PersonMapper>(new HierarchicalLifetimeManager());
             container.RegisterType<IMapper<Domain.Entities.ShopOwner, ShopOwner>, ShopOwnerMapper>(new HierarchicalLifetimeManager());
             container.RegisterType<IMapper<Domain.Entities.shop, Shop>, ShopMapper>(new HierarchicalLifetimeManager());
+            container.RegisterType<IMapper<Domain.Entities.Admin, admain>, AdminMapper>(new HierarchicalLifetimeManager());
+            container.RegisterType<IRedisCacheService, RedisCacheService>(new ContainerControlledLifetimeManager());
+
+
             var imgurSettings = new ImgurSettings
             {
                 ClientId = "6df469619d45ea8"

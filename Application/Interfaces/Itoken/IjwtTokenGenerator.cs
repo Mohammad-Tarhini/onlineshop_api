@@ -8,6 +8,6 @@ namespace onlineshopowner_api.Application.Interfaces.Itoken
 {
     public interface IjwtTokenGenerator
     {
-        string GenerateToken(int personId, int expireMinutes);
+        string GenerateToken(int personId,string role, int expireMinutes);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using onlineshopowner_api.Application.Dtos;
 using onlineshopowner_api.Application.Interfaces.Iservices;
+using onlineshopowner_api.Domain.Interfaces.IExternalServices;
 using onlineshopowner_api.Domain.Constant;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,9 @@ namespace onlineshopowner_api.Application.Services
     {
         private readonly IUnityOfWork _unitOfWork;
         private readonly IUserContextService _usercontext;
+       
         private int _userId;
+        private string _role;
 
         public AddCategoryservices(IUnityOfWork unityOfWork, IUserContextService usercontextservice)
         {
@@ -29,7 +32,8 @@ namespace onlineshopowner_api.Application.Services
             try
             {
                 _userId = _usercontext.GetUserId();
-
+                _role=_usercontext.GetUserRole();
+                if (_role != "admin") return (false, " ");
 
             }
             catch (Exception ex)
@@ -63,10 +67,9 @@ namespace onlineshopowner_api.Application.Services
             catch (Exception ex) { return (false, ex.Message); }
             try
             {
-                var resultaddcaregory = await _unitOfWork.CategoryRepository.Addcategory(dto.name);
-                if (resultaddcaregory == null) return (false, "error in ");
-                if (resultaddcaregory == UpdateDataProcess.Success) { return (true, "congrute"); }
-                else return (false, "error  when adding category  ");
+                var resultaddcaregory = await _unitOfWork.CategoryRepository.Addcategory(dto.name);  
+                if (resultaddcaregory == "success") { return (true, "congrute"); }
+                else return (false, resultaddcaregory);
             }
             catch (Exception ex)
             {
@@ -80,7 +83,7 @@ namespace onlineshopowner_api.Application.Services
             {
                 try
                 {
-                  var (addingcategorysuccess,message)=  await this.addonecategory(dto);
+                 var (addingcategorysuccess,message)=  await this.addonecategory(dto);
                     if(!addingcategorysuccess) return (false, message+": "+dto);
                     
 
@@ -93,5 +96,7 @@ namespace onlineshopowner_api.Application.Services
             }
             return (true, "all category are add");
         }
+
+
     }
 }

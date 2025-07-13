@@ -15,6 +15,7 @@ namespace onlineshopowner_api.Application.Interfaces.Ivalidator
          void ValidateInput(RegisterationRequestDto dto);
         Task<(bool IsSuccess, bool arleadyExistClient , string message)> Registeronclient(bool arleadexistperson, Domain.Entities.Person personToProcess);
         Task<(bool IsSuccess,bool arleadyExistShopOwner, string message)> RegisterShopOwner(bool arleadexistperson, Domain.Entities.Person personToProcess);
+        Task<(bool IsSuccess, bool arleadyExistadmin, string message)> Registeradmin(bool arleadexistperson, Domain.Entities.Person personToProcess);
     }
 }
 

@@ -8,6 +8,7 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using Microsoft.IdentityModel.Tokens;
 using System.Configuration;
+using System.Linq;
 
 public class JwtAuthorizeAttribute : AuthorizeAttribute
 {
@@ -41,7 +42,14 @@ public class JwtAuthorizeAttribute : AuthorizeAttribute
             Thread.CurrentPrincipal = principal;
             if (HttpContext.Current != null)
                 HttpContext.Current.User = principal;
+            if (!string.IsNullOrWhiteSpace(Roles))
+            {
+                var tokenRole = principal.Claims
+                    .FirstOrDefault(c => c.Type == ClaimTypes.Role || c.Type == "role")
+                    ?.Value;
 
+                return string.Equals(tokenRole, Roles, StringComparison.OrdinalIgnoreCase);
+            }
             return true;
         }
         catch

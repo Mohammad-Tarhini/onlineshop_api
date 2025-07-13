@@ -5,6 +5,18 @@
     {
       "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\app_start\\unityconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:app_start\\unityconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\application\\services\\loginservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:application\\services\\loginservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\application\\services\\authoservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:application\\services\\authoservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\controllers\\shopcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:controllers\\shopcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -16,10 +28,6 @@
           "DockedWidth": 200,
           "SelectedChildIndex": 8,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{fbcae063-e2c0-4ab1-a516-996ea3dafb72}"
@@ -50,15 +58,62 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Authoservices.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Services\\Authoservices.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\Authoservices.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Services\\Authoservices.cs",
+              "RelativeToolTip": "Application\\Services\\Authoservices.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-13T12:37:43.754Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "UnityConfig.cs",
               "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\App_Start\\UnityConfig.cs",
               "RelativeDocumentMoniker": "App_Start\\UnityConfig.cs",
               "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\App_Start\\UnityConfig.cs",
               "RelativeToolTip": "App_Start\\UnityConfig.cs",
-              "ViewState": "AQIAABUAAAAAAAAAAADwvx8AAAA1AAAA",
+              "ViewState": "AQIAACkAAAAAAAAAAAApwDAAAAA4AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-13T10:17:37.137Z",
+              "WhenOpened": "2025-07-13T12:37:17.804Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "LoginServices.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Services\\LoginServices.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\LoginServices.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Services\\LoginServices.cs",
+              "RelativeToolTip": "Application\\Services\\LoginServices.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAABAAAAAeAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-13T12:34:23.832Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ShopController.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Controllers\\ShopController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ShopController.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Controllers\\ShopController.cs",
+              "RelativeToolTip": "Controllers\\ShopController.cs",
+              "ViewState": "AQIAADAAAAAAAAAAAAAgwDgAAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-12T16:17:50.031Z",
               "EditorCaption": ""
             }
           ]

@@ -45,7 +45,7 @@ namespace onlineshopowner_api.Infrastructure.ExternalServices
                     }
                 }
             }
-            catch (Exception ex) 
+            catch (System.Exception ex) 
             {
                 return(false,ex.Message,null);
             }
@@ -72,7 +72,7 @@ namespace onlineshopowner_api.Infrastructure.ExternalServices
                     }
                 }
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 return (false, $"Exception: {ex.Message}");
             }

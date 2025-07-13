@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 using onlineshopowner_api.Domain.Constant;
 using System.Data.SqlClient;
 using onlineshopowner_api.Domain.Interfaces.IRepository;
+using System.Configuration;
 
 namespace onlineshopowner_api.Infrastructure.Repositories
 {
     public class CategoryRepository: IcategoryRepository
     {
         private readonly string _connectionstring;
-        public CategoryRepository(string connectionstring)
+        public CategoryRepository()
         {
-            _connectionstring = connectionstring;
+            _connectionstring = ConfigurationManager.ConnectionStrings["online_shopAdo"].ConnectionString;
         }
 
         public async Task<ResultCheckdb<Domain.Entities.Category>> checkIfCategoryExist(string categoryname)
@@ -54,10 +55,10 @@ namespace onlineshopowner_api.Infrastructure.Repositories
                             connection.Close();
                         }
                     }
-
+                    
                 }
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 return new ResultCheckdb<Domain.Entities.Category>
                 {
@@ -67,29 +68,29 @@ namespace onlineshopowner_api.Infrastructure.Repositories
                 };
             }
         }
-        public async Task<UpdateDataProcess> Addcategory(string categoryname)
+        public async Task<string > Addcategory(string categoryname)
         {
-            if (!string.IsNullOrWhiteSpace(categoryname)) { return UpdateDataProcess.yourdatanull; }
+            if (string.IsNullOrWhiteSpace(categoryname)) { return "yourdatanull"; }
             try
             {
                 using (SqlConnection connection = new SqlConnection(_connectionstring))
                 {
                     connection.Open();
-                    string query = "insert into category values (@name)";
+                    string query = "insert into category (name) values (@name)";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@name", categoryname);
-                        connection.Open();
+                       
                         command.ExecuteNonQuery();
                         connection.Close();
-                        return UpdateDataProcess.Success;
+                        return "success";
                     }
                 }
 
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
-                return UpdateDataProcess.catchError;
+                return ex.Message +" | " +ex.StackTrace ;
             }
 
 

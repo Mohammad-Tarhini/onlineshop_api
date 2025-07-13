@@ -47,7 +47,7 @@ namespace onlineshopowner_api.Application.Services
                 string roleToAssign = dto.role.ToLowerInvariant();
 
 
-                if (dto.role == UserRoles.Client)
+                if (roleToAssign == UserRoles.Client)
                 {
                     try
                     {
@@ -56,7 +56,7 @@ namespace onlineshopowner_api.Application.Services
                         {
                             return(false, false, null, message1);
                         }
-                        var token = _tokenGenerator.GenerateToken(personToProcess.PersonId, 60);
+                        var token = _tokenGenerator.GenerateToken(personToProcess.PersonId,roleToAssign, 60);
 
 
 
@@ -76,7 +76,7 @@ namespace onlineshopowner_api.Application.Services
 
                         await _unitOfWork.CommitAsync();
 
-                        var token = _tokenGenerator.GenerateToken(personToProcess.PersonId,  60);
+                        var token = _tokenGenerator.GenerateToken(personToProcess.PersonId, roleToAssign, 60);
                         return (IsSucces1, ShopOwnerAlreadyExist, token, message1);
                     }
                     catch (Exception ex)
@@ -84,6 +84,23 @@ namespace onlineshopowner_api.Application.Services
                         return (false, false, null, ex.Message);
                     }
 
+                }
+                else if (roleToAssign == UserRoles.Admin)
+                {
+
+                    try
+                    {
+                        var (IsSucces1, admainalreadyexist, message1) = await _registrationshelp.Registeradmin(isfound, personToProcess);
+
+                        await _unitOfWork.CommitAsync();
+
+                        var token = _tokenGenerator.GenerateToken(personToProcess.PersonId,roleToAssign, 60);
+                        return (IsSucces1, admainalreadyexist, token, message1);
+                    }
+                    catch (Exception ex)
+                    {
+                        return (false, false, null, ex.Message);
+                    }
                 }
                 else
                 {

@@ -9,5 +9,6 @@ namespace onlineshopowner_api.Application.Interfaces.Iservices
     public interface IUserContextService
     {
        int GetUserId();
+        string GetUserRole();
     }
 }

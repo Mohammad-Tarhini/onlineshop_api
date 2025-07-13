@@ -11,7 +11,7 @@
         <EntityTypeShape EntityType="online_shopModel.clientorder" Width="1.5" PointX="5.25" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="online_shopModel.Deliver" Width="1.5" PointX="7.5" PointY="9.5" IsExpanded="true" />
         <EntityTypeShape EntityType="online_shopModel.DeliverPartnerperson" Width="1.5" PointX="3" PointY="11.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="online_shopModel.DeliveryPartnerAgent" Width="1.5" PointX="5.25" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_shopModel.DeliveryPartnerAgent" Width="1.5" PointX="5.25" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="online_shopModel.Location" Width="1.5" PointX="5.25" PointY="18.875" IsExpanded="true" />
         <EntityTypeShape EntityType="online_shopModel.OrderDetail" Width="1.5" PointX="7.5" PointY="6" IsExpanded="true" />
         <EntityTypeShape EntityType="online_shopModel.Payment" Width="1.5" PointX="7.5" PointY="14.75" IsExpanded="true" />

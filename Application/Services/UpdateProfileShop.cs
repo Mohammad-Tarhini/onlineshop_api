@@ -13,7 +13,7 @@ using onlineshopowner_api.Domain.Interfaces.IRepository;
 
 namespace onlineshopowner_api.Application.Services
 {
-    public class UpdateProfileShop:IUpdateProfileShop
+    public class UpdateProfileShop : IUpdateProfileShop
     {
         private IImageService _imageservice;
         private readonly IUserContextService _usercontext;
@@ -22,16 +22,17 @@ namespace onlineshopowner_api.Application.Services
         private int _userId;
 
 
-        public UpdateProfileShop(IImageService imageservice,IUserContextService usercontext,IUnityOfWork unityofwork,IImgur imgur)
+        public UpdateProfileShop(IImageService imageservice, IUserContextService usercontext, IUnityOfWork unityofwork, IImgur imgur)
         {
             _imageservice = imageservice;
             _usercontext = usercontext;
             _Unityofwork = unityofwork;
             _imgur = imgur;
-           
+
         }
         public async Task<(bool IsSuccess, string message)> PutProfileForShop(UpdatProfileShopeDto dto)
         {
+            // Get user ID from token
             try
             {
                 _userId = _usercontext.GetUserId();
@@ -40,117 +41,81 @@ namespace onlineshopowner_api.Application.Services
             {
                 return (false, ex.Message);
             }
-            if (dto.logo_url == null && dto.File == null) return (false, "there are no image ");
-            string thelogourl = null;
-            //check  if this user is the shopowner for this shop 
 
-            Domain.Entities.ShopOwner shopowner;
+            // Check if image is provided
+            if (dto.logo_url == null && dto.File == null)
+                return (false, "No image provided.");
+
+            // Check if this user is a valid shop owner
+            var personResult = await _Unityofwork.PersonRepository.GetPersonByPersonId(_userId);
+            if (!personResult.IsSuccess || !personResult.IsFound)
+                return (false, personResult.Error);
+
+            var shopOwnerResult = await _Unityofwork.PersonRepository.GetShopOwnerByPersonAsync(personResult.Value);
+            if (!shopOwnerResult.IsSuccess || !shopOwnerResult.IsFound)
+                return (false, shopOwnerResult.Error);
+
+            var shopOwner = shopOwnerResult.Value;
+
+            // Check if the shop belongs to the shop owner
+            var shopResult = await _Unityofwork.ShopRepository.GetShopByShopOwner(shopOwner);
+            if (!shopResult.IsSuccess || !shopResult.IsFound)
+                return (false, shopResult.Error);
+
+            var shopEntity = shopResult.Value;
+
+            if (shopEntity.shopid != dto.shopid)
+                return (false, "You are not the owner of this shop.");
+
+            // Upload new image to cloud
+            string logoUrl = null;
+            string deleteHash = null;
+
             try
             {
-                var personResultCheckdb = await _Unityofwork.PersonRepository.GetPersonByPersonId(_userId);
-
-                if (!personResultCheckdb.IsSuccess) return (false, personResultCheckdb.Error);
-                if (!personResultCheckdb.IsFound) return (false, personResultCheckdb.Error);
-                try
-                {
-                    var shopownerResultCheckdb = await _Unityofwork.PersonRepository.GetShopOwnerByPersonAsync(personResultCheckdb.Value);
-                    if (!shopownerResultCheckdb.IsSuccess) return (false, shopownerResultCheckdb.Error);
-                    if (!shopownerResultCheckdb.IsFound) return (false, shopownerResultCheckdb.Error);
-
-                    shopowner = shopownerResultCheckdb.Value;
-
-                }
-                catch (Exception ex) { return (false, ex.Message); }
-            }
-            catch (Exception ex) { return (false, ex.Message); }
-            Domain.Entities.shop shopentity;
-            try
-            {
-                var shop = await _Unityofwork.ShopRepository.GetShopByShopOwner(shopowner);
-
-                if (!shop.IsSuccess) return (false, shop.Error);
-                if (!shop.IsFound) return (false, shop.Error);
-                shopentity = shop.Value;
-                if (shop.Value.shopid != dto.shopid)
-                {
-                    return (false, "sorry you  are not the shopowner for this shop ");
-                }
-            }
-            catch(Exception ex)
-            {
-                return (false, ex.Message);
-            }
-
-
-            //add image to the cloud 
-            string deletehash ;
-            try
-            {
-                bool issuccessputimageincloud;
-                string logourlorerror;
-               
-
+                bool uploadSuccess;
+                string cloudResponse;
 
                 if (dto.logo_url != null)
                 {
-                    (issuccessputimageincloud, logourlorerror, deletehash) = await _imageservice.ProcessImageAsync(100, 199, 100, imageUrl: dto.logo_url);
-                }
-                else if (dto.File != null)
-                {
-                    (issuccessputimageincloud, logourlorerror, deletehash) = await _imageservice.ProcessImageAsync(100, 199, 100, file: dto.File);
+                    (uploadSuccess, cloudResponse, deleteHash) = await _imageservice.ProcessImageAsync(100, 199, 100, imageUrl: dto.logo_url);
                 }
                 else
                 {
-                    issuccessputimageincloud = false;
-                    logourlorerror = "no image is asigned";
+                    (uploadSuccess, cloudResponse, deleteHash) = await _imageservice.ProcessImageAsync(10000, 19900, 109990, file: dto.File);
                 }
 
-                if (!issuccessputimageincloud)
-                {
-                   return (false,logourlorerror);
+                if (!uploadSuccess)
+                    return (false, cloudResponse);
 
-                }
-                else
-                {
-                    thelogourl = logourlorerror;
-                    return (true, thelogourl);
-                }
-                
+                logoUrl = cloudResponse;
             }
             catch
             {
-                return (false, "dengorous in entering image ");
+                return (false, "Failed to process image.");
             }
 
-            if (shopentity.logoUrl != null)
+            // Delete old image if exists
+            if (!string.IsNullOrWhiteSpace(shopEntity.logoUrl))
             {
-                var (issucces, message) = await _imgur.DeleteImageAsync(shopentity.deletehashingimage);
-                if (!issucces) {
-                    return (false, "the old  image is not deleted on cloud  ");
-                }
+                var (deleteSuccess, message) = await _imgur.DeleteImageAsync(shopEntity.deletehashingimage);
+                if (!deleteSuccess)
+                    return (false, "Old image deletion from cloud failed.");
             }
-            //  add to database
 
+            // Update shop logo URL in DB
             try
             {
-                var updateLogourlondatabase = await _Unityofwork.ShopRepository.Updatethelogourl(thelogourl, deletehash,dto.shopid);
-                if (updateLogourlondatabase == UpdateDataProcess.Success)
-                {
-                    return (true, "the new profile is put ");
-                }
+                var updateResult = await _Unityofwork.ShopRepository.Updatethelogourl(logoUrl, deleteHash, dto.shopid);
+                if (updateResult == UpdateDataProcess.Success)
+                    return (true, "Shop profile image updated successfully.");
                 else
-                {
-                    return (false, "error in updating database ");
-                }
-
-
+                    return (false, "Database update failed.");
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                return (false, ex.Message);
+                return (false, $"Database update error: {ex.Message}");
             }
-           
-
         }
     }
 }

@@ -19,6 +19,7 @@ namespace onlineshopowner_api.Application.Services
         
         private readonly IImageService _imageservice;
         private  int _userId;
+        private string _role;
 
         public OpenNewShopServices(IUserContextService usercontext, IUnityOfWork unityofwork,IImageService imageservice)
         {
@@ -32,6 +33,8 @@ namespace onlineshopowner_api.Application.Services
             try
             {
                 _userId = _usercontext.GetUserId();
+                _role = _usercontext.GetUserRole();
+                if (_role != "shopowner") return (false, "the role is wrong ");
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -50,7 +53,6 @@ namespace onlineshopowner_api.Application.Services
                     var shopownerResultCheckdb =await _Unityofwork.PersonRepository.GetShopOwnerByPersonAsync(personResultCheckdb.Value);
                     if(!shopownerResultCheckdb.IsSuccess)return (false, shopownerResultCheckdb.Error);
                     if(!shopownerResultCheckdb.IsFound) return (false, shopownerResultCheckdb.Error);
-
                     shopowner = shopownerResultCheckdb.Value;
 
                 }
@@ -70,33 +72,21 @@ namespace onlineshopowner_api.Application.Services
             //add the shop
             try
             {
-                var theshop = new Domain.Entities.shop(name: dto.Name, d: dto.Description, shopownerid: _userId);
+                var theshop = new Domain.Entities.shop(name: dto.Name, d: dto.Description, shopownerid: shopowner.ShopOwnerId);
                 var addshop = await  _Unityofwork.ShopRepository.createShoponDatabase(theshop);
-                if (addshop == UpdateDataProcess.Success)
+                if (addshop =="Success")
                 {
                     return (true, "congrats the new shop");
                 }
-                else { return (false, addshop.ToString()); }
+                else { return (false, addshop); }
                 
             }
             catch (Exception ex) 
             {
                 return (false, ex.Message);
 
-            }
-
-
-
-
-
-           
-
-            
-
+            } 
         }
-        
-
-        
 
     }
 }

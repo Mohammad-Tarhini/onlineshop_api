@@ -10,6 +10,6 @@ namespace onlineshopowner_api.Domain.Interfaces.IRepository
     public interface IcategoryRepository
     {
         Task<ResultCheckdb<Domain.Entities.Category>> checkIfCategoryExist(string categoryname);
-         Task<UpdateDataProcess> Addcategory(string categoryname);
+         Task<string> Addcategory(string categoryname);
     }
 }

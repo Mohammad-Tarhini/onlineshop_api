@@ -26,7 +26,7 @@ namespace onlineshopowner_api.Application.Services
             _unitOfWork = unityofwork;
             _tokenGenerator = token;
         }
-        public async Task<(bool IsSuccess, string Token, string error)> LoginClientOrShopowner(LoginRequestDto Dto, string role)
+        public async Task<(bool IsSuccess, string Token, string error)> LoginClientOrShopownerOrAdmin(LoginRequestDto Dto, string role)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace onlineshopowner_api.Application.Services
                 string message;
                 if (Dto.phonenumber != null)
                 {
-                   
+
                     try
                     {
                         (IsFound, person, message) = await _loginhelper.CheckExistPersonByPhoneNumber(Dto);
@@ -76,7 +76,7 @@ namespace onlineshopowner_api.Application.Services
                         {
                             return (false, null, ResultCheckClient.Error);
                         }
-                       
+
 
                     }
                     catch (Exception ex) { return (false, null, ex.Message); }
@@ -91,23 +91,46 @@ namespace onlineshopowner_api.Application.Services
                         {
                             return (false, null, ResultCheckShopOwner.Error);
                         }
-                        
-                    }catch(Exception ex) {
+
+                    }
+                    catch (Exception ex)
+                    {
                         return (false, null, ex.Message);
                     }
-                   
+
 
                 }
+                else if (role == "admin")
+                {
+                    try
+                    {
+
+                        var ResultCheckAdmin = await _unitOfWork.PersonRepository.GetAdminByPersonAsync(person);
+                        if (!ResultCheckAdmin.IsFound)
+                        {
+                            return (false, null, ResultCheckAdmin.Error);
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        return (false, null, ex.Message);
+                    }
+
+
+                }
+                else return (false, null, "no role");
+
                 if (!HashingPassword.VerifyPassword(Dto.password, person.Password))
                 {
                     return (false, null, "the password is wrong ");
                 }
-                string token = _tokenGenerator.GenerateToken(person.PersonId, 60);
+                string token = _tokenGenerator.GenerateToken(person.PersonId,role, 60);
                 return (true, token, "success");
             }
             catch (Exception ex)
             {
-                return(false, null,ex.Message);
+                return (false, null, ex.Message);
             }
         } 
             

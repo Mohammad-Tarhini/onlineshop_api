@@ -1,5 +1,7 @@
 ﻿using onlineshopowner_api.Application.Dtos;
 using onlineshopowner_api.Application.Services;
+using onlineshopowner_api.Domain.Interfaces.IExternalServices;
+using onlineshopowner_api.Infrastructure.ExternalServices.onlineshopowner_api.Infrastructure.ExternalServices;
 using onlineshopowner_api.Infrastructure.Models;
 using System;
 using System.Collections.Generic;
@@ -14,10 +16,14 @@ namespace onlineshopowner_api.Controllers
     public class AddCategoryByAdminController : ApiController
     {
         private AddCategoryservices _AddCategoryservices { get; set; }
-        public AddCategoryByAdminController(AddCategoryservices addCategoryservices)
+        private IRedisCacheService _redisCacheService;
+        public AddCategoryByAdminController(AddCategoryservices addCategoryservices, IRedisCacheService redisCacheService)
         {
             _AddCategoryservices = addCategoryservices;
+            _redisCacheService = redisCacheService;
+
         }
+        [JwtAuthorize(Roles = "admin")]
         [HttpPost]
         [Route("api/Addcategory")]
         public async Task<IHttpActionResult> AddCategory([FromBody] List<CategoryDto> categoryDtos)
@@ -32,5 +38,21 @@ namespace onlineshopowner_api.Controllers
 
 
         }
+
+
+        [HttpGet]
+        [Route("api/cache/test")]
+        public async Task<IHttpActionResult> TestRedis()
+        {
+            var cachedValue = await _redisCacheService.GetAsync("testkey");
+            if (string.IsNullOrEmpty(cachedValue))
+            {
+                await _redisCacheService.SetAsync("testkey", "Hello from Redis");
+                return Ok("Key was not found. Set now.");
+            }
+
+            return Ok("Found in Redis: " + cachedValue);
+        }
+
     }
 }

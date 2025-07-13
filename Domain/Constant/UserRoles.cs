@@ -9,5 +9,6 @@ namespace onlineshopowner_api.Domain.Constant
     {
         public const string Client = "client";
         public const string ShopOwner = "shopowner";
+        public const string Admin="admin";
     }
 }

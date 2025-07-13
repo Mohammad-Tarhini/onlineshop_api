@@ -84,11 +84,11 @@ namespace onlineshopowner_api.Infrastructure.Repositories
             }
         }
 
-        public async Task<UpdateDataProcess> createShoponDatabase(Domain.Entities.shop shop)
+        public async Task<string> createShoponDatabase(Domain.Entities.shop shop)
         {
             if (shop == null)
             {
-                return UpdateDataProcess.yourdatanull;
+                return "yourdatanull";
             }
             try
             {
@@ -105,13 +105,13 @@ namespace onlineshopowner_api.Infrastructure.Repositories
                         connection.Open();
                         command.ExecuteNonQuery();
                         connection.Close();
-                        return UpdateDataProcess.Success;
+                        return "Success";
                     }
                 }
             }
             catch (Exception ex)
             {
-                return UpdateDataProcess.catchError;
+                return ex.Message + ex.StackTrace;
             }
         }
 

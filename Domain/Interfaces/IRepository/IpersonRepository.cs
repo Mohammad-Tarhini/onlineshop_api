@@ -19,6 +19,8 @@ namespace onlineshopowner_api.Domain.Interfaces.IRepository
 
         Task<UpdateDataProcess> AssignShopOwnerRoleToPersonAsync(Domain.Entities.Person person);
         Task<ResultCheckdb<Domain.Entities.Person>> GetPersonByPersonId(int personid);
-        Task<ResultCheckdb<Domain.Entities.Admain>> checkAdmainbypersonid(int personid);
+        Task<ResultCheckdb<Domain.Entities.Admin>> checkAdmainbypersonid(int personid);
+        Task<ResultCheckdb<Domain.Entities.Admin>> GetAdminByPersonAsync(Domain.Entities.Person person);
+        Task<UpdateDataProcess> AssignAdmintRoleToPersonAsync(Domain.Entities.Person person);
     }
 }

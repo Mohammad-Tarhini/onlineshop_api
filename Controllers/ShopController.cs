@@ -23,6 +23,7 @@ namespace onlineshopowner_api.Controllers
           _OpenNewShopServices = opennewshopservices;
             _updateprofile = updateprofile;
         }
+        [JwtAuthorize(Roles ="shopowner")]
         [HttpPost]
         [Route("api/shop/opennewshop")]
         public async Task<IHttpActionResult> OpenNewShop([FromBody] OpenNewShopDto dto)
@@ -38,6 +39,8 @@ namespace onlineshopowner_api.Controllers
             return Ok(issucces);
 
         }
+        
+        [JwtAuthorize(Roles = "shopowner")]
         [HttpPost]
         [Route("api/shop/updateprofile")]
         public  async Task<IHttpActionResult> updateprofile([ModelBinder(typeof(UpdateProfileShopDtoModelBinder))] UpdatProfileShopeDto dto)
@@ -51,7 +54,8 @@ namespace onlineshopowner_api.Controllers
             if (!issucces) { return BadRequest(message); }
             else return Ok(message);
         }
-
+    
+        
 
     }
      

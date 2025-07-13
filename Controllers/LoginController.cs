@@ -1,6 +1,7 @@
 ﻿using onlineshopowner_api.Application.Dtos;
 using onlineshopowner_api.Application.Interfaces.Iservices;
 using onlineshopowner_api.Application.Interfaces.Ivalidator;
+using onlineshopowner_api.Infrastructure.ExternalServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,11 +30,13 @@ namespace onlineshopowner_api.Controllers
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-                var (IsSuccess, token, message) = await _login.LoginClientOrShopowner(Dto, "client");
+                var (IsSuccess, token, message) = await _login.LoginClientOrShopownerOrAdmin(Dto, "client");
                 if (!IsSuccess)
                 {
                     return BadRequest(message);
                 }
+               
+
                 return Ok(token);
             }
             catch (Exception ex) {
@@ -48,7 +51,7 @@ namespace onlineshopowner_api.Controllers
             {
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-                var (IsSuccess, token, message) = await _login.LoginClientOrShopowner(Dto, "shopowner");
+                var (IsSuccess, token, message) = await _login.LoginClientOrShopownerOrAdmin(Dto, "shopowner");
                 if (!IsSuccess)
                 {
                     return BadRequest(message);
@@ -61,5 +64,27 @@ namespace onlineshopowner_api.Controllers
                 return BadRequest(ex.ToString());
             }
             }
+
+        [HttpPost]
+        [Route("api/Login/admin")]
+        public async Task<IHttpActionResult> AdminLogin([FromBody] LoginRequestDto Dto)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+                var (IsSuccess, token, message) = await _login.LoginClientOrShopownerOrAdmin(Dto, "admin");
+                if (!IsSuccess)
+                {
+                    return BadRequest(message);
+                }
+                return Ok(token);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.ToString());
+            }
+        }
     }
 }

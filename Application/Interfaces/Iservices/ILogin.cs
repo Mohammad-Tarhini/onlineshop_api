@@ -9,6 +9,6 @@ namespace onlineshopowner_api.Application.Interfaces.Iservices
 {
     public interface ILogin
     {
-        Task<(bool IsSuccess, string Token, string error)> LoginClientOrShopowner(LoginRequestDto Dto, string role);
+        Task<(bool IsSuccess, string Token, string error)> LoginClientOrShopownerOrAdmin(LoginRequestDto Dto, string role);
     }
 }
