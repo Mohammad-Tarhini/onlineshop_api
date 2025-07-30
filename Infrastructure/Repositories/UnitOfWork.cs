@@ -11,18 +11,25 @@ namespace onlineshopowner_api.Infrastructure.Repositories
 {
     public class UnitOfWork: IUnityOfWork
     {
-        private readonly online_shopEntities _db;
+        private readonly online_shopEntities1 _db;
         public IpersonRepository PersonRepository { get;  set; }
     
         public IcategoryRepository CategoryRepository { get; set; }
         public IShopRepository ShopRepository { get; set; }
-        public UnitOfWork(online_shopEntities dbContext, IpersonRepository personRepository, IShopRepository shopRepository, IcategoryRepository categoryRepository,IShopRepository shopRepository1)
+        public IProductRepository ProductRepository { get; set; }
+        public IRedisRepository RedisRepository { get; set; }
+         public IDelivaryRepository  DelivaryRepository { get; set; }
+        public UnitOfWork(online_shopEntities1 dbContext, IpersonRepository personRepository, IShopRepository shopRepository, IcategoryRepository categoryRepository,IShopRepository shopRepository1,IProductRepository productRepository,IRedisRepository redisRepository,IDelivaryRepository delivaryRepository)
         {
             _db = dbContext;
             PersonRepository = personRepository;
            
             CategoryRepository = categoryRepository;
             ShopRepository = shopRepository1;
+            ProductRepository = productRepository;
+            RedisRepository = redisRepository;
+            DelivaryRepository = delivaryRepository
+            ;
         }
         public async Task<int> CommitAsync()
         {

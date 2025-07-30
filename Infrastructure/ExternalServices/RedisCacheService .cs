@@ -61,6 +61,32 @@ namespace onlineshopowner_api.Infrastructure.ExternalServices
             {
                 return await _db.KeyDeleteAsync(key);
             }
+
+            public async Task<bool> AddToSortedSetAsync(string sortedSetKey, string member, double score)
+            {
+                return await _db.SortedSetAddAsync(sortedSetKey, member, score);
+            }
+
+            public async Task<RedisValue[]> GetSortedSetRangeByRankAsync(string sortedSetKey, int start, int stop)
+            {
+                return await _db.SortedSetRangeByRankAsync(sortedSetKey, start, stop);
+            }
+            // Sorted Set Methods
+            public async Task<bool> RemoveFromSortedSetAsync(string sortedSetKey, string member)
+            {
+                return await _db.SortedSetRemoveAsync(sortedSetKey, member);
+            }
+
+            public async Task<long> GetSortedSetLengthAsync(string sortedSetKey)
+            {
+                return await _db.SortedSetLengthAsync(sortedSetKey);
+            }
+
+            public async Task<bool> SortedSetContainsAsync(string sortedSetKey, string member)
+            {
+                var score = await _db.SortedSetScoreAsync(sortedSetKey, member);
+                return score.HasValue;
+            }
         }
     }
 }

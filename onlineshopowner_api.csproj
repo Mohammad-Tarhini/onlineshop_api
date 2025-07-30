@@ -275,66 +275,98 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application\Dtos\CategoryDto.cs" />
+    <Compile Include="Application\Dtos\AddProductImageDto.cs" />
+    <Compile Include="Application\Dtos\CartItemRequestDto.cs" />
+    <Compile Include="Application\Dtos\CartItemCheckResponseDto.cs" />
+    <Compile Include="Application\Dtos\CartAvailabilityRequestDto.cs" />
+    <Compile Include="Application\Dtos\DeliveryDtos\GetDeliveries.cs" />
+    <Compile Include="Application\Dtos\DeliveryDtos\GetDeliveryOnLocationDto.cs" />
+    <Compile Include="Application\Dtos\PersonDto.cs" />
+    <Compile Include="Application\Dtos\DeliveryDtos\DeliveryProviderDto.cs" />
+    <Compile Include="Application\Dtos\DeliveryDtos\RegionDto.cs" />
+    <Compile Include="Application\Dtos\DeliveryDtos\DeliveryWorkingHourDto.cs" />
+    <Compile Include="Application\Dtos\DeliveryDtos\DeliveryAgentDto.cs" />
+    <Compile Include="Application\Dtos\DeliveryDtos\DeliveryShopDto.cs" />
+    <Compile Include="Application\Dtos\DeliveryDtos\DeliveryPersonDto.cs" />
+    <Compile Include="Application\Dtos\RouteInfoDto.cs" />
+    <Compile Include="Application\Dtos\OrderLocationDto.cs" />
+    <Compile Include="Application\Dtos\ProductDto.cs" />
+    <Compile Include="Application\Dtos\ShopSumaryDto.cs" />
     <Compile Include="Application\Dtos\UpdatProfileShopeDto.cs" />
     <Compile Include="Application\Dtos\OpenNewShopDto.cs" />
     <Compile Include="Application\Dtos\LoginRequestDto.cs" />
     <Compile Include="Application\Dtos\RegisterationRequestDto.cs" />
+    <Compile Include="Application\Interfaces\Iservices\IDeliveryServices.cs" />
     <Compile Include="Application\Interfaces\Iservices\IAddCategoryservices.cs" />
-    <Compile Include="Application\Interfaces\Iservices\IUpdateProfileShop.cs" />
-    <Compile Include="Application\Interfaces\Iservices\IOpenNewShopServices.cs" />
-    <Compile Include="Application\Interfaces\Iservices\ILogin.cs" />
+    <Compile Include="Application\Interfaces\Iservices\IAuthoServices.cs" />
+    <Compile Include="Application\Interfaces\Iservices\IOrderServices.cs" />
+    <Compile Include="Application\Interfaces\Iservices\IProductServices.cs" />
+    <Compile Include="Application\Interfaces\Iservices\IshopServices.cs" />
     <Compile Include="Application\Interfaces\Iservices\IUserContextService.cs" />
     <Compile Include="Application\Interfaces\Iservices\IUnityOfWork.cs" />
-    <Compile Include="Application\Interfaces\Iservices\IRegisterationServices.cs" />
     <Compile Include="Application\Interfaces\Itoken\IjwtTokenGenerator.cs" />
-    <Compile Include="Application\Interfaces\Ivalidator\ILoginhelper.cs" />
     <Compile Include="Application\Interfaces\Ivalidator\IImageService .cs" />
-    <Compile Include="Application\Interfaces\Ivalidator\Iregistrationhelper.cs" />
+    <Compile Include="Application\Interfaces\Ivalidator\IAuthHelper.cs" />
     <Compile Include="Application\Services\AddCategoryservices.cs" />
-    <Compile Include="Application\Services\LoginServices.cs" />
-    <Compile Include="Application\Services\Authoservices.cs" />
-    <Compile Include="Application\Services\UpdateProfileShop.cs" />
-    <Compile Include="Application\Services\OpenNewShopServices.cs" />
-    <Compile Include="Application\Services\RegisterationServices.cs" />
+    <Compile Include="Application\Services\AuthoServices.cs" />
+    <Compile Include="Application\Services\DeliveryServices.cs" />
+    <Compile Include="Application\Services\OrderServices.cs" />
+    <Compile Include="Application\Services\ProductServices.cs" />
+    <Compile Include="Application\Services\ShopServices.cs" />
+    <Compile Include="Application\Validatorandclean\AuthHelper.cs" />
+    <Compile Include="Application\Validatorandclean\DelivayHelper.cs" />
     <Compile Include="Application\Validatorandclean\ImageService .cs" />
     <Compile Include="Application\Validatorandclean\UserContextServices.cs" />
-    <Compile Include="Application\Validatorandclean\loginhelper.cs" />
     <Compile Include="Application\Validatorandclean\HashingPassword.cs" />
     <Compile Include="Application\Validatorandclean\Clean.cs" />
-    <Compile Include="Application\Validatorandclean\Registerationhelper.cs" />
     <Compile Include="App_Start\Setting\ConnectionStringSetting.cs" />
     <Compile Include="App_Start\Setting\JwtSettings.cs" />
     <Compile Include="App_Start\Setting\ImgurSettings.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AddCategoryByAdminController.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\AuthoController.cs" />
+    <Compile Include="Controllers\DelivaryController.cs" />
+    <Compile Include="Controllers\OrderAndPaymentController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
-    <Compile Include="Controllers\RegisterationController.cs" />
     <Compile Include="Domain\Constant\ResultCheckdb.cs" />
     <Compile Include="Domain\Constant\UpdateDataProcess.cs" />
     <Compile Include="Domain\Constant\UserRoles.cs" />
     <Compile Include="Domain\Entities\Category.cs" />
     <Compile Include="Domain\Entities\Admain.cs" />
+    <Compile Include="Domain\Entities\Delivery\DeliveryShop.cs" />
+    <Compile Include="Domain\Entities\Delivery\DeliveryAgent.cs" />
+    <Compile Include="Domain\Entities\Delivery\DeliveryPersons.cs" />
+    <Compile Include="Domain\Entities\Delivery\DeliveryProvider.cs" />
+    <Compile Include="Domain\Entities\Delivery\RegionDto.cs" />
+    <Compile Include="Domain\Entities\Delivery\DeliveryWorkigHours.cs" />
+    <Compile Include="Domain\Entities\Product.cs" />
     <Compile Include="Domain\Entities\shop.cs" />
     <Compile Include="Domain\Entities\ShopOwner.cs" />
     <Compile Include="Domain\Entities\Client.cs" />
     <Compile Include="Domain\Entities\Person.cs" />
     <Compile Include="Domain\Interfaces\IExternalServices\IImgur.cs" />
+    <Compile Include="Domain\Interfaces\IExternalServices\IGoogleMapService.cs" />
     <Compile Include="Domain\Interfaces\IExternalServices\IRedisCacheService.cs" />
     <Compile Include="Domain\Interfaces\IMapper.cs" />
     <Compile Include="Domain\Interfaces\IRepository\IcategoryRepository.cs" />
+    <Compile Include="Domain\Interfaces\IRepository\IDelivaryRepository.cs" />
+    <Compile Include="Domain\Interfaces\IRepository\IProductRepository.cs" />
+    <Compile Include="Domain\Interfaces\IRepository\IRedisRepository.cs" />
     <Compile Include="Domain\Interfaces\IRepository\IShopRepository.cs" />
     <Compile Include="Domain\Interfaces\IRepository\IpersonRepository.cs" />
+    <Compile Include="Infrastructure\BinderModel\AddProductImageDtoModelBinder .cs" />
     <Compile Include="Infrastructure\BinderModel\UpdateProfileShopDtoModelBinder.cs" />
+    <Compile Include="Infrastructure\ExternalServices\googlemap\DirectionsResponse.cs" />
+    <Compile Include="Infrastructure\ExternalServices\googlemap\Route.cs" />
+    <Compile Include="Infrastructure\ExternalServices\googlemap\OverviewPoyline.cs" />
+    <Compile Include="Infrastructure\ExternalServices\googlemap\Leg.cs" />
+    <Compile Include="Infrastructure\ExternalServices\googlemap\Duration.cs" />
+    <Compile Include="Infrastructure\ExternalServices\googlemap\Distance.cs" />
+    <Compile Include="Infrastructure\ExternalServices\googlemap\GoogleMapService .cs" />
     <Compile Include="Infrastructure\ExternalServices\RedisCacheService .cs" />
     <Compile Include="Infrastructure\MappingDomainModel\AdminMapper.cs" />
-    <Compile Include="Infrastructure\OnException\GlobalExceptionFilter.cs" />
-    <Compile Include="Infrastructure\ExternalServices\Imgur.cs" />
-    <Compile Include="Infrastructure\MappingDomainModel\ShopMapper.cs" />
-    <Compile Include="Infrastructure\MappingDomainModel\ShopOwnerMapper.cs" />
-    <Compile Include="Infrastructure\MappingDomainModel\ClientMapper.cs" />
-    <Compile Include="Infrastructure\MappingDomainModel\PersonMapper.cs" />
     <Compile Include="Infrastructure\Models\admain.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -350,19 +382,19 @@
     <Compile Include="Infrastructure\Models\clientorder.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Models\Deliver.cs">
+    <Compile Include="Infrastructure\Models\DeliveryAgent.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Models\DeliverPartnerperson.cs">
+    <Compile Include="Infrastructure\Models\DeliveryOrder.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Models\DeliveryPartnerAgent.cs">
+    <Compile Include="Infrastructure\Models\DeliveryProvider.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
+    <Compile Include="Infrastructure\Models\DeliveryWorkingHour.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Models\Location.cs">
+    <Compile Include="Infrastructure\Models\getproduct_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Models\Model1.Context.cs">
@@ -389,25 +421,61 @@
     <Compile Include="Infrastructure\Models\Person.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Models\PersonDelivery.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Infrastructure\Models\Product.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Repositories\CategoryRepository.cs" />
-    <Compile Include="Infrastructure\Repositories\ShopRepository.cs" />
-    <Compile Include="Infrastructure\Repositories\PersonRepository.cs" />
-    <Compile Include="Infrastructure\Repositories\UnitOfWork.cs" />
-    <Compile Include="Infrastructure\Token\JwtAuthorizeAttribute .cs" />
-    <Compile Include="Infrastructure\Token\JwtTokenGenerator.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Infrastructure\Models\ProductImage.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\Models\Region.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\Models\regiondelivery.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Infrastructure\Models\Shop.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Models\ShopCategory.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Models\ShopDelivery.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Infrastructure\Models\ShopOwner.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\Models\sysdiagram.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\OnException\GlobalExceptionFilter.cs" />
+    <Compile Include="Infrastructure\ExternalServices\Imgur.cs" />
+    <Compile Include="Infrastructure\MappingDomainModel\ShopMapper.cs" />
+    <Compile Include="Infrastructure\MappingDomainModel\ShopOwnerMapper.cs" />
+    <Compile Include="Infrastructure\MappingDomainModel\ClientMapper.cs" />
+    <Compile Include="Infrastructure\MappingDomainModel\PersonMapper.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\Repositories\CategoryRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\DelivaryRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\ProductRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\RedisRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\ShopRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\PersonRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\UnitOfWork.cs" />
+    <Compile Include="Infrastructure\Token\JwtAuthorizeAttribute .cs" />
+    <Compile Include="Infrastructure\Token\JwtTokenGenerator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -446,7 +514,9 @@
     <Analyzer Include="packages\MSTest.Analyzers.3.9.1\analyzers\dotnet\cs\MSTest.Analyzers.CodeFixes.dll" />
     <Analyzer Include="packages\MSTest.Analyzers.3.9.1\analyzers\dotnet\cs\MSTest.Analyzers.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Autho\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

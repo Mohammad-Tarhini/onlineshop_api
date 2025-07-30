@@ -18,7 +18,7 @@ namespace onlineshopowner_api.Infrastructure.Models
         public Nullable<int> location_id { get; set; }
         public Nullable<int> shop_id { get; set; }
     
-        public virtual Location Location { get; set; }
+        public virtual Region Region { get; set; }
         public virtual Shop Shop { get; set; }
     }
 }

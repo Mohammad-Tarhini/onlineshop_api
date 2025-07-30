@@ -18,21 +18,25 @@ namespace onlineshopowner_api.Infrastructure.Models
         public Product()
         {
             this.OrderDetails = new HashSet<OrderDetail>();
+            this.ProductImages = new HashSet<ProductImage>();
         }
     
         public int product_id { get; set; }
         public string name { get; set; }
         public Nullable<decimal> price { get; set; }
         public string description { get; set; }
-        public string image_url { get; set; }
         public Nullable<int> category_id { get; set; }
         public string status { get; set; }
         public Nullable<int> quantity { get; set; }
         public Nullable<int> shop_id { get; set; }
+        public Nullable<int> imgurl_id { get; set; }
     
         public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual Shop Shop { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductImage> ProductImages { get; set; }
+        public virtual ProductImage ProductImage { get; set; }
     }
 }

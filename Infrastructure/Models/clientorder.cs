@@ -17,7 +17,7 @@ namespace onlineshopowner_api.Infrastructure.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public clientorder()
         {
-            this.Delivers = new HashSet<Deliver>();
+            this.DeliveryOrders = new HashSet<DeliveryOrder>();
             this.OrderDetails = new HashSet<OrderDetail>();
             this.Payments = new HashSet<Payment>();
         }
@@ -31,7 +31,7 @@ namespace onlineshopowner_api.Infrastructure.Models
     
         public virtual Client Client { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Deliver> Delivers { get; set; }
+        public virtual ICollection<DeliveryOrder> DeliveryOrders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

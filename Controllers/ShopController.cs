@@ -4,58 +4,99 @@ using onlineshopowner_api.Domain.Interfaces.IRepository;
 using onlineshopowner_api.Infrastructure.BinderModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
 
 namespace onlineshopowner_api.Controllers
 {
-    
+
     public class ShopController : ApiController
     {
-        private readonly IOpenNewShopServices _OpenNewShopServices;
-        private readonly IUpdateProfileShop _updateprofile;
-        public ShopController(IOpenNewShopServices opennewshopservices,IUpdateProfileShop updateprofile)
+        private readonly IshopServices shopServices;
+        public ShopController(IshopServices shopServices)
         {
-          _OpenNewShopServices = opennewshopservices;
-            _updateprofile = updateprofile;
+            this.shopServices = shopServices;
         }
-        [JwtAuthorize(Roles ="shopowner")]
+        [JwtAuthorize(Roles = "shopowner")]
         [HttpPost]
         [Route("api/shop/opennewshop")]
         public async Task<IHttpActionResult> OpenNewShop([FromBody] OpenNewShopDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            
-            var (issucces,message)=await _OpenNewShopServices.OpenShop(dto);
+
+            var (issucces, message) = await shopServices.OpenShop(dto);
             if (!issucces)
             {
-                return BadRequest(message) ;
+                return BadRequest(message);
             }
             return Ok(issucces);
 
         }
-        
+
         [JwtAuthorize(Roles = "shopowner")]
         [HttpPost]
         [Route("api/shop/updateprofile")]
-        public  async Task<IHttpActionResult> updateprofile([ModelBinder(typeof(UpdateProfileShopDtoModelBinder))] UpdatProfileShopeDto dto)
+        public async Task<IHttpActionResult> updateprofile([ModelBinder(typeof(UpdateProfileShopDtoModelBinder))] UpdatProfileShopeDto dto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
 
             }
-            var(issucces,message)=await _updateprofile.PutProfileForShop(dto);
+            var (issucces, message) = await shopServices.PutProfileForShop(dto);
             if (!issucces) { return BadRequest(message); }
             else return Ok(message);
         }
-    
+        [HttpGet]
+        [Route("api/shop/getshoptypes")]
+        public async Task<IHttpActionResult> GetShopTypes([FromUri]int limit = 30,[FromUri] int page = 1, [FromUri] String search=null)
+        {
+            try
+            {
+                var (issuccess, value,currentpage,pagesize,message) = await shopServices.GetShopTypes(limit, page,search);
+                if (!issuccess)
+                    return BadRequest(message);
+                else return Ok(new
+                {
+                    data = value,
+                    page =currentpage,
+                    limit=pagesize,
+                   
+                });
+            }catch (Exception ex) {return BadRequest(ex.Message+"cc"); }
+        }
+        [HttpGet]
+        [Route("api/shop/Getshops")]
+        public async Task<IHttpActionResult> Getshops([FromUri] int limit = 20, [FromUri] int pagenb = 1, [FromUri] string searchbyshopname = null, [FromUri] string searchbyshoptype = null)
+        {
+            try
+            {
+                var (issuccess, shops, message) = await shopServices.GetShops(limit, pagenb, searchbyshopname, searchbyshoptype);
+                if (issuccess)
+                {
+                    return Ok(new
+                    {
+                        shops = shops
+
+                    });
+                }
+                else
+                {
+                    return BadRequest(message);
+                }
+            }catch (Exception ex) {return BadRequest(ex.Message); }
+        }
         
+
+
+
 
     }
      

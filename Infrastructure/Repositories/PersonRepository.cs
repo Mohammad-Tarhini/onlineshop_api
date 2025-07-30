@@ -10,23 +10,98 @@ using onlineshopowner_api.Domain.Interfaces.IRepository;
 using System.Data.Entity.Infrastructure;
 using onlineshopowner_api.Domain.Constant;
 using onlineshopowner_api.Domain.Entities;
+using onlineshopowner_api.Application.Dtos;
 
 namespace onlineshopowner_api.Infrastructure.Repositories
 {
     public class PersonRepository:IpersonRepository
     {
-        private readonly online_shopEntities _dbContext;
+        private readonly online_shopEntities1 _dbContext;
         private readonly IMapper<Domain.Entities.Person, Models.Person> _personmapper;
         private readonly IMapper<Domain.Entities.ShopOwner, Models.ShopOwner> _shopownermapper;
         private readonly IMapper<Domain.Entities.Admin,Models.admain> _adminmapper;
         private readonly IMapper<Domain.Entities.Client, Models.Client> _clientmapper;
-        public PersonRepository(online_shopEntities dbContext, IMapper<Domain.Entities.Person, Models.Person> personmapper,IMapper<Domain.Entities.Client,Models.Client> clientmapper,IMapper<Domain.Entities.ShopOwner,Models.ShopOwner> shopownermapper, IMapper<Domain.Entities.Admin, Models.admain> adminmapper)
+        public PersonRepository(online_shopEntities1 dbContext, IMapper<Domain.Entities.Person, Models.Person> personmapper,IMapper<Domain.Entities.Client,Models.Client> clientmapper,IMapper<Domain.Entities.ShopOwner,Models.ShopOwner> shopownermapper, IMapper<Domain.Entities.Admin, Models.admain> adminmapper)
         {
             _dbContext = dbContext;
             _personmapper = personmapper;
             _clientmapper = clientmapper;
             _shopownermapper=shopownermapper;
             _adminmapper = adminmapper;
+        }
+
+        public async Task<ResultCheckdb<int>>GetShopOwnerIdByPersonId(int personid)
+        {
+            if (personid < 0)
+                return new ResultCheckdb<int>
+                {
+                    IsSuccess = false
+                };
+            try
+            {
+                int shopownerid = _dbContext.ShopOwners.Where(s => s.person_id == personid).Select(s => s.shopowner_id).FirstOrDefault();
+                if (shopownerid == 0)
+                {
+                    return new ResultCheckdb<int>
+                    {
+                        IsSuccess = false,
+                        Error = "shopowner sis not exist "
+
+                    };
+                }
+                return new ResultCheckdb<int>
+                {
+                    IsSuccess = true,
+                    Value = shopownerid
+                };
+            }catch (Exception ex)
+            {
+                return new ResultCheckdb<int>
+                { IsSuccess = false ,
+                Error = ex.ToString()
+
+                };
+            }
+        }
+        public async Task<ResultCheckdb<int>>CheckExistDeliveryPersonByPersonId(int personid)
+        {
+            try
+            {
+                if (personid < 0)
+                {
+                    return new ResultCheckdb<int>
+                    {
+                        IsSuccess = false
+                    };
+
+                }
+                int Deliveryid = _dbContext.PersonDeliveries.Where(s => s.person_id == personid).Select(s => s.delivery_person_id).FirstOrDefault();
+                if (Deliveryid == 0)
+                {
+                    return new ResultCheckdb<int>
+                    {
+                        IsSuccess = true,
+                        IsFound = false
+                    };
+
+                }
+                else
+                {
+                    return new ResultCheckdb<int>
+                    {
+                        IsSuccess = true,
+                        IsFound = true
+                    };
+                }
+            }
+            catch (Exception ex) 
+            {
+                return new ResultCheckdb<int>
+                {
+                    IsSuccess = false
+                };
+            }
+
         }
 
         public async Task<ResultCheckdb<Domain.Entities.Person>> GetPersonByEmailAsync(string email)
@@ -274,8 +349,9 @@ namespace onlineshopowner_api.Infrastructure.Repositories
                 if (person == null)
                     return new ResultCheckdb<Domain.Entities.Person>
                     {
-                        IsSuccess = false,
+                        IsSuccess = true,
                         IsFound = false,
+                        Error="the errorr in get person from database"
 
                     };
                 return new ResultCheckdb<Domain.Entities.Person>
@@ -422,6 +498,8 @@ namespace onlineshopowner_api.Infrastructure.Repositories
             }
 
         }
+        
 
+       
     }
 }

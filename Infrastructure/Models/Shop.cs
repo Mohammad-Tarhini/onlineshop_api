@@ -20,6 +20,7 @@ namespace onlineshopowner_api.Infrastructure.Models
             this.branches = new HashSet<branch>();
             this.Products = new HashSet<Product>();
             this.ShopCategories = new HashSet<ShopCategory>();
+            this.ShopDeliveries = new HashSet<ShopDelivery>();
         }
     
         public int shop_id { get; set; }
@@ -29,6 +30,9 @@ namespace onlineshopowner_api.Infrastructure.Models
         public string description { get; set; }
         public Nullable<int> shopowner_id { get; set; }
         public string deletehashimage { get; set; }
+        public string type { get; set; }
+        public Nullable<decimal> latitude { get; set; }
+        public Nullable<decimal> longitude { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<branch> branches { get; set; }
@@ -37,5 +41,7 @@ namespace onlineshopowner_api.Infrastructure.Models
         public virtual ShopOwner ShopOwner { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ShopCategory> ShopCategories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ShopDelivery> ShopDeliveries { get; set; }
     }
 }

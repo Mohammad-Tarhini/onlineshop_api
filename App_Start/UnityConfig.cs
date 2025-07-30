@@ -34,34 +34,36 @@ namespace onlineshopowner_api
 
             container.AddExtension(new Diagnostic());
             // Register your DbContext, Repositories, UoW, Services
-            container.RegisterType<online_shopEntities>(new HierarchicalLifetimeManager());
+            container.RegisterType<online_shopEntities1>(new HierarchicalLifetimeManager());
 
             // Example:
 
             container.RegisterType<IjwtTokenGenerator, JwtTokenGenerator>();
             container.RegisterType<IUnityOfWork, UnitOfWork>();
             container.RegisterType<IUserContextService, UserContextServices>();
-            container.RegisterType<Iregistrationhelper, Registerationhelper>();
+
             container.RegisterType<IpersonRepository, PersonRepository>();
             container.RegisterType<IShopRepository, ShopRepository>();
             container.RegisterType<IcategoryRepository, CategoryRepository>();
-            container.RegisterType<IRegisterationServices, RegisterationServices>(new HierarchicalLifetimeManager());
-            container.RegisterType<ILogin, LoginServices>();
-            container.RegisterType<ILoginhelper, loginhelper>();
+           container.RegisterType<IOrderServices,OrderServices>();
+            container.RegisterType<IAuthoServices, AuthoServices>();
+            container.RegisterType<IProductServices, ProductServices>();
+container.RegisterType<IAuthHelper, AuthHelper>();
             container.RegisterType<IImageService, ImageService>();
             container.RegisterType<IAddCategoryservices, AddCategoryservices>();
-            container.RegisterType<IOpenNewShopServices,OpenNewShopServices>();
-            container.RegisterType<IUpdateProfileShop, UpdateProfileShop>();
+            container.RegisterType<IshopServices, ShopServices>();
+            container.RegisterType<IRedisRepository, RedisRepository>();
             container.RegisterType<IImgur, Imgur>();
-
+            container.RegisterType<IProductRepository, ProductRepository>();
             container.RegisterType<IMapper<Domain.Entities.Client, Client>, ClientMapper>(new HierarchicalLifetimeManager());
             container.RegisterType<IMapper<Domain.Entities.Person, Person>, PersonMapper>(new HierarchicalLifetimeManager());
             container.RegisterType<IMapper<Domain.Entities.ShopOwner, ShopOwner>, ShopOwnerMapper>(new HierarchicalLifetimeManager());
             container.RegisterType<IMapper<Domain.Entities.shop, Shop>, ShopMapper>(new HierarchicalLifetimeManager());
             container.RegisterType<IMapper<Domain.Entities.Admin, admain>, AdminMapper>(new HierarchicalLifetimeManager());
             container.RegisterType<IRedisCacheService, RedisCacheService>(new ContainerControlledLifetimeManager());
-
-
+            container.RegisterType<IGoogleMapService,GoogleMapService>();
+            container.RegisterType<IDeliveryServices, DeliveryServices>();
+            container.RegisterType<IDelivaryRepository, DelivaryRepository>();
             var imgurSettings = new ImgurSettings
             {
                 ClientId = "6df469619d45ea8"

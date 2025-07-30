@@ -14,5 +14,9 @@ namespace onlineshopowner_api.Application.Interfaces.Iservices
        
         IcategoryRepository CategoryRepository { get; set; }
         IShopRepository ShopRepository { get; set; }
+        IProductRepository ProductRepository { get; set; }
+
+        IRedisRepository RedisRepository { get; set; }
+        IDelivaryRepository DelivaryRepository { get; set; }
     }
 }

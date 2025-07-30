@@ -9,6 +9,7 @@ using System.Web;
 using System.Linq.Expressions;
 using onlineshopowner_api.Domain.Interfaces.IExternalServices;
 using onlineshopowner_api.App_Start.Setting;
+using System.Web.UI.WebControls;
 
 namespace onlineshopowner_api.Infrastructure.ExternalServices
 {
@@ -58,6 +59,10 @@ namespace onlineshopowner_api.Infrastructure.ExternalServices
                 using (var client = new HttpClient())
                 {
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Client-ID", _clientId);
+                    if (string.IsNullOrWhiteSpace(deleteHash))
+                    {
+                        return (false, "DeleteHash is empty or invalid");
+                    }
 
                     var response = await client.DeleteAsync($"https://api.imgur.com/3/image/{deleteHash}");
 
@@ -68,7 +73,7 @@ namespace onlineshopowner_api.Infrastructure.ExternalServices
                     else
                     {
                         string error = await response.Content.ReadAsStringAsync();
-                        return (false, $"Failed to delete image: {error}");
+                        return (false, $"Failed to delete image. StatusCode: {response.StatusCode}, Response: {error}");
                     }
                 }
             }
