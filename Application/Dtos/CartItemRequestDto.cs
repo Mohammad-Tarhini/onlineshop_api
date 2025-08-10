@@ -15,5 +15,7 @@ namespace onlineshopowner_api.Application.Dtos
         public string ProductName {  get; set; }
         
         public int Quantity { get; set; }
+
+        public string description {  get; set; }
     }
 }

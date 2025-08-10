@@ -13,5 +13,7 @@ namespace onlineshopowner_api.Application.Dtos
         public int? AvailableQuantity { get; set; }
         public decimal? CurrentPrice { get; set; }
         public string Reason { get; set; }
+
+        public int RequiredQuantity {  get; set; }
     }
 }

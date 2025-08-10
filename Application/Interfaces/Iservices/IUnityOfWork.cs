@@ -18,5 +18,6 @@ namespace onlineshopowner_api.Application.Interfaces.Iservices
 
         IRedisRepository RedisRepository { get; set; }
         IDelivaryRepository DelivaryRepository { get; set; }
+        IPaymentAndOrderRepository paymentAndOrderRepository {  get; set; }
     }
 }

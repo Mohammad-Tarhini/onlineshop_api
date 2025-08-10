@@ -7,6 +7,7 @@ namespace onlineshopowner_api.Application.Dtos.DeliveryDtos
 {
     public class DeliveryProviderDto
     {
+       public int delivery_id {  get; set; }
          public string provider_type {  get; set; }
         public string note_text {  get; set; }
 
@@ -15,6 +16,6 @@ namespace onlineshopowner_api.Application.Dtos.DeliveryDtos
 
         public List<DeliveryWorkingHourDto> workHours { get; set; }
 
-        public RegionDto region { get; set; }
+       // public RegionDto region { get; set; }
     }
 }

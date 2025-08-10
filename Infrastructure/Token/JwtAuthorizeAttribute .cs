@@ -44,12 +44,19 @@ public class JwtAuthorizeAttribute : AuthorizeAttribute
                 HttpContext.Current.User = principal;
             if (!string.IsNullOrWhiteSpace(Roles))
             {
-                var tokenRole = principal.Claims
-                    .FirstOrDefault(c => c.Type == ClaimTypes.Role || c.Type == "role")
-                    ?.Value;
+                // Get all roles from the token
+                var tokenRoles = principal.Claims
+                    .Where(c => c.Type == ClaimTypes.Role || c.Type == "role")
+                    .Select(c => c.Value)
+                    .ToList();
 
-                return string.Equals(tokenRole, Roles, StringComparison.OrdinalIgnoreCase);
+                // Split allowed roles from attribute
+                var allowedRoles = Roles.Split(',').Select(r => r.Trim()).ToList();
+
+                // Check if any role from token is in allowed roles
+                return tokenRoles.Any(role => allowedRoles.Contains(role, StringComparer.OrdinalIgnoreCase));
             }
+
             return true;
         }
         catch

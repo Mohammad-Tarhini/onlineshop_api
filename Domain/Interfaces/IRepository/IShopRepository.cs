@@ -17,5 +17,6 @@ namespace onlineshopowner_api.Domain.Interfaces.IRepository
         Task<ResultCheckdb<List<ShopSumaryDto>>> GetShoptouser(int limit = 20, int offset = 0, string searchbyshopname = null, string searchbyshoptype = null);
         Task<ResultCheckdb<int>> GetShopByShopOwnerid(int shopownerid);
         Task<ResultCheckdb<(decimal shoplatitude, decimal shoplan)>> GetShopLocationById(int shopid);
+        Task<ResultCheckdb<(string phonenumber, string email, string shopname)>> GetPhoneNumberAndEmailbyShopid(int shopid);
     }
 }

@@ -19,8 +19,8 @@ namespace onlineshopowner_api.Application.Validatorandclean
         }
        
 
-        public async Task<(bool IsSuccess, RouteInfoDto routeInfoDto,string message)> GetTheRouteInfo(double originLat, double originLng,
-            double destinationLat, double destinationLng)
+        public async Task<(bool IsSuccess, RouteInfoDto routeInfoDto,string message)> GetTheRouteInfo(decimal originLat, decimal originLng,
+            decimal destinationLat, decimal destinationLng)
         {
             var routeInfoDto = await googleMap.GetRouteInfoAsync(originLat, originLng,
              destinationLat, destinationLng);
@@ -34,8 +34,8 @@ namespace onlineshopowner_api.Application.Validatorandclean
             }
         }
 
-        public async Task<(bool issuccess, bool isfound, List<DeliveryGetDto>, string message)> GetAllDelivayOnlocation() { }
-        public async Task<(bool issuccess, bool isfound ,)>
+        //public async Task<(bool issuccess, bool isfound, List<DeliveryGetDto>, string message)> GetAllDelivayOnlocation() { }
+        //public async Task<(bool issuccess, bool isfound ,)>
             
     }
 }

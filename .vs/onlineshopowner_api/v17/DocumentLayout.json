@@ -1,32 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\infrastructure\\repositories\\delivaryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:infrastructure\\repositories\\delivaryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\application\\dtos\\deliverydtos\\getdeliveryonlocationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:application\\dtos\\deliverydtos\\getdeliveryonlocationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\controllers\\delivarycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:controllers\\delivarycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\application\\services\\deliveryservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:application\\services\\deliveryservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\infrastructure\\externalservices\\googlemap\\googlemapservice .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:infrastructure\\externalservices\\googlemap\\googlemapservice .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\domain\\interfaces\\iexternalservices\\igooglemapservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:domain\\interfaces\\iexternalservices\\igooglemapservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -34,47 +9,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": -1,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "GetDeliveryOnLocationDto.cs",
-              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Dtos\\DeliveryDtos\\GetDeliveryOnLocationDto.cs",
-              "RelativeDocumentMoniker": "Application\\Dtos\\DeliveryDtos\\GetDeliveryOnLocationDto.cs",
-              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Dtos\\DeliveryDtos\\GetDeliveryOnLocationDto.cs",
-              "RelativeToolTip": "Application\\Dtos\\DeliveryDtos\\GetDeliveryOnLocationDto.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAcAAAApAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-30T08:00:32.925Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "DelivaryRepository.cs",
-              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Infrastructure\\Repositories\\DelivaryRepository.cs",
-              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\DelivaryRepository.cs",
-              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Infrastructure\\Repositories\\DelivaryRepository.cs",
-              "RelativeToolTip": "Infrastructure\\Repositories\\DelivaryRepository.cs",
-              "ViewState": "AQIAAMsAAAAAAAAAAAAAAM4AAABUAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-30T07:22:49.556Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "IGoogleMapService.cs",
-              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Domain\\Interfaces\\IExternalServices\\IGoogleMapService.cs",
-              "RelativeDocumentMoniker": "Domain\\Interfaces\\IExternalServices\\IGoogleMapService.cs",
-              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Domain\\Interfaces\\IExternalServices\\IGoogleMapService.cs",
-              "RelativeToolTip": "Domain\\Interfaces\\IExternalServices\\IGoogleMapService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-30T07:11:51.041Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{fbcae063-e2c0-4ab1-a516-996ea3dafb72}"
@@ -102,45 +38,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:2:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "GoogleMapService .cs",
-              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Infrastructure\\ExternalServices\\googlemap\\GoogleMapService .cs",
-              "RelativeDocumentMoniker": "Infrastructure\\ExternalServices\\googlemap\\GoogleMapService .cs",
-              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Infrastructure\\ExternalServices\\googlemap\\GoogleMapService .cs",
-              "RelativeToolTip": "Infrastructure\\ExternalServices\\googlemap\\GoogleMapService .cs",
-              "ViewState": "AQIAABgAAAAAAAAAAAAQwBUAAAA7AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-30T04:43:38.591Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "DeliveryServices.cs",
-              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Services\\DeliveryServices.cs",
-              "RelativeDocumentMoniker": "Application\\Services\\DeliveryServices.cs",
-              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Services\\DeliveryServices.cs",
-              "RelativeToolTip": "Application\\Services\\DeliveryServices.cs",
-              "ViewState": "AQIAANgAAAAAAAAAAAArwOEAAAATAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T07:57:49.888Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "DelivaryController.cs",
-              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Controllers\\DelivaryController.cs",
-              "RelativeDocumentMoniker": "Controllers\\DelivaryController.cs",
-              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Controllers\\DelivaryController.cs",
-              "RelativeToolTip": "Controllers\\DelivaryController.cs",
-              "ViewState": "AQIAADkAAAAAAAAAAAAywEgAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T07:56:03.655Z",
-              "EditorCaption": ""
             }
           ]
         }

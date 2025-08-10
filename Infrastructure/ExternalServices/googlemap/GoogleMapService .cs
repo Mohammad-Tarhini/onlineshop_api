@@ -38,13 +38,15 @@ namespace onlineshopowner_api.Infrastructure.ExternalServices
 
                     return new RouteInfoDto
                     {
-                        Distance = leg.distance.text,
-                        Duration = leg.duration.text,
+                        Distance = leg.distance.value,
+                        Duration = leg.duration.value,
                         EncodedPolyline = polyline
                     };
                 }
 
                 // Handle error or no route
+                Console.WriteLine($"Google Maps API status: {response?.status}");
+
                 return null;
             }
         }

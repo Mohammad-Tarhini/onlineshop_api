@@ -18,6 +18,7 @@ using Unity.Lifetime;
 using Unity.WebApi;
 using onlineshopowner_api.Infrastructure.ExternalServices;
 using onlineshopowner_api.Infrastructure.ExternalServices.onlineshopowner_api.Infrastructure.ExternalServices;
+using onlineshopowner_api.Infrastructure.ExternalServices.comunicate;
 
 namespace onlineshopowner_api
 {
@@ -45,10 +46,11 @@ namespace onlineshopowner_api
             container.RegisterType<IpersonRepository, PersonRepository>();
             container.RegisterType<IShopRepository, ShopRepository>();
             container.RegisterType<IcategoryRepository, CategoryRepository>();
-           container.RegisterType<IOrderServices,OrderServices>();
+           container.RegisterType<IOrderServices,PayAndRegisterOrder>();
             container.RegisterType<IAuthoServices, AuthoServices>();
             container.RegisterType<IProductServices, ProductServices>();
 container.RegisterType<IAuthHelper, AuthHelper>();
+            
             container.RegisterType<IImageService, ImageService>();
             container.RegisterType<IAddCategoryservices, AddCategoryservices>();
             container.RegisterType<IshopServices, ShopServices>();
@@ -63,6 +65,9 @@ container.RegisterType<IAuthHelper, AuthHelper>();
             container.RegisterType<IRedisCacheService, RedisCacheService>(new ContainerControlledLifetimeManager());
             container.RegisterType<IGoogleMapService,GoogleMapService>();
             container.RegisterType<IDeliveryServices, DeliveryServices>();
+              container.RegisterType<IPaymentAndOrderRepository,PaymentAndOrderRepository>();
+            container.RegisterType<ITwilioMessageService, TwilioMessageService>();
+
             container.RegisterType<IDelivaryRepository, DelivaryRepository>();
             var imgurSettings = new ImgurSettings
             {

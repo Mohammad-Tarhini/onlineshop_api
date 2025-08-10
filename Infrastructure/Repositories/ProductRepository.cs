@@ -262,9 +262,10 @@ namespace onlineshopowner_api.Infrastructure.Repositories
                                     product.imgurid=reader.GetInt32(imgindex);
                                     product.category_id = reader.GetInt32(reader.GetOrdinal("category_id"));
                                     product.shop_id = reader.GetInt32(reader.GetOrdinal("shop_id"));
-                                    result.Value.Add(product);
-                                if(!reader.IsDBNull(reader.GetOrdinal("status")))
-                                product.status=reader.GetString(reader.GetOrdinal("status"));
+                                if (!reader.IsDBNull(reader.GetOrdinal("status")))
+                                    product.status = reader.GetString(reader.GetOrdinal("status"));
+                                result.Value.Add(product);
+                                
 
                             
                             }

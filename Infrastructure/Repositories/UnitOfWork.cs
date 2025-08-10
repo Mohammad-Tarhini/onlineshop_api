@@ -19,7 +19,8 @@ namespace onlineshopowner_api.Infrastructure.Repositories
         public IProductRepository ProductRepository { get; set; }
         public IRedisRepository RedisRepository { get; set; }
          public IDelivaryRepository  DelivaryRepository { get; set; }
-        public UnitOfWork(online_shopEntities1 dbContext, IpersonRepository personRepository, IShopRepository shopRepository, IcategoryRepository categoryRepository,IShopRepository shopRepository1,IProductRepository productRepository,IRedisRepository redisRepository,IDelivaryRepository delivaryRepository)
+        public IPaymentAndOrderRepository paymentAndOrderRepository { get; set; }
+        public UnitOfWork(online_shopEntities1 dbContext, IpersonRepository personRepository, IShopRepository shopRepository, IcategoryRepository categoryRepository,IShopRepository shopRepository1,IProductRepository productRepository,IRedisRepository redisRepository,IDelivaryRepository delivaryRepository,IPaymentAndOrderRepository paymentAndOrderRepository)
         {
             _db = dbContext;
             PersonRepository = personRepository;
@@ -28,8 +29,9 @@ namespace onlineshopowner_api.Infrastructure.Repositories
             ShopRepository = shopRepository1;
             ProductRepository = productRepository;
             RedisRepository = redisRepository;
-            DelivaryRepository = delivaryRepository
-            ;
+            DelivaryRepository = delivaryRepository;
+            this.paymentAndOrderRepository = paymentAndOrderRepository;
+            
         }
         public async Task<int> CommitAsync()
         {

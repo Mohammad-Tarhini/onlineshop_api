@@ -1,4 +1,6 @@
-﻿using onlineshopowner_api.Application.Dtos.DeliveryDtos;
+﻿using onlineshopowner_api.Application.Dtos;
+using onlineshopowner_api.Application.Dtos.DeliveryDtos;
+using onlineshopowner_api.Domain.Entities.Delivery;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +14,7 @@ namespace onlineshopowner_api.Application.Interfaces.Iservices
         Task<(bool issuccess, bool isfound, string message)> AddPersonDelivery(DeliveryPersonDto deliveryPersonDto);
         Task<(bool issuccess, bool isfound, string message)> AddDeliveryAgent(DeliveryAgentDto deliveryAgentDto);
         Task<(bool issuccess, bool isfound, string message)> AddShopDelivery(DeliveryShopDto deliveryShopDto);
+        Task<(bool issucess, List<DeliveryPersonDto> deliverypersondtos, List<DeliveryAgentDto> deliveryAgentdtos, DeliveryShopDto deliveryShopdto, RouteInfoDto routeInfoDto, string message)> getdeliverylocationclient(OrderLocationDto locationclientDto);
+        Task<(bool issuccess, string message)> LoginDeliveryAgent(LoginDeliveryDto logindeliverydto);
     }
 }

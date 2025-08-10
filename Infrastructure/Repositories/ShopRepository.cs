@@ -366,6 +366,57 @@ namespace onlineshopowner_api.Infrastructure.Repositories
                 };
             }
         }
+
+        public async Task<ResultCheckdb<(string phonenumber,string email,string shopname)>> GetPhoneNumberAndEmailbyShopid(int shopid)
+        {
+            try
+            {
+                using (SqlConnection connect = new SqlConnection(_connectionstring))
+                {
+                    string query = "select p.phone_number,p.email,sh.name from person p,shopowner so ,shop sh where p.person_id=so.person_id and so.shopowner_id=sh.shopowner_id and sh.shop_id=@shopid ";
+                    using (SqlCommand command = new SqlCommand(query, connect))
+                    {
+
+                        command.Parameters.AddWithValue("@shopid",shopid);
+                        using (SqlDataReader reader = await command.ExecuteReaderAsync())
+
+                        {
+                            if (reader.Read()) 
+                            {
+                                string phonenumber = reader.GetString(reader.GetOrdinal("phone_number"));
+                                string email=reader.GetString(reader.GetOrdinal("email"));
+                                string name=reader.GetString(reader.GetOrdinal("name"));
+
+                                return new ResultCheckdb<(string phonenumber, string email,string name)>
+                                {
+                                    IsFound = true,
+                                    IsSuccess = true,
+                                    Value = (phonenumber, email,name)
+                                };
+                            }
+                            return new ResultCheckdb<(string phonenumber, string email,string name)>
+                            {
+                                IsFound = false,
+                                IsSuccess = true
+                            };
+                        }
+
+
+                    }
+                }
+               
+            
+            }
+           
+            
+            catch (Exception ex) 
+            {
+                return new ResultCheckdb<(string phonenumber, string email,string name)>
+                {
+                    IsSuccess = false
+                };
+            }
+        } 
         
 
     }

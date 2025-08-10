@@ -11,5 +11,6 @@ namespace onlineshopowner_api.Application.Dtos
         public decimal longitude { get; set; }
 
         public int shopid {  get; set; }
+
     }
 }

@@ -67,6 +67,12 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.SignalR.Core.2.4.3\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.SignalR.SystemWeb.2.4.3\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -89,6 +95,15 @@
     <Reference Include="Microsoft.IdentityModel.Tokens, Version=8.12.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.IdentityModel.Tokens.8.12.0\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Owin, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Owin.Host.SystemWeb.2.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\MSTest.TestFramework.3.9.1\lib\net462\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
     </Reference>
@@ -101,6 +116,9 @@
     <Reference Include="Newtonsoft.Json.Bson, Version=1.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.Bson.1.0.2\lib\net45\Newtonsoft.Json.Bson.dll</HintPath>
     </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
     <Reference Include="Pipelines.Sockets.Unofficial, Version=1.0.0.0, Culture=neutral, PublicKeyToken=42ea0a778e13fbe2, processorArchitecture=MSIL">
       <HintPath>packages\Pipelines.Sockets.Unofficial.2.2.8\lib\net472\Pipelines.Sockets.Unofficial.dll</HintPath>
     </Reference>
@@ -110,6 +128,11 @@
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Specialized, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Collections.Specialized.4.3.0\lib\net46\System.Collections.Specialized.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
@@ -139,6 +162,7 @@
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net" />
     <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
       <Private>True</Private>
@@ -204,6 +228,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
@@ -244,6 +269,9 @@
     <Reference Include="System.Web.Optimization">
       <HintPath>packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
+    <Reference Include="Twilio, Version=7.12.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Twilio.7.12.0\lib\net462\Twilio.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Abstractions, Version=5.11.7.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>packages\Unity.Abstractions.5.11.7\lib\net48\Unity.Abstractions.dll</HintPath>
     </Reference>
@@ -279,8 +307,13 @@
     <Compile Include="Application\Dtos\CartItemRequestDto.cs" />
     <Compile Include="Application\Dtos\CartItemCheckResponseDto.cs" />
     <Compile Include="Application\Dtos\CartAvailabilityRequestDto.cs" />
+    <Compile Include="Application\Dtos\DeliveryDtos\LoginDeliveryDto.cs" />
     <Compile Include="Application\Dtos\DeliveryDtos\GetDeliveries.cs" />
     <Compile Include="Application\Dtos\DeliveryDtos\GetDeliveryOnLocationDto.cs" />
+    <Compile Include="Application\Dtos\PaymentAndOrder\RecieveFromDeliveryToClient.cs" />
+    <Compile Include="Application\Dtos\PaymentAndOrder\RecievefromShopToDelivery.cs" />
+    <Compile Include="Application\Dtos\PaymentAndOrder\OrderForDeliveryDto.cs" />
+    <Compile Include="Application\Dtos\PaymentAndOrder\PayDto.cs" />
     <Compile Include="Application\Dtos\PersonDto.cs" />
     <Compile Include="Application\Dtos\DeliveryDtos\DeliveryProviderDto.cs" />
     <Compile Include="Application\Dtos\DeliveryDtos\RegionDto.cs" />
@@ -309,8 +342,8 @@
     <Compile Include="Application\Interfaces\Ivalidator\IAuthHelper.cs" />
     <Compile Include="Application\Services\AddCategoryservices.cs" />
     <Compile Include="Application\Services\AuthoServices.cs" />
+    <Compile Include="Application\Services\PayAndRegisterOrder.cs" />
     <Compile Include="Application\Services\DeliveryServices.cs" />
-    <Compile Include="Application\Services\OrderServices.cs" />
     <Compile Include="Application\Services\ProductServices.cs" />
     <Compile Include="Application\Services\ShopServices.cs" />
     <Compile Include="Application\Validatorandclean\AuthHelper.cs" />
@@ -335,21 +368,30 @@
     <Compile Include="Domain\Constant\UserRoles.cs" />
     <Compile Include="Domain\Entities\Category.cs" />
     <Compile Include="Domain\Entities\Admain.cs" />
+    <Compile Include="Domain\Entities\Delivery\LoginDelivery.cs" />
+    <Compile Include="Domain\Entities\Delivery\DeliveryPersons.cs" />
     <Compile Include="Domain\Entities\Delivery\DeliveryShop.cs" />
     <Compile Include="Domain\Entities\Delivery\DeliveryAgent.cs" />
-    <Compile Include="Domain\Entities\Delivery\DeliveryPersons.cs" />
     <Compile Include="Domain\Entities\Delivery\DeliveryProvider.cs" />
     <Compile Include="Domain\Entities\Delivery\RegionDto.cs" />
     <Compile Include="Domain\Entities\Delivery\DeliveryWorkigHours.cs" />
+    <Compile Include="Domain\Entities\PaymentAndOrder\CartItem.cs" />
+    <Compile Include="Domain\Entities\PaymentAndOrder\OrderShouldDeliveryRecieve.cs" />
+    <Compile Include="Domain\Entities\PaymentAndOrder\OrderForDelivery.cs" />
+    <Compile Include="Domain\Entities\PaymentAndOrder\Order.cs" />
+    <Compile Include="Domain\Entities\PaymentAndOrder\DeliveryReciveFromShopDto.cs" />
+    <Compile Include="Domain\Entities\PaymentAndOrder\Pay.cs" />
     <Compile Include="Domain\Entities\Product.cs" />
     <Compile Include="Domain\Entities\shop.cs" />
     <Compile Include="Domain\Entities\ShopOwner.cs" />
     <Compile Include="Domain\Entities\Client.cs" />
     <Compile Include="Domain\Entities\Person.cs" />
+    <Compile Include="Domain\Interfaces\IExternalServices\ITwilioMessageService.cs" />
     <Compile Include="Domain\Interfaces\IExternalServices\IImgur.cs" />
     <Compile Include="Domain\Interfaces\IExternalServices\IGoogleMapService.cs" />
     <Compile Include="Domain\Interfaces\IExternalServices\IRedisCacheService.cs" />
     <Compile Include="Domain\Interfaces\IMapper.cs" />
+    <Compile Include="Domain\Interfaces\IRepository\IPaymentAndOrderRepository.cs" />
     <Compile Include="Domain\Interfaces\IRepository\IcategoryRepository.cs" />
     <Compile Include="Domain\Interfaces\IRepository\IDelivaryRepository.cs" />
     <Compile Include="Domain\Interfaces\IRepository\IProductRepository.cs" />
@@ -358,6 +400,7 @@
     <Compile Include="Domain\Interfaces\IRepository\IpersonRepository.cs" />
     <Compile Include="Infrastructure\BinderModel\AddProductImageDtoModelBinder .cs" />
     <Compile Include="Infrastructure\BinderModel\UpdateProfileShopDtoModelBinder.cs" />
+    <Compile Include="Infrastructure\ExternalServices\comunicate\TwilioMessageService.cs" />
     <Compile Include="Infrastructure\ExternalServices\googlemap\DirectionsResponse.cs" />
     <Compile Include="Infrastructure\ExternalServices\googlemap\Route.cs" />
     <Compile Include="Infrastructure\ExternalServices\googlemap\OverviewPoyline.cs" />
@@ -467,6 +510,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Repositories\CategoryRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\PaymentAndOrderRepository.cs" />
     <Compile Include="Infrastructure\Repositories\DelivaryRepository.cs" />
     <Compile Include="Infrastructure\Repositories\ProductRepository.cs" />
     <Compile Include="Infrastructure\Repositories\RedisRepository.cs" />
@@ -489,6 +533,8 @@
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\jquery.signalR-2.4.3.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.3.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
