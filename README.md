@@ -135,55 +135,6 @@ Simple test endpoint: /api/cache/test
 
 Used for caching and performance optimization
 
-📌 API Endpoints Summary
-Admin
-Method	Endpoint	Description
-POST	/api/Addcategory	Add categories
-GET	/api/cache/test	Test Redis connection
-Authentication
-Role	Register Endpoint	Login Endpoint
-Client	/api/registeration/client	/api/Login/Client
-Shop Owner	/api/registeration/shopowner	/api/Login/shopowner
-Admin	/api/registeration/admin	/api/Login/admin
-Delivery	/api/delivery/deliverylogin	Login for delivery agents
-Delivery Module
-Method	Endpoint	Description
-POST	/api/delivery/adddeliveryagent	Add delivery agent
-POST	/api/delivery/adddeliveryperson	Add delivery person
-POST	/api/delivery/adddeliveryshop	Add delivery shop
-GET	/api/delivary/getdeliveryonloction	Get delivery staff based on location
-Product Module
-Method	Endpoint	Description
-POST	/api/product/addproduct	Add a new product
-POST	/api/product/addimageforproduct	Upload product image
-GET	/api/product/getproducts	Get products with filtering & pagination
-Shop Module
-Method	Endpoint	Description
-POST	/api/shop/opennewshop	Create a shop
-POST	/api/shop/updateprofile	Update shop profile
-GET	/api/shop/getshoptypes	Get shop categories
-GET	/api/shop/Getshops	(Assumed continuation) List shops
-Order & Payment Module
-Method	Endpoint	Description
-POST	/api/order/checkavailability	Check cart availability
-POST	/api/order/pay	Process payment & register order
-GET	/api/order/getordersforshop	Shop: view new orders
-GET	/api/order/getitemsoforder	Get items of an order
-GET	/api/order/getordersfordelivery	Delivery: orders assigned
-POST	/api/order/giveorderfromshoptodelivery	Shop hands order to delivery
-POST	/api/order/giveorderfromdeliverytoclient	Delivery hands order to client
-🏛 Architecture
-/Controllers
-/Application
-    /Services
-    /Dtos
-/Domain
-    /Entities
-    /Interfaces
-/Infrastructure
-    /Repositories
-    /ExternalServices (Redis, Storage, etc.)
-
 
 Technologies used:
 
