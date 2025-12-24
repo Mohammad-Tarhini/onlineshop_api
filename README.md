@@ -28,79 +28,78 @@ External Services (Redis, Cloud Storage, etc.)
                   Delivery Agents / Delivery Persons
 
         All authentication uses:
-           JWT Tokens
+           JWT Tokens,
            Role-based authorization attributes
 
   2. Admin Module
 
       Admin can:
-        Add categories
-       Manage shop types
-       Run system checks
+        Add categories,
+       Manage shop types,
+       Run system checks,
 
   3. Shop Management
 
      Shop owners can:
-        Open a new shop
-        Update shop profile (including image upload)
-        View shop types
-        Manage products
+        Open a new shop,
+        Update shop profile (including image upload),
+        View shop types,
+        Manage products,
 
   4. Product Management
 
         Shop owners can:
-       Add products
-      Upload product images (supports form-data binder)
+       Add products,
+      Upload product images (supports form-data binder),
      Retrieve paginated product lists with filters:
-          Search by name
-          Search by category
-          Search by shop type
+          Search by name,
+          Search by category,
+          Search by shop type,
 
    5. Delivery System
 
       Three delivery roles supported:
-      Delivery Agent
-      Delivery Person
-      Shop Delivery
+      Delivery Agent,
+      Delivery Person,
+      Shop Delivery,
      Features:
-       Add delivery staff
-       Delivery staff login
-       Client can get delivery agents based on geolocation
-       Delivery routes prepared for assignment
+       Add delivery staff,
+       Delivery staff login,
+       Client can get delivery agents based on geolocation,
+       Delivery routes prepared for assignment,
 
   6. Order & Payment Workflow
        Client can:
-         Check product availability before checkout
-         Place orders with payment
-         Retrieve order details
+         Check product availability before checkout,
+         Place orders with payment,
+         Retrieve order details,
      
        Shop Owners can:
-          View incoming orders
-         Transfer orders to delivery
+          View incoming orders,
+         Transfer orders to delivery,
 
        Delivery can:
-        View assigned orders
-        Deliver orders to clients
+        View assigned orders,
+        Deliver orders to clients,
 
    7. Redis Cache Integration
-        Simple test endpoint: /api/cache/test
-        Used for caching and performance optimization
+        Simple test endpoint: /api/cache/test,
+        Used for caching and performance optimization,
 
 
 Technologies used:
 
-    ASP.NET Web API 4.8
-    SQL Server / EF
-    Redis Cache
-    Custom Model Binders for complex form-data
-    JWT Authentication
+    ASP.NET Web API 4.8,
+    SQL Server / EF,
+    Redis Cache,
+    Custom Model Binders for complex form-data,
+    JWT Authentication,
 
 🔒 Security
 
-   JWT authentication
-   Request validation via DTOs
-   ModelState validation
+   JWT authentication,
+   Request validation via DTOs,
+   ModelState validation,
 
 
 
-Use IIS Express or Visual Studio debugger.
