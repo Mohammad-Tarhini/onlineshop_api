@@ -32,6 +32,7 @@ public class JwtAuthorizeAttribute : AuthorizeAttribute
             ValidateLifetime = true,
             ClockSkew = TimeSpan.Zero
         };
+        
 
         try
         {

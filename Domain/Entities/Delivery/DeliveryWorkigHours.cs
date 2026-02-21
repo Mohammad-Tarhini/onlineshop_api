@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Owin.Security;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,6 +8,7 @@ namespace onlineshopowner_api.Domain.Entities.Delivery
 {
     public class DeliveryWorkigHours
     {
+        public int DeliveryId { get; set; }
         public string WeekDay { get; set; }
 
         public TimeSpan Open_time { get; set; }

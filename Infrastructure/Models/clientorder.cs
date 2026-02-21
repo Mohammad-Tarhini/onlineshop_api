@@ -28,6 +28,15 @@ namespace onlineshopowner_api.Infrastructure.Models
         public Nullable<System.DateTime> order_date { get; set; }
         public string order_status { get; set; }
         public string deliver_address { get; set; }
+        public Nullable<decimal> latitude { get; set; }
+        public Nullable<decimal> longitude { get; set; }
+        public Nullable<int> shopid { get; set; }
+        public Nullable<int> delivery_id { get; set; }
+        public string clientdeliveryPIN { get; set; }
+        public Nullable<System.DateTime> clientrecievedata { get; set; }
+        public Nullable<System.DateTime> deliveryshoprecievedata { get; set; }
+        public string shopdeliveryPin { get; set; }
+        public Nullable<decimal> deliverycost { get; set; }
     
         public virtual Client Client { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -36,5 +45,7 @@ namespace onlineshopowner_api.Infrastructure.Models
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Payment> Payments { get; set; }
+        public virtual DeliveryProvider DeliveryProvider { get; set; }
+        public virtual Shop Shop { get; set; }
     }
 }

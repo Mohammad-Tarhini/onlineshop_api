@@ -9,7 +9,7 @@ namespace onlineshopowner_api.Domain.Interfaces.IExternalServices
 {
     public interface IImgur
     {
-        Task<(bool Isuccess, string url, string deleteHash)> UploadImageAsync(Stream imageStream, string fileName);
-        Task<(bool IsSuccess, string Message)> DeleteImageAsync(string deleteHash);
+        Task<( string url, string deleteHash)> UploadImageAsync(Stream imageStream, string fileName);
+        Task<string > DeleteImageAsync(string deleteHash);
         }
 }

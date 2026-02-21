@@ -1,11 +1,16 @@
-﻿using onlineshopowner_api.Application.Dtos;
+﻿using Antlr.Runtime.Tree;
+using onlineshopowner_api.Application.Dtos;
+using onlineshopowner_api.Application.Dtos.ProductDtos;
 using onlineshopowner_api.Application.Interfaces.Iservices;
 using onlineshopowner_api.Application.Interfaces.Ivalidator;
+using onlineshopowner_api.Application.Validatorandclean;
 using onlineshopowner_api.Domain.Entities;
+using onlineshopowner_api.Domain.Interfaces.IExternalServices;
 using onlineshopowner_api.Domain.Interfaces.IRepository;
 using onlineshopowner_api.Infrastructure.ExternalServices;
 using onlineshopowner_api.Infrastructure.Repositories;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Linq;
@@ -17,216 +22,145 @@ namespace onlineshopowner_api.Application.Services
 {
     public class ProductServices : IProductServices
     {
-        private readonly IUserContextService _usercontext;
-        private readonly IUnityOfWork _unityofwork;
-        private readonly IImageService _imageservice;
-        private readonly IRedisRepository _redisRepository;
+        private readonly IUserContextService usercontext;
+        private readonly IUnityOfWork unityofwork;
+        private readonly IImageService imageservice;
+        private readonly IRedisRepository redisRepository;
+        private readonly IImgur imgur;
 
-        public ProductServices(IUserContextService userContextService, IUnityOfWork unityOfWork,IRedisRepository redisRepository,IImageService imageService)
+        public ProductServices(IUserContextService userContextService, IUnityOfWork unityOfWork, IRedisRepository redisRepository, IImageService imageService, IImgur imgur)
         {
-            _usercontext = userContextService;
-            _unityofwork = unityOfWork;
-            _redisRepository = redisRepository;
-            _imageservice = imageService;
+            usercontext = userContextService;
+            unityofwork = unityOfWork;
+            this.redisRepository = redisRepository;
+            imageservice = imageService;
+            this.imgur = imgur;
         }
 
-        public async Task<(bool issuccess, string message)> addproduct(ProductDto dto)
+
+        public async Task AddProductByShopOwner(ProductRequestDto dto)
         {
-            int _userId;
-            string _role;
-            int shopownerid;
-            try
+            int userId = usercontext.GetUserId();
+            string role = usercontext.GetUserRole();
+            if (role.ToLower().Trim() != "shopowner")
+                throw new UnauthorizedAccessException("is not shopowner");
+            if (dto == null)
+                throw new ArgumentNullException(nameof(dto));
+            var shopOwnerId = await unityofwork.PersonRepository.GetShopOwnerIdByPersonId(userId);
+            if (shopOwnerId == null || shopOwnerId == 0)
+                throw new Exception("the shopownerId is not exist ");
+            var shopId = await unityofwork.ShopRepository.GetShopIDByShopownerId(shopOwnerId.Value);
+            if (shopId == null || shopId == 0)
+                throw new Exception("the shop is not exist ");
+            string ImageNewUrl = null;
+            string deleteUrl = null;
+            if (dto.File != null || !string.IsNullOrEmpty(dto.ImgUrl))
             {
-                _userId = _usercontext.GetUserId();
-                _role = _usercontext.GetUserRole();
+                (ImageNewUrl, deleteUrl) = await imageservice.ProcessImageAsync(100, 199, 100, imageUrl: dto.ImgUrl, file: dto.File);
             }
-            catch (UnauthorizedAccessException ex)
-            {
-                return (false, ex.Message);
-            }
-            _role = _role.ToLower();
-            //check if shopowner
-            if (_role != "shopowner") return (false, "is not shopowner ");
-            //get shopownerid
-            var resultshopowner = await _unityofwork.PersonRepository.GetShopOwnerIdByPersonId(_userId);
-            if (resultshopowner == null) return (false, "error");
-            if (!resultshopowner.IsSuccess) { return (false, resultshopowner.Error); }
-            shopownerid = resultshopowner.Value;
-            //check if shopowner is the owner for this shop
-            var resultshopid = await _unityofwork.ShopRepository.GetShopByShopOwnerid(shopownerid);
-            if (!resultshopid.IsSuccess) return (false, resultshopid.Error);
-            if (!resultshopid.IsFound) return (false, resultshopid.Error);
-            if (resultshopid.Value != dto.shop_id) return (false, "you are not shopowner for this shop");
-            //check if product exist in shop
-            var resultproduct = await _unityofwork.ProductRepository.GetProductid(dto.name, dto.shop_id);
-           
-            if (!resultproduct.IsSuccess) { return (false, resultproduct.Error); }
-            if (resultproduct.IsFound) return (false, "the product name is exist before ");
+
             var product = new Domain.Entities.Product
             {
-                name = dto.name,
-                shop_id = dto.shop_id,
-                category_id = dto.category_id,
-                description = dto.description,
-                price = dto.price,
-
+                name = dto.Name,
+                description = dto.Description,
+                price = dto.Price,
+                category_id= dto.CategoryId,
+                shop_id = shopId.Value,
+                quentity = dto.Quantity,
+                status = dto.Status,
+                imageurl = ImageNewUrl,
 
             };
-            var (issuccess, message) = await _unityofwork.ProductRepository.addproduct(product);
-            if (issuccess) { return (issuccess, message); }
-            else { return (false, message); }
-
-
+            var result = await unityofwork.ProductRepository.addproduct(product);
+            if (result == null)
+            {
+                throw new Exception("error in add product");
+            }
 
 
         }
-        public async Task<(bool IsSuccess, string message)> AddImageProduct(AddProductImageDto dto,bool isprofile)
+        public async Task UpdateProduct(ProductRequestDto updatedProductDto)
         {
-            int userId;
-            string role;
-
-            try
+            if (updatedProductDto == null) { throw new ArgumentNullException(nameof(updatedProductDto)); }
+            int userId = usercontext.GetUserId();
+            string role = usercontext.GetUserRole();
+            if (role.ToLower().Trim() != "shopowner")
+                throw new UnauthorizedAccessException("is not shopowner");
+            var shopOwnerId = await unityofwork.PersonRepository.GetShopOwnerIdByPersonId(userId);
+            if (shopOwnerId == null || shopOwnerId == 0)
+                throw new Exception("the shopownerId is not exist ");
+            var shopId = await unityofwork.ShopRepository.GetShopIDByShopownerId(shopOwnerId.Value);
+            if (shopId == null || shopId == 0)
+                throw new Exception("the shop is not exist ");
+            var existingProductResult = await unityofwork.ProductRepository.GetProductById(updatedProductDto.Id);
+            if (existingProductResult == null)
+                throw new Exception("there isn no product ");
+            if (updatedProductDto.Name != null)
             {
-                userId = _usercontext.GetUserId();
-                role = _usercontext.GetUserRole();
+                existingProductResult.name = updatedProductDto.Name;
             }
-            catch (UnauthorizedAccessException ex)
+            if (updatedProductDto.Quantity != null || updatedProductDto.Quantity == 0)
             {
-                return (false, ex.Message);
+                existingProductResult.quentity = updatedProductDto.Quantity;
             }
-            try
+            if (updatedProductDto.CategoryId != null || updatedProductDto.CategoryId == 0)
             {
-                if (userId == 0) return (false, "user  can not ");
-                if (role == null) return (false, "error");
-                role = role.ToLower();
-                if (role != "shopowner") return (false, "is not shopowner");
-                // Check if this user is a valid shop owner
-                var personResult = await _unityofwork.PersonRepository.GetPersonByPersonId(userId);
-                if (!personResult.IsSuccess || !personResult.IsFound)
-                    return (false, personResult.Error);
-
-                var shopOwnerResult = await _unityofwork.PersonRepository.GetShopOwnerByPersonAsync(personResult.Value);
-                if (!shopOwnerResult.IsSuccess || !shopOwnerResult.IsFound)
-                    return (false, shopOwnerResult.Error);
-
-                var shopOwner = shopOwnerResult.Value;
-
-                // Check if the shop belongs to the shop owner
-                var shopResult = await _unityofwork.ShopRepository.GetShopByShopOwner(shopOwner);
-                if (!shopResult.IsSuccess || !shopResult.IsFound)
-                    return (false, shopResult.Error);
-
-                var shop = shopResult.Value;
-
-                if (shop.shopid != dto.shopid)
-                    return (false, "You are not the owner of this shop.");
-                //check get this product
-                var productresult = await _unityofwork.ProductRepository.GetProductById(dto.productid);
-                if (!productresult.IsSuccess) return (false, productresult.Error);
-                if (!productresult.IsFound) return (false, "product is not found ");
-
-                // Upload new image to cloud
-                string logoUrl = null;
-                string deleteHash = null;
-            
-            try
+                existingProductResult.category_id = updatedProductDto.CategoryId;
+            }
+            if (updatedProductDto.Description != null)
             {
-                bool uploadSuccess;
-                string cloudResponse;
-
-                    if (!string.IsNullOrEmpty(dto.logo_url))
-                    {
-                        (uploadSuccess, cloudResponse, deleteHash) = await _imageservice.ProcessImageAsync(100, 199, 100, imageUrl: dto.logo_url);
-                    }
-                    else if (dto.File != null && dto.File.ContentLength > 0)
-                    {
-                        (uploadSuccess, cloudResponse, deleteHash) = await _imageservice.ProcessImageAsync(10000, 19900, 109990, file: dto.File);
-                    }
-                    else { return (false, "no file or url"); }
-
-                if (!uploadSuccess)
-                    return (false, cloudResponse);
-
-                logoUrl = cloudResponse;
+                existingProductResult.description = updatedProductDto.Description;
             }
-            catch(Exception ex)
+            if (updatedProductDto.Price != null || updatedProductDto.Price == 0)
             {
-                return (false, ex.Message+ex.InnerException);
+                existingProductResult.price = updatedProductDto.Price;
             }
-            try
+            if (updatedProductDto.Status != null)
             {
-                var (issucces,message)=await _unityofwork.ProductRepository.AddUrlImageToProductImages(logoUrl,deleteHash,productresult.Value.product_id,isprofile);
-                if (issucces) { return (true, "success"); }
-                return(false,message??"hhhhhh");
-            }catch(Exception ex)
-            {return(false,ex.Message??"unexpected error");
-
+                existingProductResult.status = updatedProductDto.Status;
             }
-
-            }
-            catch (Exception ex)
+            if (updatedProductDto.ImgUrl != null || updatedProductDto.File != null)
             {
-                return (false, ex.Message);
+
+                await imgur.DeleteImageAsync(existingProductResult.img_delete_code);
+
+                string ImageNewUrl = null;
+                string deleteUrl = null;
+
+                (ImageNewUrl, deleteUrl) = await imageservice.ProcessImageAsync(100, 199, 100, imageUrl: updatedProductDto.ImgUrl, file: updatedProductDto.File);
+                existingProductResult.imageurl = ImageNewUrl;
             }
+            await unityofwork.ProductRepository.updateProduct(existingProductResult);
+
+
+
+
         }
-        public async Task<(bool issucess,List<ProductDto> productDtos,string message)> GetProducts(int shopid = 0, int limit = 30, int page = 1, string searchbyproductname = null, string searchbycategory = null, string searchbyshoptype = null)
+
+        public async Task<(List<ProductReturnDto>, int limit, int page)> GetProducts(int shopid = 0, int limit = 30, int page = 1, string searchbyproductname = null, string searchbycategory = null, string searchbyshoptype = null)
         {
-            try
+            (var products, var limited, var offset) = await unityofwork.ProductRepository.GetproductsToUser(shopid, limit, page, searchbyproductname, searchbycategory);
+
+            if (products != null)
+                throw new Exception("error in get products");
+            var productdtos = new List<ProductReturnDto>();
+            foreach (Product product in products)
             {
-                int allkeyscount;
-                var (status, redisproductdto, message) = await _unityofwork.RedisRepository.GetProductFromRedis(shopid,limit, page, searchbyproductname, searchbycategory,searchbyshoptype);
-                int offset;
-                if (status == "fullsuccess")
-                    return (true, redisproductdto, null);
-                else
+                var productreturndto = new ProductReturnDto
                 {
-                    var isint = int.TryParse(message, out allkeyscount);
-                    if (isint)
-                        offset = allkeyscount + (page - 1) * limit;
-                    else offset = (page - 1) * limit;
-                }
-
-                var resultdb = await _unityofwork.ProductRepository.GetproducToUser(shopid,limit,offset,searchbyproductname,searchbycategory,searchbyshoptype);
-                if (resultdb.IsSuccess)
-                {
-                    var products = resultdb.Value;
-                    var productdtos=new List<ProductDto>();
-                    foreach(Product  product in products)
-                    {
-                        var productdto = new ProductDto
-                        {
-                            Id = product.product_id,
-                            name=product.name,
-                            price = product.price,
-                            description=product.description,
-                            img_urlid=product.imgurid,
-                            status=product.status,
-                            quentity=product.quentity,
-                            shop_id=product.shop_id,
-                            category_id=product.category_id,
-                            
-                        };
-                        productdtos.Add(productdto);
-                        if (RedisRepository.ProductRedisCount < 50)
-                        {
-                            await _redisRepository.SetProductInRedis(productdto);
-                            RedisRepository.ProductRedisCount++;
-                        }
-
-                    }
-                   
-                    
-                    return (true, productdtos, "");
-                }
-                else
-                { return (false, null, resultdb.Error); }
-
+                    Id = product.product_id,
+                    Name = product.name,
+                    Price = product.price,
+                    Description = product.description,
+                    ImgUrl = product.imageurl,
+                    Status = product.status,
+                    Category = product.category,
+                };
+                productdtos.Add(productreturndto);
 
             }
-            catch(Exception ex)
-            {
-                return(false,null,ex.Message);
-            }
+            return (productdtos, limited, offset);
+
         }
-
-}   } 
+    }
+}

@@ -10,45 +10,63 @@ using onlineshopowner_api.Application.Dtos;
 using onlineshopowner_api.Domain.Interfaces.IExternalServices;
 using System.Configuration;
 
-namespace onlineshopowner_api.Infrastructure.ExternalServices
+ 
+
+namespace onlineshopowner_api.Infrastructure.ExternalServices.googlemap
 {
 
     public class GoogleMapService : IGoogleMapService
     {
-        private readonly string _apiKey = ConfigurationManager.AppSettings["GoogleApiKey"];
+        private readonly string _apiKey = ConfigurationManager.AppSettings["OpenRouteApiKey"];
 
         public async Task<RouteInfoDto> GetRouteInfoAsync(
-            decimal originLat, decimal originLng,
-            decimal destinationLat, decimal destinationLng)
+     decimal originLat, decimal originLng,
+     decimal destinationLat, decimal destinationLng)
         {
-            var origin = $"{originLat},{originLng}";
-            var destination = $"{destinationLat},{destinationLng}";
-            var url = $"https://maps.googleapis.com/maps/api/directions/json?" +
-                      $"origin={origin}&destination={destination}&mode=driving&key={_apiKey}";
+            var url = "https://api.openrouteservice.org/v2/directions/driving-car";
+
+            // Build the request body
+            var requestBody = new
+            {
+                coordinates = new[]
+                {
+            new[] { originLng, originLat },       // Note: ORS uses [lon, lat] order
+            new[] { destinationLng, destinationLat }
+        }
+            };
 
             using (HttpClient client = new HttpClient())
             {
-                var json = await client.GetStringAsync(url);
-                var response = JsonConvert.DeserializeObject<DirectionsResponse>(json);
+                // Add your ORS API key to headers
+                client.DefaultRequestHeaders.Add("Authorization", _apiKey);
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
 
-                if (response?.status == "OK" && response.routes.Count > 0)
+                var content = new StringContent(
+                    JsonConvert.SerializeObject(requestBody),
+                    System.Text.Encoding.UTF8,
+                    "application/json"
+                );
+
+                var responseMessage = await client.PostAsync(url, content);
+                var json = await responseMessage.Content.ReadAsStringAsync();
+
+                var response = JsonConvert.DeserializeObject<OpenRouteResponse>(json);
+
+                if (response?.routes != null && response.routes.Count > 0)
                 {
-                    var leg = response.routes[0].legs[0];
-                    var polyline = response.routes[0].overview_polyline.points;
+                    var route = response.routes[0];
 
                     return new RouteInfoDto
                     {
-                        Distance = leg.distance.value,
-                        Duration = leg.duration.value,
-                        EncodedPolyline = polyline
+                        Distance = route.summary.distance,          // in meters
+                        Duration = (decimal)route.summary.duration,          // in seconds
+                        EncodedPolyline = route.geometry            // ORS polyline
                     };
                 }
 
-                // Handle error or no route
-                Console.WriteLine($"Google Maps API status: {response?.status}");
-
+                Console.WriteLine("OpenRouteService API failed or returned no routes.");
                 return null;
             }
         }
-    }
+    } 
     }

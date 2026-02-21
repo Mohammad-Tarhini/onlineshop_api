@@ -9,7 +9,12 @@ namespace onlineshopowner_api.Application.Interfaces.Ivalidator
 {
     public interface IImageService
     {
-        Task<(bool issucces, string logourl, string hashdelete)> ProcessImageAsync(int maxFileSizeMB, int maxWidth, int maxHeight, HttpPostedFile file = null, string imageUrl = null);
+        Task<(string logourl, string hashdelete)> ProcessImageAsync(
+                int maxFileSizeMB,
+                int maxWidth,
+                int maxHeight,
+                HttpPostedFile file = null,
+                string imageUrl = null);
 
     }
 }

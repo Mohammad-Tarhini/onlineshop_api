@@ -30,6 +30,8 @@ namespace onlineshopowner_api.Infrastructure.Models
         public Nullable<int> quantity { get; set; }
         public Nullable<int> shop_id { get; set; }
         public Nullable<int> imgurl_id { get; set; }
+        public string img_url { get; set; }
+        public string img_delete_code { get; set; }
     
         public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -19,7 +19,7 @@ namespace onlineshopowner_api.Infrastructure.ExternalServices.comunicate
         private readonly string authToken;
         private readonly string fromPhone;
 
-        public TwilioMessageService()
+        public  TwilioMessageService()
         {
             string accountSid = ConfigurationManager.AppSettings["TwilioAccountSid"];
             string authToken = ConfigurationManager.AppSettings["TwilioAuthToken"];
@@ -27,7 +27,7 @@ namespace onlineshopowner_api.Infrastructure.ExternalServices.comunicate
             TwilioClient.Init(accountSid, authToken);
         }
 
-        public async Task<bool> SendSmsAsync(string toPhoneNumber, string message)
+        public   async Task SendSmsAsync(string toPhoneNumber, string message)
         {
             try
             {
@@ -38,13 +38,13 @@ namespace onlineshopowner_api.Infrastructure.ExternalServices.comunicate
                 );
 
                 // Check status or SID to confirm success
-                return result.ErrorCode == null;
+               // return result.ErrorCode == null;
             }
             catch (Exception ex)
             {
                 // Optionally log the exception
                 // e.g., Console.WriteLine(ex.Message);
-                return false;
+                throw;
             }
         }
     }

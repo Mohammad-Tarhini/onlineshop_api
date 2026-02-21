@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="online_shopModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="online_shopModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="admain">
           <Key>
             <PropertyRef Name="admin_id" />
@@ -43,29 +43,15 @@
           <Property Name="total_price" Type="decimal" Precision="10" Scale="2" />
           <Property Name="order_date" Type="datetime" />
           <Property Name="order_status" Type="varchar" MaxLength="20" />
-          <Property Name="deliver_address" Type="varchar" MaxLength="255" />
-        </EntityType>
-        <EntityType Name="DeliveryAgent">
-          <Key>
-            <PropertyRef Name="Delivery_Agent_Id" />
-          </Key>
-          <Property Name="Delivery_Agent_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="name" Type="varchar" MaxLength="150" />
-          <Property Name="phone_number" Type="varchar" MaxLength="50" />
-          <Property Name="email" Type="nchar" MaxLength="10" />
-          <Property Name="logo_url" Type="varchar" MaxLength="50" />
-        </EntityType>
-        <EntityType Name="DeliveryOrder">
-          <Key>
-            <PropertyRef Name="delivery_order_id" />
-          </Key>
-          <Property Name="delivery_order_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="order_id" Type="int" />
+          <Property Name="latitude" Type="decimal" Precision="18" Scale="11" />
+          <Property Name="longitude" Type="decimal" Precision="18" Scale="11" />
+          <Property Name="shopid" Type="int" />
           <Property Name="delivery_id" Type="int" />
-          <Property Name="assigned_at" Type="datetime" />
-          <Property Name="delivered_at" Type="datetime" />
-          <Property Name="delivery_status" Type="varchar" MaxLength="20" />
-          <Property Name="delivery_cost" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="clientdeliveryPIN" Type="varchar" MaxLength="100" />
+          <Property Name="clientrecievedata" Type="datetime" />
+          <Property Name="deliveryshoprecievedata" Type="datetime" />
+          <Property Name="shopdeliveryPin" Type="varchar" MaxLength="100" />
+          <Property Name="deliverycost" Type="decimal" Precision="18" Scale="10" />
         </EntityType>
         <EntityType Name="DeliveryProvider">
           <Key>
@@ -77,6 +63,8 @@
           <Property Name="active_bit" Type="bit" />
           <Property Name="created_at" Type="datetime" />
           <Property Name="update_at" Type="datetime" />
+          <Property Name="person_id" Type="int" />
+          <Property Name="price_per_meter" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="DeliveryWorkingHours">
           <Key>
@@ -106,7 +94,23 @@
           <Property Name="order_id" Type="int" />
           <Property Name="payment_status" Type="varchar" MaxLength="50" />
           <Property Name="payment_method" Type="varchar" MaxLength="50" />
-          <Property Name="tax_amount" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="url" Type="varchar" MaxLength="70" />
+        </EntityType>
+        <EntityType Name="PendingRegistrations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="20" />
+          <Property Name="PasswordHash" Type="nvarchar" MaxLength="255" />
+          <Property Name="Sex" Type="nvarchar" MaxLength="10" />
+          <Property Name="Role" Type="nvarchar" MaxLength="20" />
+          <Property Name="OtpCode" Type="nvarchar" MaxLength="6" />
+          <Property Name="OtpExpiresAt" Type="datetime" />
+          <Property Name="CreatedAt" Type="datetime" />
         </EntityType>
         <EntityType Name="Person">
           <Key>
@@ -121,13 +125,6 @@
           <Property Name="phone_number" Type="varchar" MaxLength="20" />
           <Property Name="created_date" Type="datetime" />
         </EntityType>
-        <EntityType Name="PersonDelivery">
-          <Key>
-            <PropertyRef Name="delivery_person_id" />
-          </Key>
-          <Property Name="delivery_person_id" Type="int" Nullable="false" />
-          <Property Name="person_id" Type="int" />
-        </EntityType>
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="product_id" />
@@ -140,22 +137,14 @@
           <Property Name="status" Type="varchar" MaxLength="50" />
           <Property Name="quantity" Type="int" />
           <Property Name="shop_id" Type="int" />
-          <Property Name="imgurl_id" Type="int" />
-        </EntityType>
-        <EntityType Name="ProductImages">
-          <Key>
-            <PropertyRef Name="ImageId" />
-          </Key>
-          <Property Name="ImageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ProductId" Type="int" />
-          <Property Name="ImageUrl" Type="nvarchar" MaxLength="500" Nullable="false" />
-          <Property Name="deletehash" Type="varchar" MaxLength="100" />
+          <Property Name="img_url" Type="varchar" MaxLength="100" />
+          <Property Name="img_delete_code" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="regiondelivery">
           <Key>
             <PropertyRef Name="region_deliveryid" />
           </Key>
-          <Property Name="region_deliveryid" Type="int" Nullable="false" />
+          <Property Name="region_deliveryid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="delivery_id" Type="int" />
           <Property Name="region_id" Type="int" />
         </EntityType>
@@ -188,13 +177,6 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="category_id" Type="int" />
-          <Property Name="shop_id" Type="int" />
-        </EntityType>
-        <EntityType Name="ShopDelivery">
-          <Key>
-            <PropertyRef Name="delivary_shop_id" />
-          </Key>
-          <Property Name="delivary_shop_id" Type="int" Nullable="false" />
           <Property Name="shop_id" Type="int" />
         </EntityType>
         <EntityType Name="ShopOwner">
@@ -274,51 +256,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__DeliveryO__deliv__72910220">
+        <Association Name="FK__clientord__deliv__0D44F85C">
           <End Role="DeliveryProvider" Type="Self.DeliveryProvider" Multiplicity="0..1" />
-          <End Role="DeliveryOrder" Type="Self.DeliveryOrder" Multiplicity="*" />
+          <End Role="clientorder" Type="Self.clientorder" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DeliveryProvider">
               <PropertyRef Name="delivery_Id" />
             </Principal>
-            <Dependent Role="DeliveryOrder">
+            <Dependent Role="clientorder">
               <PropertyRef Name="delivery_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__DeliveryO__order__59C55456">
-          <End Role="clientorder" Type="Self.clientorder" Multiplicity="0..1" />
-          <End Role="DeliveryOrder" Type="Self.DeliveryOrder" Multiplicity="*" />
+        <Association Name="FK__clientord__shopi__0B5CAFEA">
+          <End Role="Shop" Type="Self.Shop" Multiplicity="0..1" />
+          <End Role="clientorder" Type="Self.clientorder" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="clientorder">
-              <PropertyRef Name="order_id" />
+            <Principal Role="Shop">
+              <PropertyRef Name="shop_id" />
             </Principal>
-            <Dependent Role="DeliveryOrder">
-              <PropertyRef Name="order_id" />
+            <Dependent Role="clientorder">
+              <PropertyRef Name="shopid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__DeliveryP__Deliv__6CD828CA">
-          <End Role="DeliveryProvider" Type="Self.DeliveryProvider" Multiplicity="1" />
-          <End Role="DeliveryAgent" Type="Self.DeliveryAgent" Multiplicity="0..1" />
+        <Association Name="FK__DeliveryP__perso__43A1090D">
+          <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+          <End Role="DeliveryProvider" Type="Self.DeliveryProvider" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="DeliveryProvider">
-              <PropertyRef Name="delivery_Id" />
+            <Principal Role="Person">
+              <PropertyRef Name="person_id" />
             </Principal>
-            <Dependent Role="DeliveryAgent">
-              <PropertyRef Name="Delivery_Agent_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__DeliveryP__Deliv__719CDDE7">
-          <End Role="DeliveryProvider" Type="Self.DeliveryProvider" Multiplicity="1" />
-          <End Role="DeliveryAgent" Type="Self.DeliveryAgent" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="DeliveryProvider">
-              <PropertyRef Name="delivery_Id" />
-            </Principal>
-            <Dependent Role="DeliveryAgent">
-              <PropertyRef Name="Delivery_Agent_Id" />
+            <Dependent Role="DeliveryProvider">
+              <PropertyRef Name="person_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -370,30 +340,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PersonDel__deliv__6AEFE058">
-          <End Role="DeliveryProvider" Type="Self.DeliveryProvider" Multiplicity="1" />
-          <End Role="PersonDelivery" Type="Self.PersonDelivery" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="DeliveryProvider">
-              <PropertyRef Name="delivery_Id" />
-            </Principal>
-            <Dependent Role="PersonDelivery">
-              <PropertyRef Name="delivery_person_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__PersonDel__perso__6BE40491">
-          <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
-          <End Role="PersonDelivery" Type="Self.PersonDelivery" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Person">
-              <PropertyRef Name="person_id" />
-            </Principal>
-            <Dependent Role="PersonDelivery">
-              <PropertyRef Name="person_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Product__categor__534D60F1">
           <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
@@ -418,19 +364,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ProductIm__Produ__02FC7413">
-          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
-          <End Role="ProductImages" Type="Self.ProductImages" Multiplicity="*" />
+        <Association Name="FK__regiondel__deliv__32767D0B">
+          <End Role="DeliveryProvider" Type="Self.DeliveryProvider" Multiplicity="0..1" />
+          <End Role="regiondelivery" Type="Self.regiondelivery" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="product_id" />
+            <Principal Role="DeliveryProvider">
+              <PropertyRef Name="delivery_Id" />
             </Principal>
-            <Dependent Role="ProductImages">
-              <PropertyRef Name="ProductId" />
+            <Dependent Role="regiondelivery">
+              <PropertyRef Name="delivery_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__regiondel__regio__6166761E">
+        <Association Name="FK__regiondel__regio__336AA144">
           <End Role="Regions" Type="Self.Regions" Multiplicity="0..1" />
           <End Role="regiondelivery" Type="Self.regiondelivery" Multiplicity="*" />
           <ReferentialConstraint>
@@ -439,42 +385,6 @@
             </Principal>
             <Dependent Role="regiondelivery">
               <PropertyRef Name="region_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__regiondel__regio__6DCC4D03">
-          <End Role="DeliveryProvider" Type="Self.DeliveryProvider" Multiplicity="1" />
-          <End Role="regiondelivery" Type="Self.regiondelivery" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="DeliveryProvider">
-              <PropertyRef Name="delivery_Id" />
-            </Principal>
-            <Dependent Role="regiondelivery">
-              <PropertyRef Name="region_deliveryid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__regiondel__regio__6FB49575">
-          <End Role="DeliveryProvider" Type="Self.DeliveryProvider" Multiplicity="1" />
-          <End Role="regiondelivery" Type="Self.regiondelivery" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="DeliveryProvider">
-              <PropertyRef Name="delivery_Id" />
-            </Principal>
-            <Dependent Role="regiondelivery">
-              <PropertyRef Name="region_deliveryid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__regiondel__regio__70A8B9AE">
-          <End Role="DeliveryProvider" Type="Self.DeliveryProvider" Multiplicity="1" />
-          <End Role="regiondelivery" Type="Self.regiondelivery" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="DeliveryProvider">
-              <PropertyRef Name="delivery_Id" />
-            </Principal>
-            <Dependent Role="regiondelivery">
-              <PropertyRef Name="region_deliveryid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -514,30 +424,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ShopDeliv__deliv__671F4F74">
-          <End Role="DeliveryProvider" Type="Self.DeliveryProvider" Multiplicity="1" />
-          <End Role="ShopDelivery" Type="Self.ShopDelivery" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="DeliveryProvider">
-              <PropertyRef Name="delivery_Id" />
-            </Principal>
-            <Dependent Role="ShopDelivery">
-              <PropertyRef Name="delivary_shop_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__ShopDeliv__shop___681373AD">
-          <End Role="Shop" Type="Self.Shop" Multiplicity="0..1" />
-          <End Role="ShopDelivery" Type="Self.ShopDelivery" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Shop">
-              <PropertyRef Name="shop_id" />
-            </Principal>
-            <Dependent Role="ShopDelivery">
-              <PropertyRef Name="shop_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__ShopOwner__perso__45F365D3">
           <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
           <End Role="ShopOwner" Type="Self.ShopOwner" Multiplicity="*" />
@@ -550,27 +436,68 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Product_ImgUrl">
-          <End Role="ProductImages" Type="Self.ProductImages" Multiplicity="0..1" />
-          <End Role="Product" Type="Self.Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProductImages">
-              <PropertyRef Name="ImageId" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="imgurl_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Function Name="addproductimage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="productid" Type="int" Mode="In" />
-          <Parameter Name="imgurl" Type="varchar" Mode="In" />
-          <Parameter Name="deletehash" Type="varchar" Mode="In" />
-          <Parameter Name="isprofile" Type="bit" Mode="In" />
-          <Parameter Name="Success" Type="bit" Mode="InOut" />
-          <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
+        <Function Name="AddDeliveryAgent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="varchar" Mode="In" />
+          <Parameter Name="phone_number" Type="varchar" Mode="In" />
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="varchar" Mode="In" />
+          <Parameter Name="provider_type" Type="varchar" Mode="In" />
+          <Parameter Name="note_text" Type="text" Mode="In" />
+          <Parameter Name="active_bit" Type="bit" Mode="In" />
+          <Parameter Name="isfound" Type="bit" Mode="InOut" />
+        </Function>
+        <Function Name="AddDeliveryperson" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="existperson" Type="bit" Mode="In" />
+          <Parameter Name="first_name" Type="varchar" Mode="In" />
+          <Parameter Name="last_name" Type="varchar" Mode="In" />
+          <Parameter Name="provider_type" Type="varchar" Mode="In" />
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="passward" Type="varchar" Mode="In" />
+          <Parameter Name="sex" Type="varchar" Mode="In" />
+          <Parameter Name="phonenumber" Type="varchar" Mode="In" />
+          <Parameter Name="note_text" Type="text" Mode="In" />
+          <Parameter Name="active_bit" Type="bit" Mode="In" />
+          <Parameter Name="Region_Name" Type="varchar" Mode="In" />
+          <Parameter Name="isfound" Type="bit" Mode="InOut" />
+        </Function>
+        <Function Name="AddDeliveryShop" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="shopid" Type="int" Mode="In" />
+          <Parameter Name="provider_type" Type="varchar" Mode="In" />
+          <Parameter Name="note_text" Type="text" Mode="In" />
+          <Parameter Name="active_bit" Type="bit" Mode="In" />
+          <Parameter Name="isfound" Type="bit" Mode="InOut" />
+        </Function>
+        <Function Name="checkDelivery" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="password" Type="varchar" Mode="In" />
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="phonenumber" Type="varchar" Mode="In" />
+          <Parameter Name="iscorrect" Type="bit" Mode="InOut" />
+          <Parameter Name="deliverytype" Type="varchar" Mode="In" />
+          <Parameter Name="deliveryid" Type="int" Mode="InOut" />
         </Function>
         <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="GetDelivery" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="shoplatitude" Type="decimal" Mode="In" />
+          <Parameter Name="shoplongitude" Type="decimal" Mode="In" />
+          <Parameter Name="clientlatitude" Type="decimal" Mode="In" />
+          <Parameter Name="clientlongitude" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="GetItemOfOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="orderid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetNeworder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="shopid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetOrdersForDelivery" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="deliveryid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetPhoneAndEmailDelivery" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="deliveryproviderid" Type="int" Mode="In" />
+          <Parameter Name="phonenumber" Type="varchar" Mode="InOut" />
+          <Parameter Name="email" Type="varchar" Mode="InOut" />
+          <Parameter Name="providertype" Type="varchar" Mode="InOut" />
+          <Parameter Name="deliveryname" Type="varchar" Mode="InOut" />
+        </Function>
         <Function Name="getproduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="shopid" Type="int" Mode="In" />
           <Parameter Name="limit" Type="int" Mode="In" />
@@ -578,6 +505,30 @@
           <Parameter Name="searchbyproductname" Type="varchar" Mode="In" />
           <Parameter Name="searchbycategory" Type="varchar" Mode="In" />
           <Parameter Name="searchbyshoptype" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="insertorderafterpayment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="shopid" Type="int" Mode="In" />
+          <Parameter Name="totalpriceProduct" Type="decimal" Mode="In" />
+          <Parameter Name="deliverycost" Type="decimal" Mode="In" />
+          <Parameter Name="latitude" Type="decimal" Mode="In" />
+          <Parameter Name="longitude" Type="decimal" Mode="In" />
+          <Parameter Name="deliveryid" Type="int" Mode="In" />
+          <Parameter Name="paymentmethod" Type="varchar" Mode="In" />
+          <Parameter Name="clientId" Type="int" Mode="In" />
+          <Parameter Name="orderId" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="Recieveorderfromdeliverytoclient" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="orderid" Type="int" Mode="In" />
+          <Parameter Name="delievry_id" Type="int" Mode="In" />
+          <Parameter Name="clientdeliveryPin" Type="varchar" Mode="In" />
+          <Parameter Name="isexecute" Type="bit" Mode="InOut" />
+        </Function>
+        <Function Name="recieveorderfromshoptoorder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="orderid" Type="int" Mode="In" />
+          <Parameter Name="shopid" Type="int" Mode="In" />
+          <Parameter Name="delivery_id" Type="int" Mode="In" />
+          <Parameter Name="shopdeliverypin" Type="varchar" Mode="In" />
+          <Parameter Name="iscorrectdelivery" Type="bit" Mode="InOut" />
         </Function>
         <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
@@ -615,21 +566,17 @@
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="clientorder" EntityType="Self.clientorder" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DeliveryAgent" EntityType="Self.DeliveryAgent" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DeliveryOrder" EntityType="Self.DeliveryOrder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DeliveryProvider" EntityType="Self.DeliveryProvider" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DeliveryWorkingHours" EntityType="Self.DeliveryWorkingHours" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PendingRegistrations" EntityType="Self.PendingRegistrations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PersonDelivery" EntityType="Self.PersonDelivery" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ProductImages" EntityType="Self.ProductImages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="regiondelivery" EntityType="Self.regiondelivery" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Regions" EntityType="Self.Regions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Shop" EntityType="Self.Shop" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ShopCategory" EntityType="Self.ShopCategory" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ShopDelivery" EntityType="Self.ShopDelivery" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ShopOwner" EntityType="Self.ShopOwner" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__admain__person_i__6FE99F9F" Association="Self.FK__admain__person_i__6FE99F9F">
@@ -652,21 +599,17 @@
             <End Role="Client" EntitySet="Client" />
             <End Role="clientorder" EntitySet="clientorder" />
           </AssociationSet>
-          <AssociationSet Name="FK__DeliveryO__deliv__72910220" Association="Self.FK__DeliveryO__deliv__72910220">
+          <AssociationSet Name="FK__clientord__deliv__0D44F85C" Association="Self.FK__clientord__deliv__0D44F85C">
             <End Role="DeliveryProvider" EntitySet="DeliveryProvider" />
-            <End Role="DeliveryOrder" EntitySet="DeliveryOrder" />
-          </AssociationSet>
-          <AssociationSet Name="FK__DeliveryO__order__59C55456" Association="Self.FK__DeliveryO__order__59C55456">
             <End Role="clientorder" EntitySet="clientorder" />
-            <End Role="DeliveryOrder" EntitySet="DeliveryOrder" />
           </AssociationSet>
-          <AssociationSet Name="FK__DeliveryP__Deliv__6CD828CA" Association="Self.FK__DeliveryP__Deliv__6CD828CA">
-            <End Role="DeliveryProvider" EntitySet="DeliveryProvider" />
-            <End Role="DeliveryAgent" EntitySet="DeliveryAgent" />
+          <AssociationSet Name="FK__clientord__shopi__0B5CAFEA" Association="Self.FK__clientord__shopi__0B5CAFEA">
+            <End Role="Shop" EntitySet="Shop" />
+            <End Role="clientorder" EntitySet="clientorder" />
           </AssociationSet>
-          <AssociationSet Name="FK__DeliveryP__Deliv__719CDDE7" Association="Self.FK__DeliveryP__Deliv__719CDDE7">
+          <AssociationSet Name="FK__DeliveryP__perso__43A1090D" Association="Self.FK__DeliveryP__perso__43A1090D">
+            <End Role="Person" EntitySet="Person" />
             <End Role="DeliveryProvider" EntitySet="DeliveryProvider" />
-            <End Role="DeliveryAgent" EntitySet="DeliveryAgent" />
           </AssociationSet>
           <AssociationSet Name="FK__DeliveryW__deliv__6EC0713C" Association="Self.FK__DeliveryW__deliv__6EC0713C">
             <End Role="DeliveryProvider" EntitySet="DeliveryProvider" />
@@ -684,14 +627,6 @@
             <End Role="clientorder" EntitySet="clientorder" />
             <End Role="Payment" EntitySet="Payment" />
           </AssociationSet>
-          <AssociationSet Name="FK__PersonDel__deliv__6AEFE058" Association="Self.FK__PersonDel__deliv__6AEFE058">
-            <End Role="DeliveryProvider" EntitySet="DeliveryProvider" />
-            <End Role="PersonDelivery" EntitySet="PersonDelivery" />
-          </AssociationSet>
-          <AssociationSet Name="FK__PersonDel__perso__6BE40491" Association="Self.FK__PersonDel__perso__6BE40491">
-            <End Role="Person" EntitySet="Person" />
-            <End Role="PersonDelivery" EntitySet="PersonDelivery" />
-          </AssociationSet>
           <AssociationSet Name="FK__Product__categor__534D60F1" Association="Self.FK__Product__categor__534D60F1">
             <End Role="Category" EntitySet="Category" />
             <End Role="Product" EntitySet="Product" />
@@ -700,24 +635,12 @@
             <End Role="Shop" EntitySet="Shop" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
-          <AssociationSet Name="FK__ProductIm__Produ__02FC7413" Association="Self.FK__ProductIm__Produ__02FC7413">
-            <End Role="Product" EntitySet="Product" />
-            <End Role="ProductImages" EntitySet="ProductImages" />
+          <AssociationSet Name="FK__regiondel__deliv__32767D0B" Association="Self.FK__regiondel__deliv__32767D0B">
+            <End Role="DeliveryProvider" EntitySet="DeliveryProvider" />
+            <End Role="regiondelivery" EntitySet="regiondelivery" />
           </AssociationSet>
-          <AssociationSet Name="FK__regiondel__regio__6166761E" Association="Self.FK__regiondel__regio__6166761E">
+          <AssociationSet Name="FK__regiondel__regio__336AA144" Association="Self.FK__regiondel__regio__336AA144">
             <End Role="Regions" EntitySet="Regions" />
-            <End Role="regiondelivery" EntitySet="regiondelivery" />
-          </AssociationSet>
-          <AssociationSet Name="FK__regiondel__regio__6DCC4D03" Association="Self.FK__regiondel__regio__6DCC4D03">
-            <End Role="DeliveryProvider" EntitySet="DeliveryProvider" />
-            <End Role="regiondelivery" EntitySet="regiondelivery" />
-          </AssociationSet>
-          <AssociationSet Name="FK__regiondel__regio__6FB49575" Association="Self.FK__regiondel__regio__6FB49575">
-            <End Role="DeliveryProvider" EntitySet="DeliveryProvider" />
-            <End Role="regiondelivery" EntitySet="regiondelivery" />
-          </AssociationSet>
-          <AssociationSet Name="FK__regiondel__regio__70A8B9AE" Association="Self.FK__regiondel__regio__70A8B9AE">
-            <End Role="DeliveryProvider" EntitySet="DeliveryProvider" />
             <End Role="regiondelivery" EntitySet="regiondelivery" />
           </AssociationSet>
           <AssociationSet Name="FK__Shop__shopowner___4AB81AF0" Association="Self.FK__Shop__shopowner___4AB81AF0">
@@ -732,25 +655,12 @@
             <End Role="Shop" EntitySet="Shop" />
             <End Role="ShopCategory" EntitySet="ShopCategory" />
           </AssociationSet>
-          <AssociationSet Name="FK__ShopDeliv__deliv__671F4F74" Association="Self.FK__ShopDeliv__deliv__671F4F74">
-            <End Role="DeliveryProvider" EntitySet="DeliveryProvider" />
-            <End Role="ShopDelivery" EntitySet="ShopDelivery" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ShopDeliv__shop___681373AD" Association="Self.FK__ShopDeliv__shop___681373AD">
-            <End Role="Shop" EntitySet="Shop" />
-            <End Role="ShopDelivery" EntitySet="ShopDelivery" />
-          </AssociationSet>
           <AssociationSet Name="FK__ShopOwner__perso__45F365D3" Association="Self.FK__ShopOwner__perso__45F365D3">
             <End Role="Person" EntitySet="Person" />
             <End Role="ShopOwner" EntitySet="ShopOwner" />
           </AssociationSet>
-          <AssociationSet Name="FK_Product_ImgUrl" Association="Self.FK_Product_ImgUrl">
-            <End Role="ProductImages" EntitySet="ProductImages" />
-            <End Role="Product" EntitySet="Product" />
-          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="online_shopModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -804,18 +714,17 @@
           <NavigationProperty Name="DeliveryOrders" Relationship="Self.FK__DeliveryO__order__59C55456" FromRole="clientorder" ToRole="DeliveryOrder" />
           <NavigationProperty Name="OrderDetails" Relationship="Self.FK__OrderDeta__order__5BE2A6F2" FromRole="clientorder" ToRole="OrderDetail" />
           <NavigationProperty Name="Payments" Relationship="Self.FK__Payment__order_i__6D0D32F4" FromRole="clientorder" ToRole="Payment" />
-        </EntityType>
-        <EntityType Name="DeliveryAgent">
-          <Key>
-            <PropertyRef Name="Delivery_Agent_Id" />
-          </Key>
-          <Property Name="Delivery_Agent_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="phone_number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="email" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="logo_url" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="DeliveryProvider" Relationship="Self.FK__DeliveryP__Deliv__6CD828CA" FromRole="DeliveryAgent" ToRole="DeliveryProvider" />
-          <NavigationProperty Name="DeliveryProvider1" Relationship="Self.FK__DeliveryP__Deliv__719CDDE7" FromRole="DeliveryAgent" ToRole="DeliveryProvider" />
+          <Property Name="latitude" Type="Decimal" Precision="18" Scale="11" />
+          <Property Name="longitude" Type="Decimal" Precision="18" Scale="11" />
+          <Property Name="shopid" Type="Int32" />
+          <Property Name="delivery_id" Type="Int32" />
+          <Property Name="clientdeliveryPIN" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="clientrecievedata" Type="DateTime" Precision="3" />
+          <Property Name="deliveryshoprecievedata" Type="DateTime" Precision="3" />
+          <Property Name="shopdeliveryPin" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="deliverycost" Type="Decimal" Precision="18" Scale="10" />
+          <NavigationProperty Name="DeliveryProvider" Relationship="online_shopModel.FK__clientord__deliv__0D44F85C" FromRole="clientorder" ToRole="DeliveryProvider" />
+          <NavigationProperty Name="Shop" Relationship="online_shopModel.FK__clientord__shopi__0B5CAFEA" FromRole="clientorder" ToRole="Shop" />
         </EntityType>
         <EntityType Name="DeliveryOrder">
           <Key>
@@ -841,15 +750,16 @@
           <Property Name="active_bit" Type="Boolean" />
           <Property Name="created_at" Type="DateTime" Precision="3" />
           <Property Name="update_at" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="DeliveryAgent" Relationship="Self.FK__DeliveryP__Deliv__6CD828CA" FromRole="DeliveryProvider" ToRole="DeliveryAgent" />
-          <NavigationProperty Name="DeliveryAgent1" Relationship="Self.FK__DeliveryP__Deliv__719CDDE7" FromRole="DeliveryProvider" ToRole="DeliveryAgent" />
           <NavigationProperty Name="DeliveryOrders" Relationship="Self.FK__DeliveryO__deliv__72910220" FromRole="DeliveryProvider" ToRole="DeliveryOrder" />
           <NavigationProperty Name="DeliveryWorkingHours" Relationship="Self.FK__DeliveryW__deliv__6EC0713C" FromRole="DeliveryProvider" ToRole="DeliveryWorkingHours" />
-          <NavigationProperty Name="PersonDelivery" Relationship="Self.FK__PersonDel__deliv__6AEFE058" FromRole="DeliveryProvider" ToRole="PersonDelivery" />
           <NavigationProperty Name="regiondelivery" Relationship="Self.FK__regiondel__regio__6DCC4D03" FromRole="DeliveryProvider" ToRole="regiondelivery" />
           <NavigationProperty Name="regiondelivery1" Relationship="Self.FK__regiondel__regio__6FB49575" FromRole="DeliveryProvider" ToRole="regiondelivery" />
           <NavigationProperty Name="regiondelivery2" Relationship="Self.FK__regiondel__regio__70A8B9AE" FromRole="DeliveryProvider" ToRole="regiondelivery" />
-          <NavigationProperty Name="ShopDelivery" Relationship="Self.FK__ShopDeliv__deliv__671F4F74" FromRole="DeliveryProvider" ToRole="ShopDelivery" />
+          <NavigationProperty Name="clientorders" Relationship="online_shopModel.FK__clientord__deliv__0D44F85C" FromRole="DeliveryProvider" ToRole="clientorder" />
+          <NavigationProperty Name="regiondeliveries" Relationship="online_shopModel.FK__regiondel__deliv__32767D0B" FromRole="DeliveryProvider" ToRole="regiondelivery" />
+          <Property Name="person_id" Type="Int32" />
+          <NavigationProperty Name="Person" Relationship="online_shopModel.FK__DeliveryP__perso__43A1090D" FromRole="DeliveryProvider" ToRole="Person" />
+          <Property Name="price_per_meter" Type="Decimal" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="DeliveryWorkingHour">
           <Key>
@@ -884,6 +794,7 @@
           <Property Name="payment_method" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="tax_amount" Type="Decimal" Precision="10" Scale="2" />
           <NavigationProperty Name="clientorder" Relationship="Self.FK__Payment__order_i__6D0D32F4" FromRole="Payment" ToRole="clientorder" />
+          <Property Name="url" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Person">
           <Key>
@@ -899,17 +810,8 @@
           <Property Name="created_date" Type="DateTime" Precision="3" />
           <NavigationProperty Name="admains" Relationship="Self.FK__admain__person_i__6FE99F9F" FromRole="Person" ToRole="admain" />
           <NavigationProperty Name="Clients" Relationship="Self.FK__Client__person_i__3C69FB99" FromRole="Person" ToRole="Client" />
-          <NavigationProperty Name="PersonDeliveries" Relationship="Self.FK__PersonDel__perso__6BE40491" FromRole="Person" ToRole="PersonDelivery" />
           <NavigationProperty Name="ShopOwners" Relationship="Self.FK__ShopOwner__perso__45F365D3" FromRole="Person" ToRole="ShopOwner" />
-        </EntityType>
-        <EntityType Name="PersonDelivery">
-          <Key>
-            <PropertyRef Name="delivery_person_id" />
-          </Key>
-          <Property Name="delivery_person_id" Type="Int32" Nullable="false" />
-          <Property Name="person_id" Type="Int32" />
-          <NavigationProperty Name="DeliveryProvider" Relationship="Self.FK__PersonDel__deliv__6AEFE058" FromRole="PersonDelivery" ToRole="DeliveryProvider" />
-          <NavigationProperty Name="Person" Relationship="Self.FK__PersonDel__perso__6BE40491" FromRole="PersonDelivery" ToRole="Person" />
+          <NavigationProperty Name="DeliveryProviders" Relationship="online_shopModel.FK__DeliveryP__perso__43A1090D" FromRole="Person" ToRole="DeliveryProvider" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -929,6 +831,8 @@
           <NavigationProperty Name="Shop" Relationship="Self.FK__Product__shop_id__5441852A" FromRole="Product" ToRole="Shop" />
           <NavigationProperty Name="ProductImages" Relationship="Self.FK__ProductIm__Produ__02FC7413" FromRole="Product" ToRole="ProductImages" />
           <NavigationProperty Name="ProductImage" Relationship="Self.FK_Product_ImgUrl" FromRole="Product" ToRole="ProductImages" />
+          <Property Name="img_url" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="img_delete_code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ProductImage">
           <Key>
@@ -952,6 +856,7 @@
           <NavigationProperty Name="DeliveryProvider1" Relationship="Self.FK__regiondel__regio__6FB49575" FromRole="regiondelivery" ToRole="DeliveryProvider" />
           <NavigationProperty Name="DeliveryProvider2" Relationship="Self.FK__regiondel__regio__70A8B9AE" FromRole="regiondelivery" ToRole="DeliveryProvider" />
           <NavigationProperty Name="Region" Relationship="Self.FK__regiondel__regio__6166761E" FromRole="regiondelivery" ToRole="Regions" />
+          <NavigationProperty Name="DeliveryProvider3" Relationship="online_shopModel.FK__regiondel__deliv__32767D0B" FromRole="regiondelivery" ToRole="DeliveryProvider" />
         </EntityType>
         <EntityType Name="Region">
           <Key>
@@ -981,7 +886,7 @@
           <NavigationProperty Name="Products" Relationship="Self.FK__Product__shop_id__5441852A" FromRole="Shop" ToRole="Product" />
           <NavigationProperty Name="ShopOwner" Relationship="Self.FK__Shop__shopowner___4AB81AF0" FromRole="Shop" ToRole="ShopOwner" />
           <NavigationProperty Name="ShopCategories" Relationship="Self.FK__ShopCateg__shop___5070F446" FromRole="Shop" ToRole="ShopCategory" />
-          <NavigationProperty Name="ShopDeliveries" Relationship="Self.FK__ShopDeliv__shop___681373AD" FromRole="Shop" ToRole="ShopDelivery" />
+          <NavigationProperty Name="clientorders" Relationship="online_shopModel.FK__clientord__shopi__0B5CAFEA" FromRole="Shop" ToRole="clientorder" />
         </EntityType>
         <EntityType Name="ShopCategory">
           <Key>
@@ -992,15 +897,6 @@
           <Property Name="shop_id" Type="Int32" />
           <NavigationProperty Name="Category" Relationship="Self.FK__ShopCateg__categ__4F7CD00D" FromRole="ShopCategory" ToRole="Category" />
           <NavigationProperty Name="Shop" Relationship="Self.FK__ShopCateg__shop___5070F446" FromRole="ShopCategory" ToRole="Shop" />
-        </EntityType>
-        <EntityType Name="ShopDelivery">
-          <Key>
-            <PropertyRef Name="delivary_shop_id" />
-          </Key>
-          <Property Name="delivary_shop_id" Type="Int32" Nullable="false" />
-          <Property Name="shop_id" Type="Int32" />
-          <NavigationProperty Name="DeliveryProvider" Relationship="Self.FK__ShopDeliv__deliv__671F4F74" FromRole="ShopDelivery" ToRole="DeliveryProvider" />
-          <NavigationProperty Name="Shop" Relationship="Self.FK__ShopDeliv__shop___681373AD" FromRole="ShopDelivery" ToRole="Shop" />
         </EntityType>
         <EntityType Name="ShopOwner">
           <Key>
@@ -1141,30 +1037,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__DeliveryP__Deliv__6CD828CA">
-          <End Role="DeliveryProvider" Type="Self.DeliveryProvider" Multiplicity="1" />
-          <End Role="DeliveryAgent" Type="Self.DeliveryAgent" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="DeliveryProvider">
-              <PropertyRef Name="delivery_Id" />
-            </Principal>
-            <Dependent Role="DeliveryAgent">
-              <PropertyRef Name="Delivery_Agent_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__DeliveryP__Deliv__719CDDE7">
-          <End Role="DeliveryProvider" Type="Self.DeliveryProvider" Multiplicity="1" />
-          <End Role="DeliveryAgent" Type="Self.DeliveryAgent" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="DeliveryProvider">
-              <PropertyRef Name="delivery_Id" />
-            </Principal>
-            <Dependent Role="DeliveryAgent">
-              <PropertyRef Name="Delivery_Agent_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__DeliveryO__deliv__72910220">
           <End Role="DeliveryProvider" Type="Self.DeliveryProvider" Multiplicity="0..1" />
           <End Role="DeliveryOrder" Type="Self.DeliveryOrder" Multiplicity="*" />
@@ -1186,18 +1058,6 @@
             </Principal>
             <Dependent Role="DeliveryWorkingHours">
               <PropertyRef Name="delivery_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__PersonDel__deliv__6AEFE058">
-          <End Role="DeliveryProvider" Type="Self.DeliveryProvider" Multiplicity="1" />
-          <End Role="PersonDelivery" Type="Self.PersonDelivery" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="DeliveryProvider">
-              <PropertyRef Name="delivery_Id" />
-            </Principal>
-            <Dependent Role="PersonDelivery">
-              <PropertyRef Name="delivery_person_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1237,18 +1097,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ShopDeliv__deliv__671F4F74">
-          <End Role="DeliveryProvider" Type="Self.DeliveryProvider" Multiplicity="1" />
-          <End Role="ShopDelivery" Type="Self.ShopDelivery" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="DeliveryProvider">
-              <PropertyRef Name="delivery_Id" />
-            </Principal>
-            <Dependent Role="ShopDelivery">
-              <PropertyRef Name="delivary_shop_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__OrderDeta__produ__5CD6CB2B">
           <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
           <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
@@ -1258,18 +1106,6 @@
             </Principal>
             <Dependent Role="OrderDetail">
               <PropertyRef Name="product_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__PersonDel__perso__6BE40491">
-          <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
-          <End Role="PersonDelivery" Type="Self.PersonDelivery" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Person">
-              <PropertyRef Name="person_id" />
-            </Principal>
-            <Dependent Role="PersonDelivery">
-              <PropertyRef Name="person_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1357,39 +1193,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ShopDeliv__shop___681373AD">
-          <End Role="Shop" Type="Self.Shop" Multiplicity="0..1" />
-          <End Role="ShopDelivery" Type="Self.ShopDelivery" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Shop">
-              <PropertyRef Name="shop_id" />
-            </Principal>
-            <Dependent Role="ShopDelivery">
-              <PropertyRef Name="shop_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="online_shopEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="admains" EntityType="Self.admain" />
           <EntitySet Name="branches" EntityType="Self.branch" />
           <EntitySet Name="Categories" EntityType="Self.Category" />
           <EntitySet Name="Clients" EntityType="Self.Client" />
           <EntitySet Name="clientorders" EntityType="Self.clientorder" />
-          <EntitySet Name="DeliveryAgents" EntityType="Self.DeliveryAgent" />
           <EntitySet Name="DeliveryOrders" EntityType="Self.DeliveryOrder" />
           <EntitySet Name="DeliveryProviders" EntityType="Self.DeliveryProvider" />
           <EntitySet Name="DeliveryWorkingHours" EntityType="Self.DeliveryWorkingHour" />
           <EntitySet Name="OrderDetails" EntityType="Self.OrderDetail" />
           <EntitySet Name="Payments" EntityType="Self.Payment" />
           <EntitySet Name="People" EntityType="Self.Person" />
-          <EntitySet Name="PersonDeliveries" EntityType="Self.PersonDelivery" />
           <EntitySet Name="Products" EntityType="Self.Product" />
           <EntitySet Name="ProductImages" EntityType="Self.ProductImage" />
           <EntitySet Name="regiondeliveries" EntityType="Self.regiondelivery" />
           <EntitySet Name="Regions" EntityType="Self.Region" />
           <EntitySet Name="Shops" EntityType="Self.Shop" />
           <EntitySet Name="ShopCategories" EntityType="Self.ShopCategory" />
-          <EntitySet Name="ShopDeliveries" EntityType="Self.ShopDelivery" />
           <EntitySet Name="ShopOwners" EntityType="Self.ShopOwner" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <AssociationSet Name="FK__admain__person_i__6FE99F9F" Association="Self.FK__admain__person_i__6FE99F9F">
@@ -1432,14 +1253,6 @@
             <End Role="clientorder" EntitySet="clientorders" />
             <End Role="Payment" EntitySet="Payments" />
           </AssociationSet>
-          <AssociationSet Name="FK__DeliveryP__Deliv__6CD828CA" Association="Self.FK__DeliveryP__Deliv__6CD828CA">
-            <End Role="DeliveryProvider" EntitySet="DeliveryProviders" />
-            <End Role="DeliveryAgent" EntitySet="DeliveryAgents" />
-          </AssociationSet>
-          <AssociationSet Name="FK__DeliveryP__Deliv__719CDDE7" Association="Self.FK__DeliveryP__Deliv__719CDDE7">
-            <End Role="DeliveryProvider" EntitySet="DeliveryProviders" />
-            <End Role="DeliveryAgent" EntitySet="DeliveryAgents" />
-          </AssociationSet>
           <AssociationSet Name="FK__DeliveryO__deliv__72910220" Association="Self.FK__DeliveryO__deliv__72910220">
             <End Role="DeliveryProvider" EntitySet="DeliveryProviders" />
             <End Role="DeliveryOrder" EntitySet="DeliveryOrders" />
@@ -1447,10 +1260,6 @@
           <AssociationSet Name="FK__DeliveryW__deliv__6EC0713C" Association="Self.FK__DeliveryW__deliv__6EC0713C">
             <End Role="DeliveryProvider" EntitySet="DeliveryProviders" />
             <End Role="DeliveryWorkingHours" EntitySet="DeliveryWorkingHours" />
-          </AssociationSet>
-          <AssociationSet Name="FK__PersonDel__deliv__6AEFE058" Association="Self.FK__PersonDel__deliv__6AEFE058">
-            <End Role="DeliveryProvider" EntitySet="DeliveryProviders" />
-            <End Role="PersonDelivery" EntitySet="PersonDeliveries" />
           </AssociationSet>
           <AssociationSet Name="FK__regiondel__regio__6DCC4D03" Association="Self.FK__regiondel__regio__6DCC4D03">
             <End Role="DeliveryProvider" EntitySet="DeliveryProviders" />
@@ -1464,17 +1273,9 @@
             <End Role="DeliveryProvider" EntitySet="DeliveryProviders" />
             <End Role="regiondelivery" EntitySet="regiondeliveries" />
           </AssociationSet>
-          <AssociationSet Name="FK__ShopDeliv__deliv__671F4F74" Association="Self.FK__ShopDeliv__deliv__671F4F74">
-            <End Role="DeliveryProvider" EntitySet="DeliveryProviders" />
-            <End Role="ShopDelivery" EntitySet="ShopDeliveries" />
-          </AssociationSet>
           <AssociationSet Name="FK__OrderDeta__produ__5CD6CB2B" Association="Self.FK__OrderDeta__produ__5CD6CB2B">
             <End Role="Product" EntitySet="Products" />
             <End Role="OrderDetail" EntitySet="OrderDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK__PersonDel__perso__6BE40491" Association="Self.FK__PersonDel__perso__6BE40491">
-            <End Role="Person" EntitySet="People" />
-            <End Role="PersonDelivery" EntitySet="PersonDeliveries" />
           </AssociationSet>
           <AssociationSet Name="FK__ShopOwner__perso__45F365D3" Association="Self.FK__ShopOwner__perso__45F365D3">
             <End Role="Person" EntitySet="People" />
@@ -1503,10 +1304,6 @@
           <AssociationSet Name="FK__ShopCateg__shop___5070F446" Association="Self.FK__ShopCateg__shop___5070F446">
             <End Role="Shop" EntitySet="Shops" />
             <End Role="ShopCategory" EntitySet="ShopCategories" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ShopDeliv__shop___681373AD" Association="Self.FK__ShopDeliv__shop___681373AD">
-            <End Role="Shop" EntitySet="Shops" />
-            <End Role="ShopDelivery" EntitySet="ShopDeliveries" />
           </AssociationSet>
           <FunctionImport Name="addproductimage">
             <Parameter Name="productid" Mode="In" Type="Int32" />
@@ -1554,6 +1351,108 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <AssociationSet Name="FK__clientord__deliv__0D44F85C" Association="online_shopModel.FK__clientord__deliv__0D44F85C">
+            <End Role="DeliveryProvider" EntitySet="DeliveryProviders" />
+            <End Role="clientorder" EntitySet="clientorders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__clientord__shopi__0B5CAFEA" Association="online_shopModel.FK__clientord__shopi__0B5CAFEA">
+            <End Role="Shop" EntitySet="Shops" />
+            <End Role="clientorder" EntitySet="clientorders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__regiondel__deliv__32767D0B" Association="online_shopModel.FK__regiondel__deliv__32767D0B">
+            <End Role="DeliveryProvider" EntitySet="DeliveryProviders" />
+            <End Role="regiondelivery" EntitySet="regiondeliveries" />
+          </AssociationSet>
+          <EntitySet Name="PendingRegistrations" EntityType="online_shopModel.PendingRegistration" />
+          <FunctionImport Name="AddDeliveryAgent">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="phone_number" Mode="In" Type="String" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+            <Parameter Name="provider_type" Mode="In" Type="String" />
+            <Parameter Name="note_text" Mode="In" Type="String" />
+            <Parameter Name="active_bit" Mode="In" Type="Boolean" />
+            <Parameter Name="isfound" Mode="InOut" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="AddDeliveryperson">
+            <Parameter Name="existperson" Mode="In" Type="Boolean" />
+            <Parameter Name="first_name" Mode="In" Type="String" />
+            <Parameter Name="last_name" Mode="In" Type="String" />
+            <Parameter Name="provider_type" Mode="In" Type="String" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="passward" Mode="In" Type="String" />
+            <Parameter Name="sex" Mode="In" Type="String" />
+            <Parameter Name="phonenumber" Mode="In" Type="String" />
+            <Parameter Name="note_text" Mode="In" Type="String" />
+            <Parameter Name="active_bit" Mode="In" Type="Boolean" />
+            <Parameter Name="Region_Name" Mode="In" Type="String" />
+            <Parameter Name="isfound" Mode="InOut" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="AddDeliveryShop">
+            <Parameter Name="shopid" Mode="In" Type="Int32" />
+            <Parameter Name="provider_type" Mode="In" Type="String" />
+            <Parameter Name="note_text" Mode="In" Type="String" />
+            <Parameter Name="active_bit" Mode="In" Type="Boolean" />
+            <Parameter Name="isfound" Mode="InOut" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="checkDelivery">
+            <Parameter Name="password" Mode="In" Type="String" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="phonenumber" Mode="In" Type="String" />
+            <Parameter Name="iscorrect" Mode="InOut" Type="Boolean" />
+            <Parameter Name="deliverytype" Mode="In" Type="String" />
+            <Parameter Name="deliveryid" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetDelivery" ReturnType="Collection(online_shopModel.GetDelivery_Result)">
+            <Parameter Name="shoplatitude" Mode="In" Type="Decimal" />
+            <Parameter Name="shoplongitude" Mode="In" Type="Decimal" />
+            <Parameter Name="clientlatitude" Mode="In" Type="Decimal" />
+            <Parameter Name="clientlongitude" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="GetItemOfOrder" ReturnType="Collection(online_shopModel.GetItemOfOrder_Result)">
+          <Parameter Name="orderid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetNeworder" ReturnType="Collection(online_shopModel.GetNeworder_Result)">
+          <Parameter Name="shopid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetOrdersForDelivery" ReturnType="Collection(online_shopModel.GetOrdersForDelivery_Result)">
+          <Parameter Name="deliveryid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetPhoneAndEmailDelivery">
+            <Parameter Name="deliveryproviderid" Mode="In" Type="Int32" />
+            <Parameter Name="phonenumber" Mode="InOut" Type="String" />
+            <Parameter Name="email" Mode="InOut" Type="String" />
+            <Parameter Name="providertype" Mode="InOut" Type="String" />
+            <Parameter Name="deliveryname" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="insertorderafterpayment">
+            <Parameter Name="shopid" Mode="In" Type="Int32" />
+            <Parameter Name="totalpriceProduct" Mode="In" Type="Decimal" />
+            <Parameter Name="deliverycost" Mode="In" Type="Decimal" />
+            <Parameter Name="latitude" Mode="In" Type="Decimal" />
+            <Parameter Name="longitude" Mode="In" Type="Decimal" />
+            <Parameter Name="deliveryid" Mode="In" Type="Int32" />
+            <Parameter Name="paymentmethod" Mode="In" Type="String" />
+            <Parameter Name="clientId" Mode="In" Type="Int32" />
+            <Parameter Name="orderId" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Recieveorderfromdeliverytoclient">
+            <Parameter Name="orderid" Mode="In" Type="Int32" />
+            <Parameter Name="delievry_id" Mode="In" Type="Int32" />
+            <Parameter Name="clientdeliveryPin" Mode="In" Type="String" />
+            <Parameter Name="isexecute" Mode="InOut" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="recieveorderfromshoptoorder">
+            <Parameter Name="orderid" Mode="In" Type="Int32" />
+            <Parameter Name="shopid" Mode="In" Type="Int32" />
+            <Parameter Name="delivery_id" Mode="In" Type="Int32" />
+            <Parameter Name="shopdeliverypin" Mode="In" Type="String" />
+            <Parameter Name="iscorrectdelivery" Mode="InOut" Type="Boolean" />
+          </FunctionImport>
+          <AssociationSet Name="FK__DeliveryP__perso__43A1090D" Association="online_shopModel.FK__DeliveryP__perso__43A1090D">
+            <End Role="Person" EntitySet="People" />
+            <End Role="DeliveryProvider" EntitySet="DeliveryProviders" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="getproduct_Result">
           <Property Type="Int32" Name="product_id" Nullable="false" />
@@ -1576,6 +1475,113 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
+        <Association Name="FK__clientord__deliv__0D44F85C">
+          <End Type="online_shopModel.DeliveryProvider" Role="DeliveryProvider" Multiplicity="0..1" />
+          <End Type="online_shopModel.clientorder" Role="clientorder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeliveryProvider">
+              <PropertyRef Name="delivery_Id" />
+            </Principal>
+            <Dependent Role="clientorder">
+              <PropertyRef Name="delivery_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__clientord__shopi__0B5CAFEA">
+          <End Type="online_shopModel.Shop" Role="Shop" Multiplicity="0..1" />
+          <End Type="online_shopModel.clientorder" Role="clientorder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shop">
+              <PropertyRef Name="shop_id" />
+            </Principal>
+            <Dependent Role="clientorder">
+              <PropertyRef Name="shopid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__regiondel__deliv__32767D0B">
+          <End Type="online_shopModel.DeliveryProvider" Role="DeliveryProvider" Multiplicity="0..1" />
+          <End Type="online_shopModel.regiondelivery" Role="regiondelivery" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeliveryProvider">
+              <PropertyRef Name="delivery_Id" />
+            </Principal>
+            <Dependent Role="regiondelivery">
+              <PropertyRef Name="delivery_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PendingRegistration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordHash" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Sex" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Role" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="OtpCode" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Name="OtpExpiresAt" Type="DateTime" Precision="3" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+        </EntityType>
+        <ComplexType Name="GetDelivery_Result">
+          <Property Type="Int32" Name="delivery_Id" Nullable="false" />
+          <Property Type="String" Name="Provider_Type" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="note_text" Nullable="true" MaxLength="Max" />
+          <Property Type="Boolean" Name="active_bit" Nullable="true" />
+          <Property Type="DateTime" Name="created_at" Nullable="true" Precision="23" />
+          <Property Type="String" Name="first_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="last_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="email" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="phone_number" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="GetItemOfOrder_Result">
+          <Property Type="Int32" Name="Product_id" Nullable="true" />
+          <Property Type="Int32" Name="quantity" Nullable="true" />
+          <Property Type="String" Name="name" Nullable="true" MaxLength="150" />
+          <Property Type="Int32" Name="imgurl_id" Nullable="true" />
+          <Property Type="String" Name="description" Nullable="true" MaxLength="Max" />
+        </ComplexType>
+        <ComplexType Name="GetNeworder_Result">
+          <Property Type="Int32" Name="order_id" Nullable="false" />
+          <Property Type="DateTime" Name="order_date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Provider_Type" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="delivery_Id" Nullable="false" />
+          <Property Type="String" Name="deliveryName" Nullable="true" MaxLength="201" />
+          <Property Type="String" Name="Phonenumber" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="GetOrdersForDelivery_Result">
+          <Property Type="Int32" Name="order_id" Nullable="false" />
+          <Property Type="DateTime" Name="order_date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="shopdeliveryPin" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="shoplatitude" Nullable="true" Precision="9" Scale="6" />
+          <Property Type="Decimal" Name="shopLongitude" Nullable="true" Precision="9" Scale="6" />
+          <Property Type="String" Name="shopphonenumber" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="shopname" Nullable="true" MaxLength="150" />
+          <Property Type="Int32" Name="shop_id" Nullable="false" />
+          <Property Type="String" Name="shopemail" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="clientname" Nullable="true" MaxLength="201" />
+          <Property Type="String" Name="clientemail" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="clientphonenumber" Nullable="true" MaxLength="20" />
+          <Property Type="Decimal" Name="clientlatitude" Nullable="true" Precision="18" Scale="11" />
+          <Property Type="Decimal" Name="clintlongitude" Nullable="true" Precision="18" Scale="11" />
+        </ComplexType>
+        <Association Name="FK__DeliveryP__perso__43A1090D">
+          <End Type="online_shopModel.Person" Role="Person" Multiplicity="0..1" />
+          <End Type="online_shopModel.DeliveryProvider" Role="DeliveryProvider" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="person_id" />
+            </Principal>
+            <Dependent Role="DeliveryProvider">
+              <PropertyRef Name="person_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1618,42 +1624,28 @@
           <EntitySetMapping Name="clientorders">
             <EntityTypeMapping TypeName="online_shopModel.clientorder">
               <MappingFragment StoreEntitySet="clientorder">
+                <ScalarProperty Name="deliverycost" ColumnName="deliverycost" />
+                <ScalarProperty Name="shopdeliveryPin" ColumnName="shopdeliveryPin" />
+                <ScalarProperty Name="deliveryshoprecievedata" ColumnName="deliveryshoprecievedata" />
+                <ScalarProperty Name="clientrecievedata" ColumnName="clientrecievedata" />
+                <ScalarProperty Name="clientdeliveryPIN" ColumnName="clientdeliveryPIN" />
+                <ScalarProperty Name="delivery_id" ColumnName="delivery_id" />
+                <ScalarProperty Name="shopid" ColumnName="shopid" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+                <ScalarProperty Name="latitude" ColumnName="latitude" />
                 <ScalarProperty Name="order_id" ColumnName="order_id" />
                 <ScalarProperty Name="client_id" ColumnName="client_id" />
                 <ScalarProperty Name="total_price" ColumnName="total_price" />
                 <ScalarProperty Name="order_date" ColumnName="order_date" />
                 <ScalarProperty Name="order_status" ColumnName="order_status" />
-                <ScalarProperty Name="deliver_address" ColumnName="deliver_address" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DeliveryAgents">
-            <EntityTypeMapping TypeName="online_shopModel.DeliveryAgent">
-              <MappingFragment StoreEntitySet="DeliveryAgent">
-                <ScalarProperty Name="Delivery_Agent_Id" ColumnName="Delivery_Agent_Id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="phone_number" ColumnName="phone_number" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="logo_url" ColumnName="logo_url" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DeliveryOrders">
-            <EntityTypeMapping TypeName="online_shopModel.DeliveryOrder">
-              <MappingFragment StoreEntitySet="DeliveryOrder">
-                <ScalarProperty Name="delivery_order_id" ColumnName="delivery_order_id" />
-                <ScalarProperty Name="order_id" ColumnName="order_id" />
-                <ScalarProperty Name="delivery_id" ColumnName="delivery_id" />
-                <ScalarProperty Name="assigned_at" ColumnName="assigned_at" />
-                <ScalarProperty Name="delivered_at" ColumnName="delivered_at" />
-                <ScalarProperty Name="delivery_status" ColumnName="delivery_status" />
-                <ScalarProperty Name="delivery_cost" ColumnName="delivery_cost" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DeliveryProviders">
             <EntityTypeMapping TypeName="online_shopModel.DeliveryProvider">
               <MappingFragment StoreEntitySet="DeliveryProvider">
+                <ScalarProperty Name="price_per_meter" ColumnName="price_per_meter" />
+                <ScalarProperty Name="person_id" ColumnName="person_id" />
                 <ScalarProperty Name="delivery_Id" ColumnName="delivery_Id" />
                 <ScalarProperty Name="Provider_Type" ColumnName="Provider_Type" />
                 <ScalarProperty Name="note_text" ColumnName="note_text" />
@@ -1688,11 +1680,11 @@
           <EntitySetMapping Name="Payments">
             <EntityTypeMapping TypeName="online_shopModel.Payment">
               <MappingFragment StoreEntitySet="Payment">
+                <ScalarProperty Name="url" ColumnName="url" />
                 <ScalarProperty Name="payment_id" ColumnName="payment_id" />
                 <ScalarProperty Name="order_id" ColumnName="order_id" />
                 <ScalarProperty Name="payment_status" ColumnName="payment_status" />
                 <ScalarProperty Name="payment_method" ColumnName="payment_method" />
-                <ScalarProperty Name="tax_amount" ColumnName="tax_amount" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1710,17 +1702,11 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PersonDeliveries">
-            <EntityTypeMapping TypeName="online_shopModel.PersonDelivery">
-              <MappingFragment StoreEntitySet="PersonDelivery">
-                <ScalarProperty Name="delivery_person_id" ColumnName="delivery_person_id" />
-                <ScalarProperty Name="person_id" ColumnName="person_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="online_shopModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="img_delete_code" ColumnName="img_delete_code" />
+                <ScalarProperty Name="img_url" ColumnName="img_url" />
                 <ScalarProperty Name="product_id" ColumnName="product_id" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="price" ColumnName="price" />
@@ -1729,17 +1715,6 @@
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="quantity" ColumnName="quantity" />
                 <ScalarProperty Name="shop_id" ColumnName="shop_id" />
-                <ScalarProperty Name="imgurl_id" ColumnName="imgurl_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ProductImages">
-            <EntityTypeMapping TypeName="online_shopModel.ProductImage">
-              <MappingFragment StoreEntitySet="ProductImages">
-                <ScalarProperty Name="ImageId" ColumnName="ImageId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
-                <ScalarProperty Name="deletehash" ColumnName="deletehash" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1786,14 +1761,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ShopDeliveries">
-            <EntityTypeMapping TypeName="online_shopModel.ShopDelivery">
-              <MappingFragment StoreEntitySet="ShopDelivery">
-                <ScalarProperty Name="delivary_shop_id" ColumnName="delivary_shop_id" />
-                <ScalarProperty Name="shop_id" ColumnName="shop_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ShopOwners">
             <EntityTypeMapping TypeName="online_shopModel.ShopOwner">
               <MappingFragment StoreEntitySet="ShopOwner">
@@ -1813,7 +1780,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="addproductimage" FunctionName="online_shopModel.Store.addproductimage" />
           <FunctionImportMapping FunctionImportName="getproduct" FunctionName="online_shopModel.Store.getproduct">
             <ResultMapping>
               <ComplexTypeMapping TypeName="online_shopModel.getproduct_Result">
@@ -1852,6 +1818,90 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="online_shopModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="online_shopModel.Store.sp_upgraddiagrams" />
+          <EntitySetMapping Name="PendingRegistrations">
+            <EntityTypeMapping TypeName="online_shopModel.PendingRegistration">
+              <MappingFragment StoreEntitySet="PendingRegistrations">
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="OtpExpiresAt" ColumnName="OtpExpiresAt" />
+                <ScalarProperty Name="OtpCode" ColumnName="OtpCode" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="AddDeliveryAgent" FunctionName="online_shopModel.Store.AddDeliveryAgent" />
+          <FunctionImportMapping FunctionImportName="AddDeliveryperson" FunctionName="online_shopModel.Store.AddDeliveryperson" />
+          <FunctionImportMapping FunctionImportName="AddDeliveryShop" FunctionName="online_shopModel.Store.AddDeliveryShop" />
+          <FunctionImportMapping FunctionImportName="checkDelivery" FunctionName="online_shopModel.Store.checkDelivery" />
+          <FunctionImportMapping FunctionImportName="GetDelivery" FunctionName="online_shopModel.Store.GetDelivery">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="online_shopModel.GetDelivery_Result">
+                <ScalarProperty Name="delivery_Id" ColumnName="delivery_Id" />
+                <ScalarProperty Name="Provider_Type" ColumnName="Provider_Type" />
+                <ScalarProperty Name="note_text" ColumnName="note_text" />
+                <ScalarProperty Name="active_bit" ColumnName="active_bit" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone_number" ColumnName="phone_number" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetItemOfOrder" FunctionName="online_shopModel.Store.GetItemOfOrder">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="online_shopModel.GetItemOfOrder_Result">
+                <ScalarProperty Name="Product_id" ColumnName="Product_id" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="imgurl_id" ColumnName="imgurl_id" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetNeworder" FunctionName="online_shopModel.Store.GetNeworder">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="online_shopModel.GetNeworder_Result">
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="order_date" ColumnName="order_date" />
+                <ScalarProperty Name="Provider_Type" ColumnName="Provider_Type" />
+                <ScalarProperty Name="delivery_Id" ColumnName="delivery_Id" />
+                <ScalarProperty Name="deliveryName" ColumnName="deliveryName" />
+                <ScalarProperty Name="Phonenumber" ColumnName="Phonenumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetOrdersForDelivery" FunctionName="online_shopModel.Store.GetOrdersForDelivery">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="online_shopModel.GetOrdersForDelivery_Result">
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="order_date" ColumnName="order_date" />
+                <ScalarProperty Name="shopdeliveryPin" ColumnName="shopdeliveryPin" />
+                <ScalarProperty Name="shoplatitude" ColumnName="shoplatitude" />
+                <ScalarProperty Name="shopLongitude" ColumnName="shopLongitude" />
+                <ScalarProperty Name="shopphonenumber" ColumnName="shopphonenumber" />
+                <ScalarProperty Name="shopname" ColumnName="shopname" />
+                <ScalarProperty Name="shop_id" ColumnName="shop_id" />
+                <ScalarProperty Name="shopemail" ColumnName="shopemail" />
+                <ScalarProperty Name="clientname" ColumnName="clientname" />
+                <ScalarProperty Name="clientemail" ColumnName="clientemail" />
+                <ScalarProperty Name="clientphonenumber" ColumnName="clientphonenumber" />
+                <ScalarProperty Name="clientlatitude" ColumnName="clientlatitude" />
+                <ScalarProperty Name="clintlongitude" ColumnName="clintlongitude" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetPhoneAndEmailDelivery" FunctionName="online_shopModel.Store.GetPhoneAndEmailDelivery" />
+          <FunctionImportMapping FunctionImportName="insertorderafterpayment" FunctionName="online_shopModel.Store.insertorderafterpayment" />
+          <FunctionImportMapping FunctionImportName="Recieveorderfromdeliverytoclient" FunctionName="online_shopModel.Store.Recieveorderfromdeliverytoclient" />
+          <FunctionImportMapping FunctionImportName="recieveorderfromshoptoorder" FunctionName="online_shopModel.Store.recieveorderfromshoptoorder" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

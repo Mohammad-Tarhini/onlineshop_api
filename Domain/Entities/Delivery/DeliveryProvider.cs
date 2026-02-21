@@ -14,10 +14,12 @@ namespace onlineshopowner_api.Domain.Entities.Delivery
 
         public bool active_bit { get; set; }
 
-        public List<DeliveryWorkigHours> DeliveryWorkigHours { get; set; }
+        //public List<DeliveryWorkigHours> DeliveryWorkigHours { get; set; }
 
-        public List<string> regionname { get; set; }
+        //public List<string> regionname { get; set; }
+        public int person_id { get; set; }
 
         public DateTime Create_at { get; set; }
+        public decimal price_delivery_per_km { get; set; }
     }
 }

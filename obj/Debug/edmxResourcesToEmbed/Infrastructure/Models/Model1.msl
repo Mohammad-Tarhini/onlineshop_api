@@ -37,42 +37,27 @@
     <EntitySetMapping Name="clientorders">
       <EntityTypeMapping TypeName="online_shopModel.clientorder">
         <MappingFragment StoreEntitySet="clientorder">
+          <ScalarProperty Name="deliverycost" ColumnName="deliverycost" />
+          <ScalarProperty Name="shopdeliveryPin" ColumnName="shopdeliveryPin" />
+          <ScalarProperty Name="deliveryshoprecievedata" ColumnName="deliveryshoprecievedata" />
+          <ScalarProperty Name="clientrecievedata" ColumnName="clientrecievedata" />
+          <ScalarProperty Name="clientdeliveryPIN" ColumnName="clientdeliveryPIN" />
+          <ScalarProperty Name="delivery_id" ColumnName="delivery_id" />
+          <ScalarProperty Name="shopid" ColumnName="shopid" />
+          <ScalarProperty Name="longitude" ColumnName="longitude" />
+          <ScalarProperty Name="latitude" ColumnName="latitude" />
           <ScalarProperty Name="order_id" ColumnName="order_id" />
           <ScalarProperty Name="client_id" ColumnName="client_id" />
           <ScalarProperty Name="total_price" ColumnName="total_price" />
           <ScalarProperty Name="order_date" ColumnName="order_date" />
           <ScalarProperty Name="order_status" ColumnName="order_status" />
-          <ScalarProperty Name="deliver_address" ColumnName="deliver_address" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="DeliveryAgents">
-      <EntityTypeMapping TypeName="online_shopModel.DeliveryAgent">
-        <MappingFragment StoreEntitySet="DeliveryAgent">
-          <ScalarProperty Name="Delivery_Agent_Id" ColumnName="Delivery_Agent_Id" />
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="phone_number" ColumnName="phone_number" />
-          <ScalarProperty Name="email" ColumnName="email" />
-          <ScalarProperty Name="logo_url" ColumnName="logo_url" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="DeliveryOrders">
-      <EntityTypeMapping TypeName="online_shopModel.DeliveryOrder">
-        <MappingFragment StoreEntitySet="DeliveryOrder">
-          <ScalarProperty Name="delivery_order_id" ColumnName="delivery_order_id" />
-          <ScalarProperty Name="order_id" ColumnName="order_id" />
-          <ScalarProperty Name="delivery_id" ColumnName="delivery_id" />
-          <ScalarProperty Name="assigned_at" ColumnName="assigned_at" />
-          <ScalarProperty Name="delivered_at" ColumnName="delivered_at" />
-          <ScalarProperty Name="delivery_status" ColumnName="delivery_status" />
-          <ScalarProperty Name="delivery_cost" ColumnName="delivery_cost" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="DeliveryProviders">
       <EntityTypeMapping TypeName="online_shopModel.DeliveryProvider">
         <MappingFragment StoreEntitySet="DeliveryProvider">
+          <ScalarProperty Name="person_id" ColumnName="person_id" />
           <ScalarProperty Name="delivery_Id" ColumnName="delivery_Id" />
           <ScalarProperty Name="Provider_Type" ColumnName="Provider_Type" />
           <ScalarProperty Name="note_text" ColumnName="note_text" />
@@ -111,7 +96,6 @@
           <ScalarProperty Name="order_id" ColumnName="order_id" />
           <ScalarProperty Name="payment_status" ColumnName="payment_status" />
           <ScalarProperty Name="payment_method" ColumnName="payment_method" />
-          <ScalarProperty Name="tax_amount" ColumnName="tax_amount" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -126,14 +110,6 @@
           <ScalarProperty Name="sex" ColumnName="sex" />
           <ScalarProperty Name="phone_number" ColumnName="phone_number" />
           <ScalarProperty Name="created_date" ColumnName="created_date" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="PersonDeliveries">
-      <EntityTypeMapping TypeName="online_shopModel.PersonDelivery">
-        <MappingFragment StoreEntitySet="PersonDelivery">
-          <ScalarProperty Name="delivery_person_id" ColumnName="delivery_person_id" />
-          <ScalarProperty Name="person_id" ColumnName="person_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -205,14 +181,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ShopDeliveries">
-      <EntityTypeMapping TypeName="online_shopModel.ShopDelivery">
-        <MappingFragment StoreEntitySet="ShopDelivery">
-          <ScalarProperty Name="delivary_shop_id" ColumnName="delivary_shop_id" />
-          <ScalarProperty Name="shop_id" ColumnName="shop_id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="ShopOwners">
       <EntityTypeMapping TypeName="online_shopModel.ShopOwner">
         <MappingFragment StoreEntitySet="ShopOwner">
@@ -271,5 +239,89 @@
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="online_shopModel.Store.sp_renamediagram" />
     <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="online_shopModel.Store.sp_upgraddiagrams" />
+    <EntitySetMapping Name="PendingRegistrations">
+      <EntityTypeMapping TypeName="online_shopModel.PendingRegistration">
+        <MappingFragment StoreEntitySet="PendingRegistrations">
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="OtpExpiresAt" ColumnName="OtpExpiresAt" />
+          <ScalarProperty Name="OtpCode" ColumnName="OtpCode" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="Sex" ColumnName="Sex" />
+          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="AddDeliveryAgent" FunctionName="online_shopModel.Store.AddDeliveryAgent" />
+    <FunctionImportMapping FunctionImportName="AddDeliveryperson" FunctionName="online_shopModel.Store.AddDeliveryperson" />
+    <FunctionImportMapping FunctionImportName="AddDeliveryShop" FunctionName="online_shopModel.Store.AddDeliveryShop" />
+    <FunctionImportMapping FunctionImportName="checkDelivery" FunctionName="online_shopModel.Store.checkDelivery" />
+    <FunctionImportMapping FunctionImportName="GetDelivery" FunctionName="online_shopModel.Store.GetDelivery">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="online_shopModel.GetDelivery_Result">
+          <ScalarProperty Name="delivery_Id" ColumnName="delivery_Id" />
+          <ScalarProperty Name="Provider_Type" ColumnName="Provider_Type" />
+          <ScalarProperty Name="note_text" ColumnName="note_text" />
+          <ScalarProperty Name="active_bit" ColumnName="active_bit" />
+          <ScalarProperty Name="created_at" ColumnName="created_at" />
+          <ScalarProperty Name="first_name" ColumnName="first_name" />
+          <ScalarProperty Name="last_name" ColumnName="last_name" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="phone_number" ColumnName="phone_number" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetItemOfOrder" FunctionName="online_shopModel.Store.GetItemOfOrder">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="online_shopModel.GetItemOfOrder_Result">
+          <ScalarProperty Name="Product_id" ColumnName="Product_id" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="imgurl_id" ColumnName="imgurl_id" />
+          <ScalarProperty Name="description" ColumnName="description" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetNeworder" FunctionName="online_shopModel.Store.GetNeworder">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="online_shopModel.GetNeworder_Result">
+          <ScalarProperty Name="order_id" ColumnName="order_id" />
+          <ScalarProperty Name="order_date" ColumnName="order_date" />
+          <ScalarProperty Name="Provider_Type" ColumnName="Provider_Type" />
+          <ScalarProperty Name="delivery_Id" ColumnName="delivery_Id" />
+          <ScalarProperty Name="deliveryName" ColumnName="deliveryName" />
+          <ScalarProperty Name="Phonenumber" ColumnName="Phonenumber" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetOrdersForDelivery" FunctionName="online_shopModel.Store.GetOrdersForDelivery">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="online_shopModel.GetOrdersForDelivery_Result">
+          <ScalarProperty Name="order_id" ColumnName="order_id" />
+          <ScalarProperty Name="order_date" ColumnName="order_date" />
+          <ScalarProperty Name="shopdeliveryPin" ColumnName="shopdeliveryPin" />
+          <ScalarProperty Name="shoplatitude" ColumnName="shoplatitude" />
+          <ScalarProperty Name="shopLongitude" ColumnName="shopLongitude" />
+          <ScalarProperty Name="shopphonenumber" ColumnName="shopphonenumber" />
+          <ScalarProperty Name="shopname" ColumnName="shopname" />
+          <ScalarProperty Name="shop_id" ColumnName="shop_id" />
+          <ScalarProperty Name="shopemail" ColumnName="shopemail" />
+          <ScalarProperty Name="clientname" ColumnName="clientname" />
+          <ScalarProperty Name="clientemail" ColumnName="clientemail" />
+          <ScalarProperty Name="clientphonenumber" ColumnName="clientphonenumber" />
+          <ScalarProperty Name="clientlatitude" ColumnName="clientlatitude" />
+          <ScalarProperty Name="clintlongitude" ColumnName="clintlongitude" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetPhoneAndEmailDelivery" FunctionName="online_shopModel.Store.GetPhoneAndEmailDelivery" />
+    <FunctionImportMapping FunctionImportName="insertorderafterpayment" FunctionName="online_shopModel.Store.insertorderafterpayment" />
+    <FunctionImportMapping FunctionImportName="Recieveorderfromdeliverytoclient" FunctionName="online_shopModel.Store.Recieveorderfromdeliverytoclient" />
+    <FunctionImportMapping FunctionImportName="recieveorderfromshoptoorder" FunctionName="online_shopModel.Store.recieveorderfromshoptoorder" />
   </EntityContainerMapping>
 </Mapping>

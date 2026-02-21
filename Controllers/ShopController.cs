@@ -4,6 +4,7 @@ using onlineshopowner_api.Domain.Interfaces.IRepository;
 using onlineshopowner_api.Infrastructure.BinderModel;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -23,77 +24,159 @@ namespace onlineshopowner_api.Controllers
         {
             this.shopServices = shopServices;
         }
-        [JwtAuthorize(Roles = "shopowner")]
+        [JwtAuthorize(Roles ="shopowner")]
         [HttpPost]
         [Route("api/shop/opennewshop")]
-        public async Task<IHttpActionResult> OpenNewShop([FromBody] OpenNewShopDto dto)
+        public async Task<IHttpActionResult> OpenNewShop()
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var (issucces, message) = await shopServices.OpenShop(dto);
-            if (!issucces)
+            var request= HttpContext.Current.Request;
+            var openNewShopDto=new OpenNewShopDto
             {
-                return BadRequest(message);
+                Name = request.Form["Name"],
+                Description = request.Form["Description"],
+                logo_url = request.Form["logo_url"],
+                Categories = request.Form["Categories"].Split(',').Select(int.Parse).ToList(),
+                File = request.Files["File"]
+            };
+            string response= await shopServices.OpenShop(openNewShopDto);
+            if (response == "success")
+            {
+                return Ok(response);
             }
-            return Ok(issucces);
-
-        }
-
-        [JwtAuthorize(Roles = "shopowner")]
-        [HttpPost]
-        [Route("api/shop/updateprofile")]
-        public async Task<IHttpActionResult> updateprofile([ModelBinder(typeof(UpdateProfileShopDtoModelBinder))] UpdatProfileShopeDto dto)
-        {
-            if (!ModelState.IsValid)
+            else
             {
-                return BadRequest(ModelState);
-
+                return BadRequest(response);
             }
-            var (issucces, message) = await shopServices.PutProfileForShop(dto);
-            if (!issucces) { return BadRequest(message); }
-            else return Ok(message);
         }
-        [HttpGet]
-        [Route("api/shop/getshoptypes")]
-        public async Task<IHttpActionResult> GetShopTypes([FromUri]int limit = 30,[FromUri] int page = 1, [FromUri] String search=null)
+        public async Task<IHttpActionResult> updataShop()
         {
-            try
+            var request = HttpContext.Current.Request;
+            var updateShopDto = new OpenNewShopDto
             {
-                var (issuccess, value,currentpage,pagesize,message) = await shopServices.GetShopTypes(limit, page,search);
-                if (!issuccess)
-                    return BadRequest(message);
-                else return Ok(new
-                {
-                    data = value,
-                    page =currentpage,
-                    limit=pagesize,
-                   
-                });
-            }catch (Exception ex) {return BadRequest(ex.Message+"cc"); }
+                Name = request.Form["Name"],
+                Description = request.Form["Description"],
+                Categories = request.Form["Categories"].Split(',').Select(int.Parse).ToList(),
+                logo_url = request.Form["logo_url"],
+                File = request.Files["File"]
+            };
+            string response = await shopServices.updataShop(updateShopDto);
+            if (response == "success")
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
         }
         [HttpGet]
         [Route("api/shop/Getshops")]
         public async Task<IHttpActionResult> Getshops([FromUri] int limit = 20, [FromUri] int pagenb = 1, [FromUri] string searchbyshopname = null, [FromUri] string searchbyshoptype = null)
         {
-            try
+          (var shopSumaryDtos ,var limt, var page )  =await shopServices.GetShops(limit, pagenb, searchbyshopname, searchbyshoptype);
+            if (shopSumaryDtos==null)
             {
-                var (issuccess, shops, message) = await shopServices.GetShops(limit, pagenb, searchbyshopname, searchbyshoptype);
-                if (issuccess)
-                {
-                    return Ok(new
-                    {
-                        shops = shops
+                return BadRequest("new data to return");
+            }
+            return Ok(new
+            {
+                shops = shopSumaryDtos,
+                limit = limt,
+                page = page
+            });
 
-                    });
-                }
-                else
-                {
-                    return BadRequest(message);
-                }
-            }catch (Exception ex) {return BadRequest(ex.Message); }
         }
-        
+        [HttpGet]
+        [Route("api/shop/getshoptypes")]
+        public async Task<IHttpActionResult> GetShopTypes([FromUri] int limit = 30, [FromUri] int page = 1, [FromUri] string search = null)
+        {
+            var (Types, Page, PageSize, Message) = await shopServices.GetShopTypes(limit, page, search);
+            if (Types == null)
+            {
+                return BadRequest(Message);
+            }
+            else
+            {
+                return Ok(new
+                {
+                    Types = Types,
+                    Page = Page,
+                    PageSize = PageSize,
+                    Message = Message
+                });
+            }
+        }
+        //[JwtAuthorize(Roles = "shopowner")]
+        //[HttpPost]
+        //[Route("api/shop/opennewshop")]
+        //public async Task<IHttpActionResult> OpenNewShop([FromBody] OpenNewShopDto dto)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return BadRequest(ModelState);
+
+        //    var (issucces, message) = await shopServices.OpenShop(dto);
+        //    if (!issucces)
+        //    {
+        //        return BadRequest(message);
+        //    }
+        //    return Ok(issucces);
+
+        //}
+
+        //[JwtAuthorize(Roles = "shopowner")]
+        //[HttpPost]
+        //[Route("api/shop/updateprofile")]
+        //public async Task<IHttpActionResult> updateprofile([ModelBinder(typeof(UpdateProfileShopDtoModelBinder))] UpdatProfileShopeDto dto)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+
+        //    }
+        //    var (issucces, message) = await shopServices.PutProfileForShop(dto);
+        //    if (!issucces) { return BadRequest(message); }
+        //    else return Ok(message);
+        //}
+        //[HttpGet]
+        //[Route("api/shop/getshoptypes")]
+        //public async Task<IHttpActionResult> GetShopTypes([FromUri]int limit = 30,[FromUri] int page = 1, [FromUri] String search=null)
+        //{
+        //    try
+        //    {
+        //        var (issuccess, value,currentpage,pagesize,message) = await shopServices.GetShopTypes(limit, page,search);
+        //        if (!issuccess)
+        //            return BadRequest(message);
+        //        else return Ok(new
+        //        {
+        //            data = value,
+        //            page =currentpage,
+        //            limit=pagesize,
+
+        //        });
+        //    }catch (Exception ex) {return BadRequest(ex.Message+"cc"); }
+        //}
+        //[HttpGet]
+        //[Route("api/shop/Getshops")]
+        //public async Task<IHttpActionResult> Getshops([FromUri] int limit = 20, [FromUri] int pagenb = 1, [FromUri] string searchbyshopname = null, [FromUri] string searchbyshoptype = null)
+        //{
+        //    try
+        //    {
+        //        var (issuccess, shops, message) = await shopServices.GetShops(limit, pagenb, searchbyshopname, searchbyshoptype);
+        //        if (issuccess)
+        //        {
+        //            return Ok(
+
+        //                 shops
+
+        //            );
+        //        }
+        //        else
+        //        {
+        //            return BadRequest(message+"t");
+        //        }
+        //    }catch (Exception ex) {return BadRequest(ex.Message); }
+        //}
+
 
 
 

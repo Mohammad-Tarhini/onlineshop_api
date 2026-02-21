@@ -2,7 +2,6 @@
 using onlineshopowner_api.Application.Interfaces.Iservices;
 using onlineshopowner_api.Application.Interfaces.Ivalidator;
 using onlineshopowner_api.Application.Validatorandclean;
-using onlineshopowner_api.Domain.Constant;
 using onlineshopowner_api.Domain.Entities;
 using onlineshopowner_api.Domain.Interfaces.IExternalServices;
 using onlineshopowner_api.Domain.Interfaces.IRepository;
@@ -10,10 +9,14 @@ using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Caching;
 using System.Web.Http;
 using System.Xml.Linq;
+using Twilio.TwiML.Messaging;
+using WebGrease;
 
 namespace onlineshopowner_api.Application.Services
 {
@@ -27,9 +30,11 @@ namespace onlineshopowner_api.Application.Services
         private readonly IImgur _imgur;
         private int _userId;
         private string _role;
-        
 
-        public ShopServices(IUserContextService usercontext, IUnityOfWork unityofwork, IImageService imageservice, IImgur imgur,IRedisCacheService redisCacheService,IRedisRepository redisRepository)
+
+
+
+        public ShopServices(IUserContextService usercontext, IUnityOfWork unityofwork, IImageService imageservice, IImgur imgur, IRedisCacheService redisCacheService, IRedisRepository redisRepository)
         {
             _usercontext = usercontext;
             _Unityofwork = unityofwork;
@@ -38,251 +43,218 @@ namespace onlineshopowner_api.Application.Services
             _imgur = imgur;
             _redisRepository = redisRepository;
         }
-        public async Task<(bool IsSuccess, string message)> PutProfileForShop(UpdatProfileShopeDto dto)
+        public async Task<int> validateShopOwner()
         {
-            // Get user ID from token
-            try
+            _userId = _usercontext.GetUserId();
+            _role = _usercontext.GetUserRole();
+            if (_role != "shopowner")
             {
-                _userId = _usercontext.GetUserId();
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                return (false, ex.Message);
-            }
-
-            // Check if image is provided
-            if (dto.logo_url == null && dto.File == null)
-                return (false, "No image provided.");
-
-            // Check if this user is a valid shop owner
-            var personResult = await _Unityofwork.PersonRepository.GetPersonByPersonId(_userId);
-            if (!personResult.IsSuccess || !personResult.IsFound)
-                return (false, personResult.Error);
-
-            var shopOwnerResult = await _Unityofwork.PersonRepository.GetShopOwnerByPersonAsync(personResult.Value);
-            if (!shopOwnerResult.IsSuccess || !shopOwnerResult.IsFound)
-                return (false, shopOwnerResult.Error);
-
-            var shopOwner = shopOwnerResult.Value;
-
-            // Check if the shop belongs to the shop owner
-            var shopResult = await _Unityofwork.ShopRepository.GetShopByShopOwner(shopOwner);
-            if (!shopResult.IsSuccess || !shopResult.IsFound)
-                return (false, shopResult.Error);
-
-            var shopEntity = shopResult.Value;
-
-            if (shopEntity.shopid != dto.shopid)
-                return (false, "You are not the owner of this shop.");
-
-            // Delete old image if exists
-            if (!string.IsNullOrWhiteSpace(shopEntity.logoUrl))
-            {
-                var (deleteSuccess, message) = await _imgur.DeleteImageAsync(shopEntity.deletehashingimage);
-                if (!deleteSuccess)
-                    return (false, message);
-            }
-
-            // Upload new image to cloud
-            string logoUrl = null;
-            string deleteHash = null;
-
-            try
-            {
-                bool uploadSuccess;
-                string cloudResponse;
-
-                if (dto.logo_url != null)
-                {
-                    (uploadSuccess, cloudResponse, deleteHash) = await _imageservice.ProcessImageAsync(100, 199, 100, imageUrl: dto.logo_url);
-                }
-                else
-                {
-                    (uploadSuccess, cloudResponse, deleteHash) = await _imageservice.ProcessImageAsync(10000, 19900, 109990, file: dto.File);
-                }
-
-                if (!uploadSuccess)
-                    return (false, cloudResponse);
-
-                logoUrl = cloudResponse;
-            }
-            catch
-            {
-                return (false, "Failed to process image.");
+                throw new UnauthorizedAccessException("Only shop owners can open a shop.");
             }
 
 
-
-            // Update shop logo URL in DB
-            try
-            {
-                var updateResult = await _Unityofwork.ShopRepository.Updatethelogourl(logoUrl, deleteHash, dto.shopid);
-                if (updateResult == UpdateDataProcess.Success)
-                    return (true, "Shop profile image updated successfully.");
-                else
-                    return (false, "Database update failed.");
-            }
-            catch (Exception ex)
-            {
-                return (false, $"Database update error: {ex.Message}");
-            }
-        }
-        public async Task<(bool IsSuccess, string message)> OpenShop(OpenNewShopDto dto)
-        {
-            try
-            {
-                _userId = _usercontext.GetUserId();
-                _role = _usercontext.GetUserRole();
-                if (_role != "shopowner") return (false, "the role is wrong ");
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                return (false, ex.Message);
-            }
             //check if userid is shopowner
-            Domain.Entities.ShopOwner shopowner;
-            try
+            var shownerId = await _Unityofwork.PersonRepository.GetShopOwnerIdByPersonId(_userId);
+            if (shownerId == null || shownerId == 0)
             {
-                var personResultCheckdb = await _Unityofwork.PersonRepository.GetPersonByPersonId(_userId);
-
-                if (!personResultCheckdb.IsSuccess) return (false, personResultCheckdb.Error);
-                if (!personResultCheckdb.IsFound) return (false, personResultCheckdb.Error);
-                try
-                {
-                    var shopownerResultCheckdb = await _Unityofwork.PersonRepository.GetShopOwnerByPersonAsync(personResultCheckdb.Value);
-                    if (!shopownerResultCheckdb.IsSuccess) return (false, shopownerResultCheckdb.Error);
-                    if (!shopownerResultCheckdb.IsFound) return (false, shopownerResultCheckdb.Error);
-                    shopowner = shopownerResultCheckdb.Value;
-
-                }
-                catch (Exception ex) { return (false, ex.Message); }
+                throw new UnauthorizedAccessException("User is not a shop owner.");
             }
-            catch (Exception ex) { return (false, ex.Message); }
+            return shownerId.Value;
+        }
+        public async Task<string> updataShop(OpenNewShopDto dto)
+        {
+            int shopOwnerId = await validateShopOwner();
+            if (shopOwnerId == null || shopOwnerId == 0)
+            {
+                throw new Exception("You don't have a shop to update.");
+            }
+            var shop = await _Unityofwork.ShopRepository.GetShopByShopOwnerId(shopOwnerId);
+            if (shop == null)
+            {
+                throw new Exception("You don't have a shop to update.");
+            }
+            if (string.IsNullOrEmpty(dto.logo_url) && dto.File == null && string.IsNullOrEmpty(dto.Name) && string.IsNullOrEmpty(dto.Description))
+            {
+                throw new Exception("No data to update.");
+            }
+            string oldDeleteHash = null;
+            if (dto.File != null || dto.logo_url != null)
+            {
+                (var ImageUrl, var deleteUrl) = await _imageservice.ProcessImageAsync(100, 199, 100, imageUrl: dto.logo_url, file: dto.File);
 
-            //check if this shopowner have shop before and add directly
-            var shop = await _Unityofwork.ShopRepository.GetShopByShopOwner(shopowner);
-            if (!shop.IsSuccess) return (false, shop.Error);
-            if (shop.IsFound) return (false, shop.Error);
-            Clean.CleanStrings(dto);
-
-
-
-
-            //add the shop
+                if (ImageUrl == null && deleteUrl == null)
+                {
+                    throw new Exception("Failed to process image.");
+                }
+                //delete old image
+                //if (!string.IsNullOrEmpty(shop.deletehashingimage))
+                //{
+                //    await _imgur.DeleteImageAsync(shop.deletehashingimage);
+                //}
+                oldDeleteHash = shop.deletehashingimage;
+                shop.logoUrl = ImageUrl;
+                shop.deletehashingimage = deleteUrl;
+            }
+            if (!string.IsNullOrEmpty(dto.Name))
+            {
+                shop.name = dto.Name;
+            }
+            if (!string.IsNullOrEmpty(dto.Description))
+            {
+                shop.description = dto.Description;
+            }
             try
             {
-                var theshop = new Domain.Entities.shop(name: dto.Name, d: dto.Description, shopownerid: shopowner.ShopOwnerId);
-                var addshop = await _Unityofwork.ShopRepository.createShoponDatabase(theshop);
-                if (addshop == "Success")
+                await _Unityofwork.ShopRepository.updateShop(shop);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to update shop: " + ex.Message);
+            }
+            if (!string.IsNullOrEmpty(oldDeleteHash))
+            {
+                await _imgur.DeleteImageAsync(oldDeleteHash);
+            }
+            return "Shop updated successfully.";
+        }
+        public async Task<string> OpenShop(OpenNewShopDto dto)
+        {
+
+            _userId = _usercontext.GetUserId();
+            _role = _usercontext.GetUserRole();
+            if (_role != "shopowner")
+            {
+                throw new UnauthorizedAccessException("Only shop owners can open a shop.");
+            }
+
+
+            //check if userid is shopowner
+            var shownerId = await _Unityofwork.PersonRepository.GetShopOwnerIdByPersonId(_userId);
+            if (shownerId == null || shownerId == 0)
+            {
+                throw new UnauthorizedAccessException("User is not a shop owner.");
+            }
+
+            var shopId = await _Unityofwork.ShopRepository.GetShopIDByShopownerId(shownerId.Value);
+            if (shopId != null || shopId != 0)
+            {
+                throw new Exception("You already have a shop.");
+            }
+            string ImageUrl = null;
+            string deleteUrl = null;
+            if (dto.File != null || !string.IsNullOrEmpty(dto.logo_url))
+            {
+                ( ImageUrl,  deleteUrl) = await _imageservice.ProcessImageAsync(100, 199, 100, imageUrl: dto.logo_url, file: dto.File);
+            }
+           
+
+            if (ImageUrl == null && deleteUrl == null)
+            {
+                throw new Exception("Failed to process image.");
+            }
+            var shop = new Domain.Entities.shop(name: dto.Name, d: dto.Description, shopownerid: shownerId.Value, logurl: ImageUrl, deletehashingimage: deleteUrl);
+            int newShopId;
+            try
+            {
+              newShopId=  await _Unityofwork.ShopRepository.AddShop(shop);
+            } catch (Exception ex)
+            {
+                _imgur.DeleteImageAsync(deleteUrl).Wait();
+                throw new Exception("Failed to add shop to database: " + ex.Message);
+            }
+            await _Unityofwork.ShopRepository.AddShopCategory(shopid: newShopId, dto.Categories);
+            return "Shop opened successfully.";
+        }
+
+
+
+        public async Task<(List<string> Types, int Page, int PageSize, string Message)> GetShopTypes(int limit = 30, int page = 1, string search = null)
+        {
+            limit = limit > 50 ? 30 : limit;
+            page = page < 1 ? 1 : page;
+
+            // 2️⃣ Query DB
+            int offset = (page - 1) * limit;
+            var dbResult = await _Unityofwork.ShopRepository
+                .GetShopType(offset, limit, search);
+
+            if (dbResult == null)
+            {
+                throw new Exception("Failed to retrieve shop types from database.");
+            }
+
+            return (Types: dbResult, Page: page, PageSize: limit, Message: "Shop types retrieved successfully.");
+        }
+
+
+
+        public async Task<(List<ShopSumaryDto>,int limit ,int page)> GetShops(int limit = 20, int page = 1, string name = null, string type = null)
+        {
+            if(limit > 50)
+            {
+                limit = 20;
+            }
+            if(page < 1)
+            {
+                page = 1;
+            }
+            string cacheKey = $"shops:p={page}:l={limit}:n={name}:t={type}";
+
+            // 1️⃣ Redis = full answer or nothing
+            try
+            {
+                var cached = await _rediscache.GetObjectAsync<List<ShopSumaryDto>>(cacheKey);
+                if (cached != null)
+                    return (cached,limit,page);
+            }
+            catch (Exception ex)
+            {
+               // FileLogger.LogWarning("Redis cache retrieval failed", ex);
+            }
+            // 2️⃣ DB is source of truth
+            int offset = (page - 1) * limit;
+            var shops = await _Unityofwork.ShopRepository
+                .GetShops(limit, offset, name, type);
+
+            if (shops == null)
+                throw new Exception("Failed to retrieve shops from database.");
+            var shopDtos = new List<ShopSumaryDto>();
+            foreach (var shop in shops)
+            {
+                var shopDto = new ShopSumaryDto
                 {
-                    return (true, "congrats the new shop");
-                }
-                else { return (false, addshop); }
+                    Id = shop.shopid,
+                    Name = shop.name,
+                    Description = shop.description,
+                    url = shop.logoUrl,
+                    type = shop.type
+                };
+                shopDtos.Add(shopDto);
+            }
+
+
+            // 3️⃣ Cache full result
+            try
+            {
+                await _rediscache.SetObjectAsync(
+                    cacheKey,
+                    shopDtos,
+                    TimeSpan.FromMinutes(5)
+                );
+
 
             }
             catch (Exception ex)
             {
-                return (false, ex.Message);
-
+               // FileLogger.LogWarning("Redis cache set failed", ex);
             }
-        }
-        public async Task<(bool issuccess,List<string> types, int page,int pagesize, string message)> GetShopTypes(int limit = 30, int page = 1,string search=null)
-        {
-            try { 
-            if (limit > 50) { limit = 30; }
-            
-
-            const string redisKey = "shop_types:cached_list";
-            var cachedlist = await _rediscache.GetObjectAsync<List<string>>(redisKey);
-                if (cachedlist==null)
-                {
-                    cachedlist=new List<string>();
-                }
-                int offset = (page - 1) * limit;
-                if (!string.IsNullOrWhiteSpace(search))
-                {
-                    // Filter Redis list by search
-                    search=search.ToLower();
-                  cachedlist = cachedlist.Where(t => t.Contains(search)).ToList();
-                }
-                
-                if (cachedlist.Count > offset+limit)
-                { 
-                    var result=cachedlist.Skip(offset).Take(limit).ToList();
-                    return (true, result, page, limit, "from Redis");
-                
-                }
-                var resultpartial=cachedlist.Skip(offset).Take(limit).ToList();
-                int missingcount=limit-resultpartial.Count;
-
-                int dbOffset = cachedlist.Count;
-
-                var dbResult = await _Unityofwork.ShopRepository.GetShopType(dbOffset, missingcount,search);
-                if ( !dbResult.IsSuccess)
-                {
-                    return (false, null,0,0, dbResult.Error);
-                }
-                //cachedlist.AddRange(dbResult.Value);
-                // var addtoredis = cachedlist.GetRange(0, 40);
-                //var addtoredis=cachedlist.Take(40).ToList();
-                int remainingSpace = 40 - cachedlist.Count;
-                if (remainingSpace > 0)
-                {
-                   
-                    await _rediscache.SetObjectAsync(redisKey, dbResult.Value.Take(remainingSpace), TimeSpan.FromHours(2));
-                }
-                await _rediscache.SetObjectAsync(redisKey, cachedlist, TimeSpan.FromHours(2));
-                var final=resultpartial.Concat(dbResult.Value).ToList();
-                if (final.Count == 0)
-                    return (false, null, page, limit, "No data on this page");
-                return (true, final,page,limit,null);
-            }catch(Exception ex)
-            {
-                return(false,null,0,0,ex.Message+"dd");
-            }
-            
-        }
-        public async Task<(bool issuccess,List<ShopSumaryDto> Dtoshops , string message)> GetShops( int limit = 20,  int pagenb = 1,  string searchbyshopname = null,  string searchbyshoptype = null)
-        {
-            try
-            {
-                int allkeyscount;
-                var (status, redisshopdto, message) = await _redisRepository.GetShopsByRedis(limit, pagenb, searchbyshopname, searchbyshoptype);
-                int offset;
-                if (status== "fullsuccess")
-                return (true,redisshopdto,null);
-                else 
-                {
-                    var isint=int.TryParse(message,out  allkeyscount);
-                    if (isint)
-                     offset = allkeyscount+(pagenb - 1) * limit;
-                    else offset = (pagenb - 1) * limit;
-                }
-               
-                var resultdb=await _Unityofwork.ShopRepository.GetShoptouser(limit,offset,searchbyshopname,searchbyshoptype);
-                if (resultdb.IsSuccess) {
-                    if (allkeyscount < 50)
-                    {
-                      await  _redisRepository.SetShopInRedis(resultdb.Value);
-                    }
-                    return (true, resultdb.Value, ""); }
-                else  
-                { return (false, null, resultdb.Error); }
-            }
-            catch (Exception ex) 
-            {
-                return(false, null,ex.Message);
-            }
-            
-
-
-
-
-           
+            return (shopDtos,limit,page);
         }
 
 
 
+    
     }
-}
+    }
+
   

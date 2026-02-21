@@ -19,8 +19,8 @@ namespace onlineshopowner_api.Infrastructure.Models
         {
             this.admains = new HashSet<admain>();
             this.Clients = new HashSet<Client>();
-            this.PersonDeliveries = new HashSet<PersonDelivery>();
             this.ShopOwners = new HashSet<ShopOwner>();
+            this.DeliveryProviders = new HashSet<DeliveryProvider>();
         }
     
         public int person_id { get; set; }
@@ -37,8 +37,8 @@ namespace onlineshopowner_api.Infrastructure.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Client> Clients { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PersonDelivery> PersonDeliveries { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ShopOwner> ShopOwners { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DeliveryProvider> DeliveryProviders { get; set; }
     }
 }

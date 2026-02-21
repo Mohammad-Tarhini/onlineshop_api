@@ -1,6 +1,7 @@
 ﻿using onlineshopowner_api.Application.Interfaces.Iservices;
 using onlineshopowner_api.Domain.Interfaces.IRepository;
 using onlineshopowner_api.Infrastructure.Models;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,8 @@ namespace onlineshopowner_api.Infrastructure.Repositories
         public IRedisRepository RedisRepository { get; set; }
          public IDelivaryRepository  DelivaryRepository { get; set; }
         public IPaymentAndOrderRepository paymentAndOrderRepository { get; set; }
-        public UnitOfWork(online_shopEntities1 dbContext, IpersonRepository personRepository, IShopRepository shopRepository, IcategoryRepository categoryRepository,IShopRepository shopRepository1,IProductRepository productRepository,IRedisRepository redisRepository,IDelivaryRepository delivaryRepository,IPaymentAndOrderRepository paymentAndOrderRepository)
+        public IPaymentRepository paymentRepository { get; set; }
+        public UnitOfWork(online_shopEntities1 dbContext, IpersonRepository personRepository, IShopRepository shopRepository, IcategoryRepository categoryRepository,IShopRepository shopRepository1,IProductRepository productRepository,IRedisRepository redisRepository,IDelivaryRepository delivaryRepository,IPaymentAndOrderRepository paymentAndOrderRepository ,IPaymentRepository paymentRepository)
         {
             _db = dbContext;
             PersonRepository = personRepository;
@@ -31,12 +33,20 @@ namespace onlineshopowner_api.Infrastructure.Repositories
             RedisRepository = redisRepository;
             DelivaryRepository = delivaryRepository;
             this.paymentAndOrderRepository = paymentAndOrderRepository;
-            
+            this.paymentRepository = paymentRepository;
+
         }
         public async Task<int> CommitAsync()
         {
             return await _db.SaveChangesAsync();
         }
+        public IDBTransaction  BeginTransaction()
+        {
+            var transaction = _db.Database.BeginTransaction();
+            return new EfTransaction(transaction);
+        }
+
+
         public void Dispose()
         {
             _db.Dispose();

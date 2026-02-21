@@ -23,104 +23,19 @@ namespace onlineshopowner_api.Controllers
 
         }
 
-        [HttpPost]
-        [Route("api/delivery/adddeliveryagent")]
-        public async Task<IHttpActionResult> AddDelivaryAgent([FromBody] DeliveryAgentDto deliveryAgentDto)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-                var (issuccess, isalreadyexist, message) = await deliveryServices.AddDeliveryAgent(deliveryAgentDto);
-                if (!issuccess) return BadRequest(message);
-                if (isalreadyexist) return BadRequest(message);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message+"hi ");
-            }
-        }
 
-        [HttpPost]
-        [Route("api/delivery/adddeliveryperson")]
-        public async Task<IHttpActionResult> AddDeliveryPerson([FromBody] DeliveryPersonDto deliveryPersonDto)
-        {
-            try
-            {
-                if (!ModelState.IsValid) { return BadRequest(ModelState); }
-                var (issuccess, isalreadyexist, message) = await deliveryServices.AddPersonDelivery(deliveryPersonDto);
-                if (!issuccess) { return BadRequest(message); }
-                if (isalreadyexist) { return BadRequest(message); }
-                return Ok();
-            }
-            catch(Exception ex) {return BadRequest(ex.Message+"hi") ;}
-        }
-        [JwtAuthorize(Roles = "shopowner")]
-        [HttpPost]
-        [Route("api/delivery/adddeliveryshop")]
-
-        public async Task<IHttpActionResult> AddDeliveryshop([FromBody] DeliveryShopDto deliveryShopDto)
-        {
-            if (!ModelState.IsValid) { return BadRequest(ModelState); }
-            var (issuccess, isalreadyexist, message) = await deliveryServices.AddShopDelivery(deliveryShopDto);
-            if (!issuccess) { return BadRequest(message); }
-            if (isalreadyexist) { return BadRequest(message); }
-            return Ok();
-        }
-        [HttpPost]
-        [Route("api/delivery/deliverylogin")]
-        public async Task<IHttpActionResult>LoginASDeliveryAgent(LoginDeliveryDto loginDeliveryDto)
-        {
-            try
-            {
-                if (!ModelState.IsValid) { return BadRequest(ModelState); }
-                var (issuccess, message) = await deliveryServices.LoginDeliveryAgent(loginDeliveryDto);
-                if (!issuccess) { return BadRequest(message); }
-                if (issuccess) { return Ok(message); }
-                return BadRequest();
-            }catch(Exception ex) {return BadRequest(ex.Message); }
-        }
 
         [HttpGet]
-        [JwtAuthorize(Roles = "client")]
         [Route("api/delivary/getdeliveryonloction")]
-        public async Task<IHttpActionResult> GetDelivaryAndPostForlocation([FromBody] OrderLocationDto dto)
+        public async Task<IHttpActionResult> GetDelivaryAcordingForlocation([FromBody] OrderLocationDto dto)
         {
-            try
+            var deliveries = await deliveryServices.GetDelivaryAcordingForlocationService(dto);
+            if(deliveries == null)
             {
-                if (!ModelState.IsValid) { return BadRequest(ModelState); }
-                var (issucess, deliverypersondtos, deliveryagentdtos, deliveryshopdto, routedto, message) = await deliveryServices.getdeliverylocationclient(dto);
-
-                if (!issucess)
-                {
-                    return BadRequest(string.IsNullOrWhiteSpace(message)
-                        ? "Unknown error occurred while getting delivery location."
-                        : message);
-                }
-                else
-                {
-                    return
-                Ok(new
-                {
-                    deliverypersons = deliverypersondtos,
-                    deliveryagent = deliveryagentdtos,
-                    deliveryshop = deliveryshopdto,
-                    route = routedto,
-                    
-                });
-                }
+                return NotFound();
             }
-            catch (Exception ex) 
-            {
-                return(BadRequest(ex.Message+ex.InnerException+ex.Source+ex.HResult+"hi"));
-            }
+            return Ok(deliveries);
         }
-        //[HttpGet]
-        //[JwtAuthorize(Roles = "client")]
-        ////public  async Task<IHttpActionResult> GetTheOrderToDeliver()
-        ////{
-
-        ////}
+      
     }
 }

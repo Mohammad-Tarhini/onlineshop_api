@@ -19,6 +19,7 @@ namespace onlineshopowner_api.Infrastructure.Models
         public string payment_status { get; set; }
         public string payment_method { get; set; }
         public Nullable<decimal> tax_amount { get; set; }
+        public string url { get; set; }
     
         public virtual clientorder clientorder { get; set; }
     }

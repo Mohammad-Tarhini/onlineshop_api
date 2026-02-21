@@ -1,0 +1,426 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\infrastructure\\repositories\\redisrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:infrastructure\\repositories\\redisrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\infrastructure\\repositories\\personrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:infrastructure\\repositories\\personrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\infrastructure\\repositories\\paymentandorderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:infrastructure\\repositories\\paymentandorderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\infrastructure\\repositories\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:infrastructure\\repositories\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\infrastructure\\repositories\\delivaryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:infrastructure\\repositories\\delivaryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\infrastructure\\repositories\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:infrastructure\\repositories\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\infrastructure\\repositories\\shoprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:infrastructure\\repositories\\shoprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\application\\services\\payandregisterorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:application\\services\\payandregisterorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\domain\\interfaces\\irepository\\ipaymentandorderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:domain\\interfaces\\irepository\\ipaymentandorderrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\application\\dtos\\paymentandorder\\recievefromshoptodeliverydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:application\\dtos\\paymentandorder\\recievefromshoptodeliverydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\application\\dtos\\paymentandorder\\paydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:application\\dtos\\paymentandorder\\paydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\application\\dtos\\paymentandorder\\orderitemrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:application\\dtos\\paymentandorder\\orderitemrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\application\\dtos\\paymentandorder\\returnorderfordeliverydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:application\\dtos\\paymentandorder\\returnorderfordeliverydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\application\\dtos\\categorydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:application\\dtos\\categorydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\domain\\entities\\paymentandorder\\orderdetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:domain\\entities\\paymentandorder\\orderdetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\domain\\entities\\paymentandorder\\cartitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:domain\\entities\\paymentandorder\\cartitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\application\\dtos\\paymentandorder\\returnitemorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:application\\dtos\\paymentandorder\\returnitemorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\domain\\interfaces\\irepository\\ipersonrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:domain\\interfaces\\irepository\\ipersonrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\domain\\entities\\paymentandorder\\clientorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:domain\\entities\\paymentandorder\\clientorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|c:\\users\\pc\\source\\repos\\onlineshopowner_api\\application\\dtos\\paymentandorder\\returnorderforshopdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:application\\dtos\\paymentandorder\\returnorderforshopdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\application\\interfaces\\iservices\\iorderservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:application\\interfaces\\iservices\\iorderservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\controllers\\orderandpaymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD3397ED-D2B4-4A0B-88F6-25A49772B62A}|onlineshopowner_api.csproj|solutionrelative:controllers\\orderandpaymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "RedisRepository.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Infrastructure\\Repositories\\RedisRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\RedisRepository.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Infrastructure\\Repositories\\RedisRepository.cs",
+              "RelativeToolTip": "Infrastructure\\Repositories\\RedisRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T14:32:20.1Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DelivaryRepository.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Infrastructure\\Repositories\\DelivaryRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\DelivaryRepository.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Infrastructure\\Repositories\\DelivaryRepository.cs",
+              "RelativeToolTip": "Infrastructure\\Repositories\\DelivaryRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T14:32:12.976Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CategoryRepository.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Infrastructure\\Repositories\\CategoryRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\CategoryRepository.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Infrastructure\\Repositories\\CategoryRepository.cs",
+              "RelativeToolTip": "Infrastructure\\Repositories\\CategoryRepository.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T14:32:12.131Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UnitOfWork.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Infrastructure\\Repositories\\UnitOfWork.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\UnitOfWork.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Infrastructure\\Repositories\\UnitOfWork.cs",
+              "RelativeToolTip": "Infrastructure\\Repositories\\UnitOfWork.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T14:32:09.969Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ShopRepository.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Infrastructure\\Repositories\\ShopRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\ShopRepository.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Infrastructure\\Repositories\\ShopRepository.cs",
+              "RelativeToolTip": "Infrastructure\\Repositories\\ShopRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T14:32:08.52Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "OrderItemRequestDto.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Dtos\\PaymentAndOrder\\OrderItemRequestDto.cs",
+              "RelativeDocumentMoniker": "Application\\Dtos\\PaymentAndOrder\\OrderItemRequestDto.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Dtos\\PaymentAndOrder\\OrderItemRequestDto.cs",
+              "RelativeToolTip": "Application\\Dtos\\PaymentAndOrder\\OrderItemRequestDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T13:50:57.631Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "CategoryDto.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Dtos\\CategoryDto.cs",
+              "RelativeDocumentMoniker": "Application\\Dtos\\CategoryDto.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Dtos\\CategoryDto.cs",
+              "RelativeToolTip": "Application\\Dtos\\CategoryDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T13:47:33.212Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "RecievefromShopToDeliveryDto.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Dtos\\PaymentAndOrder\\RecievefromShopToDeliveryDto.cs",
+              "RelativeDocumentMoniker": "Application\\Dtos\\PaymentAndOrder\\RecievefromShopToDeliveryDto.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Dtos\\PaymentAndOrder\\RecievefromShopToDeliveryDto.cs",
+              "RelativeToolTip": "Application\\Dtos\\PaymentAndOrder\\RecievefromShopToDeliveryDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T13:45:46.614Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "OrderDetail.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Domain\\Entities\\PaymentAndOrder\\OrderDetail.cs",
+              "RelativeDocumentMoniker": "Domain\\Entities\\PaymentAndOrder\\OrderDetail.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Domain\\Entities\\PaymentAndOrder\\OrderDetail.cs",
+              "RelativeToolTip": "Domain\\Entities\\PaymentAndOrder\\OrderDetail.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T13:14:27.403Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "returnItemOrder.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Dtos\\PaymentAndOrder\\returnItemOrder.cs",
+              "RelativeDocumentMoniker": "Application\\Dtos\\PaymentAndOrder\\returnItemOrder.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Dtos\\PaymentAndOrder\\returnItemOrder.cs",
+              "RelativeToolTip": "Application\\Dtos\\PaymentAndOrder\\returnItemOrder.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T12:50:40.239Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "IpersonRepository.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Domain\\Interfaces\\IRepository\\IpersonRepository.cs",
+              "RelativeDocumentMoniker": "Domain\\Interfaces\\IRepository\\IpersonRepository.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Domain\\Interfaces\\IRepository\\IpersonRepository.cs",
+              "RelativeToolTip": "Domain\\Interfaces\\IRepository\\IpersonRepository.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA8AAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T12:24:35.26Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PersonRepository.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Infrastructure\\Repositories\\PersonRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\PersonRepository.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Infrastructure\\Repositories\\PersonRepository.cs",
+              "RelativeToolTip": "Infrastructure\\Repositories\\PersonRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T12:14:45.257Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "clientOrder.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Domain\\Entities\\PaymentAndOrder\\clientOrder.cs",
+              "RelativeDocumentMoniker": "Domain\\Entities\\PaymentAndOrder\\clientOrder.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Domain\\Entities\\PaymentAndOrder\\clientOrder.cs",
+              "RelativeToolTip": "Domain\\Entities\\PaymentAndOrder\\clientOrder.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwA4AAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T11:21:39.942Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PaymentAndOrderRepository.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Infrastructure\\Repositories\\PaymentAndOrderRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\PaymentAndOrderRepository.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Infrastructure\\Repositories\\PaymentAndOrderRepository.cs",
+              "RelativeToolTip": "Infrastructure\\Repositories\\PaymentAndOrderRepository.cs",
+              "ViewState": "AgIAAO8AAAAAAAAAAAAqwPEAAAB3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T11:16:27.339Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "returnOrderForDeliveryDto.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Dtos\\PaymentAndOrder\\returnOrderForDeliveryDto.cs",
+              "RelativeDocumentMoniker": "Application\\Dtos\\PaymentAndOrder\\returnOrderForDeliveryDto.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Dtos\\PaymentAndOrder\\returnOrderForDeliveryDto.cs",
+              "RelativeToolTip": "Application\\Dtos\\PaymentAndOrder\\returnOrderForDeliveryDto.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAgwCQAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T09:50:22.259Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "returnOrderForShopDto.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Dtos\\PaymentAndOrder\\returnOrderForShopDto.cs",
+              "RelativeDocumentMoniker": "Application\\Dtos\\PaymentAndOrder\\returnOrderForShopDto.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Dtos\\PaymentAndOrder\\returnOrderForShopDto.cs",
+              "RelativeToolTip": "Application\\Dtos\\PaymentAndOrder\\returnOrderForShopDto.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAwAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-19T09:46:35.831Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{fbcae063-e2c0-4ab1-a516-996ea3dafb72}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{74946827-37a0-11d2-a273-00c04f8ef4ff}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:2:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "IPaymentAndOrderRepository.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Domain\\Interfaces\\IRepository\\IPaymentAndOrderRepository.cs",
+              "RelativeDocumentMoniker": "Domain\\Interfaces\\IRepository\\IPaymentAndOrderRepository.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Domain\\Interfaces\\IRepository\\IPaymentAndOrderRepository.cs",
+              "RelativeToolTip": "Domain\\Interfaces\\IRepository\\IPaymentAndOrderRepository.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABQAAABrAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-18T13:01:28.375Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "PayAndRegisterOrder.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Services\\PayAndRegisterOrder.cs",
+              "RelativeDocumentMoniker": "Application\\Services\\PayAndRegisterOrder.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Services\\PayAndRegisterOrder.cs",
+              "RelativeToolTip": "Application\\Services\\PayAndRegisterOrder.cs",
+              "ViewState": "AgIAAJ8BAAAAAAAAAADwv5sBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-10T15:32:46.934Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "CartItem.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Domain\\Entities\\PaymentAndOrder\\CartItem.cs",
+              "RelativeDocumentMoniker": "Domain\\Entities\\PaymentAndOrder\\CartItem.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Domain\\Entities\\PaymentAndOrder\\CartItem.cs",
+              "RelativeToolTip": "Domain\\Entities\\PaymentAndOrder\\CartItem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-18T12:55:33.127Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "IOrderServices.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Interfaces\\Iservices\\IOrderServices.cs",
+              "RelativeDocumentMoniker": "Application\\Interfaces\\Iservices\\IOrderServices.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Interfaces\\Iservices\\IOrderServices.cs",
+              "RelativeToolTip": "Application\\Interfaces\\Iservices\\IOrderServices.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-18T11:22:45.409Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "PayDto.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Dtos\\PaymentAndOrder\\PayDto.cs",
+              "RelativeDocumentMoniker": "Application\\Dtos\\PaymentAndOrder\\PayDto.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Application\\Dtos\\PaymentAndOrder\\PayDto.cs",
+              "RelativeToolTip": "Application\\Dtos\\PaymentAndOrder\\PayDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-10T15:20:04.975Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "OrderAndPaymentController.cs",
+              "DocumentMoniker": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Controllers\\OrderAndPaymentController.cs",
+              "RelativeDocumentMoniker": "Controllers\\OrderAndPaymentController.cs",
+              "ToolTip": "C:\\Users\\pc\\source\\repos\\onlineshopowner_api\\Controllers\\OrderAndPaymentController.cs",
+              "RelativeToolTip": "Controllers\\OrderAndPaymentController.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAAUwDQAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-10T15:13:55.822Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
