@@ -29,7 +29,7 @@ namespace onlineshopowner_api.Controllers
         [Route("api/delivary/getdeliveryonloction")]
         public async Task<IHttpActionResult> GetDelivaryAcordingForlocation([FromBody] OrderLocationDto dto)
         {
-            var deliveries = await deliveryServices.GetDelivaryAcordingForlocationService(dto);
+            var deliveries = await deliveryServices.GetDeliveryAccordingToLocationAsync(dto);
             if(deliveries == null)
             {
                 return NotFound();

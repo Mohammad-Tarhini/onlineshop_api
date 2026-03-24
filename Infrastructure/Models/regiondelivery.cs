@@ -19,9 +19,6 @@ namespace onlineshopowner_api.Infrastructure.Models
         public Nullable<int> region_id { get; set; }
     
         public virtual DeliveryProvider DeliveryProvider { get; set; }
-        public virtual DeliveryProvider DeliveryProvider1 { get; set; }
-        public virtual DeliveryProvider DeliveryProvider2 { get; set; }
         public virtual Region Region { get; set; }
-        public virtual DeliveryProvider DeliveryProvider3 { get; set; }
     }
 }

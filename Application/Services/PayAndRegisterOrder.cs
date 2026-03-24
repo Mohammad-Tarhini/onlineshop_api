@@ -5,6 +5,7 @@ using onlineshopowner_api.Application.Interfaces.Iservices;
 using onlineshopowner_api.Domain.Entities.PaymentAndOrder;
 using onlineshopowner_api.Domain.Interfaces.IExternalServices;
 using onlineshopowner_api.Infrastructure.ExternalServices.Payment;
+using onlineshopowner_api.Infrastructure.OnException;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -42,18 +43,23 @@ namespace onlineshopowner_api.Application.Services
             {
                 throw new Exception("user is not client");
             }
-            var client = unityOfWork.PersonRepository.GetClientIdByPersonId(userid);
+            var client =await unityOfWork.PersonRepository.GetClientIdByPersonId(userid);
+            if (client == null) 
+            {
+                throw new DomainException("");
+            }
             var (products, totalPriceOfProducts) = await CheckExistenceOfOrderItem(dto.Items, dto.OrderLocation.shopid);
             var deliveryCost = await calculateDeliveryPrice(dto.DeliveryProviderId, dto.OrderLocation.shopid, dto.OrderLocation.latitude, dto.OrderLocation.longitude);
 
             var clientorder = new Domain.Entities.PaymentAndOrder.clientOrder
             {
-                clientId = client.Id,
+                clientId = client.Value,
                 DeliveryCost = deliveryCost,
                 latitude = dto.OrderLocation.latitude,
                 longitude = dto.OrderLocation.longitude,
                 shopId = dto.OrderLocation.shopid,
                 ProductTotalCost = totalPriceOfProducts,
+                deliveryProviderId = dto.DeliveryProviderId,
 
                 // totalcost = totalPriceOfProducts + deliveryPrice
             };
@@ -77,7 +83,7 @@ namespace onlineshopowner_api.Application.Services
             {
                 OrderId = orderId,
                 Amount = totalCost,
-                WebhookUrl = "https://localhost:44300/api/gateway/webhook"
+                WebhookUrl = "https://localhost:44364/api/gateway/webhook"
             };
             var paymentResult = await fakeGatewayService.CreateSessionAsync(paymentRequest);
 
@@ -149,6 +155,11 @@ namespace onlineshopowner_api.Application.Services
             }
             decimal pricePerKm = delivery.price_delivery_per_km;
             var routeInfo = await googleMapService.GetRouteInfoAsync(shopLatitude, shopLongitude, orderLatitude, orderLongitude);
+            if (routeInfo == null)
+            {
+
+                throw new  DomainException("the route not found or the map api failled ");
+            }
             decimal distanceInKm = (decimal)routeInfo.Distance / 1000; // Convert distance from meters to kilometers
             decimal deliveryCost = distanceInKm * pricePerKm;
             return deliveryCost;
@@ -164,10 +175,14 @@ namespace onlineshopowner_api.Application.Services
             {
                 throw new Exception("order not found");
             }
-            if (gatwayPayment.Status.ToLower() == "failed")
-            {
-                throw new Exception("sory your no receive money ");
-            }
+            //if (gatwayPayment.Status.ToLower() == "failed")
+            //{
+            //    throw new Exception("sory your no receive money ");
+            //}
+            //if (order.orderStatus == "paid")
+            //{
+            //    throw new Exception("you paid befor");
+            //}
             await unityOfWork.paymentAndOrderRepository.updateStatusOnClientOrder(order.orderId, "paid");
             var PayInD = new Domain.Entities.Payment.PayIn
             {

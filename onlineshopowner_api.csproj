@@ -317,6 +317,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\Dtos\AuthoDto\VerifyDeliveryRequestDto.cs" />
     <Compile Include="Application\Dtos\CategoryDto.cs" />
     <Compile Include="Application\Dtos\AuthoDto\VerifyOtpDto.cs" />
     <Compile Include="Application\Dtos\DeliveryDtos\Response\GetDeliveryOnLocationDto.cs" />
@@ -331,6 +332,8 @@
     <Compile Include="Application\Dtos\PaymentAndOrder\returnItemOrder.cs" />
     <Compile Include="Application\Dtos\PaymentAndOrder\returnOrderForDeliveryDto.cs" />
     <Compile Include="Application\Dtos\PaymentAndOrder\returnOrderForShopDto.cs" />
+    <Compile Include="Controllers\TestingController.cs" />
+    <Compile Include="Domain\Entities\data\Admain.cs" />
     <Compile Include="Domain\Entities\Payment\InternalTransaction.cs" />
     <Compile Include="Domain\Entities\Payment\PayIn.cs" />
     <Compile Include="Application\Dtos\ProductDtos\ProductReturnDto.cs" />
@@ -380,7 +383,6 @@
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Domain\Entities\data\Category.cs" />
-    <Compile Include="Domain\Entities\data\Admain.cs" />
     <Compile Include="Domain\Entities\Delivery\DeliveryProvider.cs" />
     <Compile Include="Domain\Entities\Delivery\DeliveryRegion.cs" />
     <Compile Include="Domain\Entities\Delivery\DeliveryWorkigHours.cs" />
@@ -396,13 +398,12 @@
     <Compile Include="Domain\Entities\data\Person.cs" />
     <Compile Include="Domain\Interfaces\IExternalServices\IEmailService.cs" />
     <Compile Include="Domain\Interfaces\IExternalServices\IFakeGatewayService.cs" />
-    <Compile Include="Domain\Interfaces\IExternalServices\ITwilioMessageService.cs" />
     <Compile Include="Domain\Interfaces\IExternalServices\IImgur.cs" />
+    <Compile Include="Domain\Interfaces\IExternalServices\ITwilioMessageService.cs" />
     <Compile Include="Domain\Interfaces\IExternalServices\IGoogleMapService.cs" />
     <Compile Include="Domain\Interfaces\IExternalServices\IRedisCacheService.cs" />
     <Compile Include="Domain\Interfaces\IMapper.cs" />
     <Compile Include="Domain\Interfaces\IRepository\IPaymentAndOrderRepository.cs" />
-    <Compile Include="Domain\Interfaces\IRepository\IcategoryRepository.cs" />
     <Compile Include="Domain\Interfaces\IRepository\IDelivaryRepository.cs" />
     <Compile Include="Domain\Interfaces\IRepository\IPaymentRepository.cs" />
     <Compile Include="Domain\Interfaces\IRepository\IProductRepository.cs" />
@@ -435,9 +436,6 @@
     <Compile Include="Infrastructure\Models\clientorder.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Models\DeliveryOrder.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Infrastructure\Models\DeliveryProvider.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -447,16 +445,10 @@
     <Compile Include="Infrastructure\Models\GetDelivery_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Models\GetItemOfOrder_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Infrastructure\Models\GetNeworder_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Infrastructure\Models\GetOrdersForDelivery_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Infrastructure\Models\getproduct_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\Models\InternalTransaction.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Models\Model1.Context.cs">
@@ -477,7 +469,10 @@
     <Compile Include="Infrastructure\Models\OrderDetail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Models\Payment.cs">
+    <Compile Include="Infrastructure\Models\Payin.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\Models\Payout.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Models\PendingRegistration.cs">
@@ -487,9 +482,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Models\Product.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Infrastructure\Models\ProductImage.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Models\Region.cs">
@@ -523,7 +515,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\OnException\ValidateModelAttribute .cs" />
-    <Compile Include="Infrastructure\Repositories\CategoryRepository.cs" />
     <Compile Include="Infrastructure\Repositories\EFTransaction.cs" />
     <Compile Include="Infrastructure\Repositories\PaymentAndOrderRepository.cs" />
     <Compile Include="Infrastructure\Repositories\DelivaryRepository.cs" />

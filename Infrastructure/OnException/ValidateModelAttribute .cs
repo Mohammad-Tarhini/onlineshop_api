@@ -9,13 +9,35 @@ using System.Web.Http.Filters;
 
 namespace onlineshopowner_api.Infrastructure.OnException
 {
-    public class ValidateModelAttribute: ActionFilterAttribute
+    public class ValidateModelAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
+
+            //    if (actionContext.ActionArguments.Any(x => x.Value == null))
+            //    {
+            //        actionContext.Response = actionContext.Request.CreateResponse(
+            //            HttpStatusCode.BadRequest,
+            //            new { Message = "Request body cannot be empty" }
+            //        );
+            //        return;
+            //    }
+            foreach (var arg in actionContext.ActionArguments)
+            {
+                var type = arg.Value?.GetType();
+
+                if (arg.Value == null && type != null && !type.IsPrimitive && type != typeof(string))
+                {
+                    actionContext.Response = actionContext.Request.CreateResponse(
+                        HttpStatusCode.BadRequest,
+                        new { Message = "Request body cannot be empty" }
+                    );
+                    return;
+                }
+            }
+
             if (!actionContext.ModelState.IsValid)
             {
-                // Optional: format errors nicely
                 var errors = actionContext.ModelState
                     .Where(x => x.Value.Errors.Count > 0)
                     .ToDictionary(

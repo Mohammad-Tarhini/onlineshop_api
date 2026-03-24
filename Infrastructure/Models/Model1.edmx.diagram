@@ -4,26 +4,27 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="64622aab699e4e93a7f67f4f3ab85f92" Name="Diagram1" ZoomLevel="63">
-        <EntityTypeShape EntityType="online_shopModel.admain" Width="1.5" PointX="3.75" PointY="25.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="online_shopModel.branch" Width="1.5" PointX="9" PointY="14.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="online_shopModel.Category" Width="1.5" PointX="3.75" PointY="28" IsExpanded="true" />
-        <EntityTypeShape EntityType="online_shopModel.Client" Width="1.5" PointX="1.5" PointY="6.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="online_shopModel.clientorder" Width="1.5" PointX="3.75" PointY="2.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="online_shopModel.DeliveryOrder" Width="1.5" PointX="6" PointY="11.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="online_shopModel.DeliveryProvider" Width="1.5" PointX="0.75" PointY="11" IsExpanded="true" />
-        <EntityTypeShape EntityType="online_shopModel.DeliveryWorkingHour" Width="1.5" PointX="3" PointY="16.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="online_shopModel.OrderDetail" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="online_shopModel.Payment" Width="1.5" PointX="6" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="online_shopModel.Person" Width="1.5" PointX="1.5" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="online_shopModel.Product" Width="1.5" PointX="6" PointY="20.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="online_shopModel.ProductImage" Width="1.5" PointX="8.25" PointY="23.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="online_shopModel.regiondelivery" Width="1.5" PointX="6" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="online_shopModel.Region" Width="1.5" PointX="3.75" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="online_shopModel.Shop" Width="1.5" PointX="3.75" PointY="20" IsExpanded="true" />
-        <EntityTypeShape EntityType="online_shopModel.ShopCategory" Width="1.5" PointX="9" PointY="21" IsExpanded="true" />
-        <EntityTypeShape EntityType="online_shopModel.ShopOwner" Width="1.5" PointX="1.5" PointY="21" IsExpanded="true" />
-        <EntityTypeShape EntityType="online_shopModel.sysdiagram" Width="1.5" PointX="8.75" PointY="3.5" IsExpanded="true" />
+      <Diagram DiagramId="307ce45315f646e1b3157324c3facb66" Name="Diagram1" ZoomLevel="20">
+        <EntityTypeShape EntityType="online_shopModel.admain" Width="1.5" PointX="3" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_shopModel.branch" Width="1.5" PointX="7.5" PointY="22.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_shopModel.Category" Width="1.5" PointX="8.25" PointY="30.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_shopModel.Client" Width="1.5" PointX="3" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_shopModel.clientorder" Width="1.5" PointX="7.5" PointY="16.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_shopModel.DeliveryProvider" Width="1.5" PointX="3" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_shopModel.DeliveryWorkingHour" Width="1.5" PointX="5.25" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_shopModel.InternalTransaction" Width="1.5" PointX="9.75" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_shopModel.OrderDetail" Width="1.5" PointX="12.75" PointY="19.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_shopModel.Payin" Width="1.5" PointX="9.75" PointY="26.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_shopModel.Payout" Width="1.5" PointX="3" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_shopModel.PendingRegistration" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_shopModel.Person" Width="1.5" PointX="0.75" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_shopModel.Product" Width="1.5" PointX="10.5" PointY="21.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_shopModel.regiondelivery" Width="1.5" PointX="5.25" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_shopModel.Region" Width="1.5" PointX="3" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_shopModel.Shop" Width="1.5" PointX="5.25" PointY="21.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_shopModel.ShopCategory" Width="1.5" PointX="7.5" PointY="25.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_shopModel.ShopOwner" Width="1.5" PointX="3" PointY="22.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="online_shopModel.sysdiagram" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="online_shopModel.FK__admain__person_i__6FE99F9F" ManuallyRouted="false" />
         <AssociationConnector Association="online_shopModel.FK__branch__location__693CA210" ManuallyRouted="false" />
         <AssociationConnector Association="online_shopModel.FK__branch__shop_id__6A30C649" ManuallyRouted="false" />
@@ -31,27 +32,22 @@
         <AssociationConnector Association="online_shopModel.FK__ShopCateg__categ__4F7CD00D" ManuallyRouted="false" />
         <AssociationConnector Association="online_shopModel.FK__Client__person_i__3C69FB99" ManuallyRouted="false" />
         <AssociationConnector Association="online_shopModel.FK__clientord__clien__59063A47" ManuallyRouted="false" />
-        <AssociationConnector Association="online_shopModel.FK__DeliveryO__order__59C55456" ManuallyRouted="false" />
+        <AssociationConnector Association="online_shopModel.FK__clientord__deliv__0D44F85C" ManuallyRouted="false" />
+        <AssociationConnector Association="online_shopModel.FK__clientord__shopi__0B5CAFEA" ManuallyRouted="false" />
+        <AssociationConnector Association="online_shopModel.FK__InternalT__order__7908F585" ManuallyRouted="false" />
         <AssociationConnector Association="online_shopModel.FK__OrderDeta__order__5BE2A6F2" ManuallyRouted="false" />
-        <AssociationConnector Association="online_shopModel.FK__Payment__order_i__6D0D32F4" ManuallyRouted="false" />
-        <AssociationConnector Association="online_shopModel.FK__DeliveryO__deliv__72910220" ManuallyRouted="false" />
+        <AssociationConnector Association="online_shopModel.FK__Payin__OrderId__59904A2C" ManuallyRouted="false" />
+        <AssociationConnector Association="online_shopModel.FK__DeliveryP__perso__43A1090D" ManuallyRouted="false" />
         <AssociationConnector Association="online_shopModel.FK__DeliveryW__deliv__6EC0713C" ManuallyRouted="false" />
-        <AssociationConnector Association="online_shopModel.FK__regiondel__regio__6DCC4D03" ManuallyRouted="false" />
-        <AssociationConnector Association="online_shopModel.FK__regiondel__regio__6FB49575" ManuallyRouted="false" />
-        <AssociationConnector Association="online_shopModel.FK__regiondel__regio__70A8B9AE" ManuallyRouted="false" />
+        <AssociationConnector Association="online_shopModel.FK__regiondel__deliv__32767D0B" ManuallyRouted="false" />
+        <AssociationConnector Association="online_shopModel.FK__InternalT__UserI__6319B466" ManuallyRouted="false" />
         <AssociationConnector Association="online_shopModel.FK__OrderDeta__produ__5CD6CB2B" ManuallyRouted="false" />
+        <AssociationConnector Association="online_shopModel.FK__Payout__UserId__5E54FF49" ManuallyRouted="false" />
         <AssociationConnector Association="online_shopModel.FK__ShopOwner__perso__45F365D3" ManuallyRouted="false" />
         <AssociationConnector Association="online_shopModel.FK__Product__shop_id__5441852A" ManuallyRouted="false" />
-        <AssociationConnector Association="online_shopModel.FK__ProductIm__Produ__02FC7413" ManuallyRouted="false" />
-        <AssociationConnector Association="online_shopModel.FK_Product_ImgUrl" ManuallyRouted="false" />
-        <AssociationConnector Association="online_shopModel.FK__regiondel__regio__6166761E" ManuallyRouted="false" />
+        <AssociationConnector Association="online_shopModel.FK__regiondel__regio__336AA144" ManuallyRouted="false" />
         <AssociationConnector Association="online_shopModel.FK__Shop__shopowner___4AB81AF0" ManuallyRouted="false" />
         <AssociationConnector Association="online_shopModel.FK__ShopCateg__shop___5070F446" ManuallyRouted="false" />
-        <AssociationConnector Association="online_shopModel.FK__clientord__deliv__0D44F85C" />
-        <AssociationConnector Association="online_shopModel.FK__clientord__shopi__0B5CAFEA" />
-        <AssociationConnector Association="online_shopModel.FK__regiondel__deliv__32767D0B" />
-        <EntityTypeShape EntityType="online_shopModel.PendingRegistration" Width="1.5" PointX="8.375" PointY="6.75" />
-        <AssociationConnector Association="online_shopModel.FK__DeliveryP__perso__43A1090D" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

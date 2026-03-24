@@ -63,25 +63,58 @@ namespace onlineshopowner_api.Infrastructure.Repositories
                     command.Parameters.AddWithValue("@productid", productid);
                     using (SqlDataReader reader = await command.ExecuteReaderAsync())
                     {
+                        //if (reader.Read())
+                        //{
+                        //    var product = new Domain.Entities.Product
+                        //    {
+                        //        product_id = reader.GetInt32(reader.GetOrdinal("product_id")),
+                        //        name = reader.GetString(reader.GetOrdinal("name")),
+                        //        price = reader.GetDecimal(reader.GetOrdinal("price")),
+                        //        description = reader.GetString(reader.GetOrdinal("description")),
+                        //        category_id = reader.GetInt32(reader.GetOrdinal("category_id")),
+                        //        shop_id = reader.GetInt32(reader.GetOrdinal("shop_id")),
+                        //        quentity = reader.GetInt32(reader.GetOrdinal("quantity")),
+                        //        status = reader.GetString(reader.GetOrdinal("status")),
+                        //        imageurl = reader.GetString(reader.GetOrdinal("img_url")),
+
+
+                        //    };
+
+                        //    connect.Close();
+                        //    return product;
+                        //}
                         if (reader.Read())
                         {
-                            var product = new Domain.Entities.Product
-                            {
-                                product_id = reader.GetInt32(reader.GetOrdinal("product_id")),
-                                name = reader.GetString(reader.GetOrdinal("name")),
-                                price = reader.GetDecimal(reader.GetOrdinal("price")),
-                                description = reader.GetString(reader.GetOrdinal("description")),
-                                category_id = reader.GetInt32(reader.GetOrdinal("category_id")),
-                                shop_id = reader.GetInt32(reader.GetOrdinal("shop_id")),
-                                quentity = reader.GetInt32(reader.GetOrdinal("quantity")),
-                                status = reader.GetString(reader.GetOrdinal("status")),
-                                imageurl = reader.GetString(reader.GetOrdinal("image")),
+                            var product = new Domain.Entities.Product();
 
+                            product.product_id = reader.GetInt32(reader.GetOrdinal("product_id"));
 
-                            };
+                            product.name = reader.IsDBNull(reader.GetOrdinal("name"))
+                                ? null : reader.GetString(reader.GetOrdinal("name"));
 
+                            product.price = reader.IsDBNull(reader.GetOrdinal("price"))
+                                ? 0 : reader.GetDecimal(reader.GetOrdinal("price"));
+
+                            product.description = reader.IsDBNull(reader.GetOrdinal("description"))
+                                ? null : reader.GetString(reader.GetOrdinal("description"));
+
+                            product.category_id = reader.IsDBNull(reader.GetOrdinal("category_id"))
+                                ? 0 : reader.GetInt32(reader.GetOrdinal("category_id"));
+
+                            product.shop_id = reader.IsDBNull(reader.GetOrdinal("shop_id"))
+                                ? 0 : reader.GetInt32(reader.GetOrdinal("shop_id"));
+
+                            product.quentity = reader.IsDBNull(reader.GetOrdinal("quantity"))
+                                ? 0 : reader.GetInt32(reader.GetOrdinal("quantity"));
+
+                            product.status = reader.IsDBNull(reader.GetOrdinal("status"))
+                                ? null : reader.GetString(reader.GetOrdinal("status"));
+
+                            product.imageurl = reader.IsDBNull(reader.GetOrdinal("img_url"))  // FIX HERE
+                                ? null : reader.GetString(reader.GetOrdinal("img_url"));
                             connect.Close();
                             return product;
+                            
                         }
                         return null;
 
@@ -133,26 +166,66 @@ namespace onlineshopowner_api.Infrastructure.Repositories
 
                     using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
                     {
-
                         while (reader.Read())
                         {
-
                             Product product = new Domain.Entities.Product();
-                            //product.product_id = reader.GetInt32(reader.GetOrdinal("product_id"));
-                            product.name = reader.GetString(reader.GetOrdinal("name"));
-                            product.price = reader.GetDecimal(reader.GetOrdinal("price"));
-                            product.description = reader.GetString(reader.GetOrdinal("description"));
-                            product.category = reader.GetString(reader.GetOrdinal("categoryname"));
-                            product.shop_id = reader.GetInt32(reader.GetOrdinal("shop_id"));
-                            product.status = reader.GetString(reader.GetOrdinal("status"));
-                            product.imageurl = reader.GetString(reader.GetOrdinal("img_url"));
-                            product.product_id = reader.GetInt32(reader.GetOrdinal("product_id"));
-                            product.quentity = reader.GetInt32(reader.GetOrdinal("quantity"));
 
+                            product.product_id = reader.GetInt32(reader.GetOrdinal("product_id"));
+
+                            product.name = reader.IsDBNull(reader.GetOrdinal("name"))
+                                ? null
+                                : reader.GetString(reader.GetOrdinal("name"));
+
+                            product.price = reader.IsDBNull(reader.GetOrdinal("price"))
+                                ? 0
+                                : reader.GetDecimal(reader.GetOrdinal("price"));
+
+                            product.description = reader.IsDBNull(reader.GetOrdinal("description"))
+                                ? null
+                                : reader.GetString(reader.GetOrdinal("description"));
+
+                            product.category = reader.IsDBNull(reader.GetOrdinal("categoryname"))
+                                ? null
+                                : reader.GetString(reader.GetOrdinal("categoryname"));
+
+                            product.shop_id = reader.IsDBNull(reader.GetOrdinal("shop_id"))
+                                ? 0
+                                : reader.GetInt32(reader.GetOrdinal("shop_id"));
+
+                            product.status = reader.IsDBNull(reader.GetOrdinal("status"))
+                                ? null
+                                : reader.GetString(reader.GetOrdinal("status"));
+
+                            product.imageurl = reader.IsDBNull(reader.GetOrdinal("img_url"))
+                                ? null
+                                : reader.GetString(reader.GetOrdinal("img_url"));
+
+                            product.quentity = reader.IsDBNull(reader.GetOrdinal("quantity"))
+                                ? 0
+                                : reader.GetInt32(reader.GetOrdinal("quantity"));
 
                             result.Add(product);
-
                         }
+
+                        //while (reader.Read())
+                        //{
+
+                        //    Product product = new Domain.Entities.Product();
+                        //    //product.product_id = reader.GetInt32(reader.GetOrdinal("product_id"));
+                        //    product.name = reader.GetString(reader.GetOrdinal("name"));
+                        //    product.price = reader.GetDecimal(reader.GetOrdinal("price"));
+                        //    product.description = reader.GetString(reader.GetOrdinal("description"));
+                        //    product.category = reader.GetString(reader.GetOrdinal("categoryname"));
+                        //    product.shop_id = reader.GetInt32(reader.GetOrdinal("shop_id"));
+                        //    product.status = reader.GetString(reader.GetOrdinal("status"));
+                        //    product.imageurl = reader.GetString(reader.GetOrdinal("img_url"));
+                        //    product.product_id = reader.GetInt32(reader.GetOrdinal("product_id"));
+                        //    product.quentity = reader.GetInt32(reader.GetOrdinal("quantity"));
+
+
+                        //    result.Add(product);
+
+                        //}
                         connect.Close();
                         return (result, limit, offset);
                     }

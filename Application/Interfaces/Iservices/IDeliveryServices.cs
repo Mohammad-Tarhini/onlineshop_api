@@ -11,7 +11,10 @@ namespace onlineshopowner_api.Application.Interfaces.Iservices
 {
     public interface IDeliveryServices
     {
-        Task<List<GetDeliveryOnLocationDto>> GetDelivaryAcordingForlocationService(OrderLocationDto locationclientDto);
+        Task<List<GetDeliveryOnLocationDto>> GetDeliveryAccordingToLocationAsync(OrderLocationDto locationDto);
+
+        //Task<List<GetDeliveryOnLocationDto>> GetDelivaryAcordingForlocationService(OrderLocationDto locationclientDto);
+
         //Task<(bool issuccess, bool isfound, string message)> AddPersonDelivery(DeliveryRegisterationRequestDto deliveryPersonDto);
         //Task<(bool issuccess, bool isfound, string message)> AddDeliveryAgent(DeliveryAgentDto deliveryAgentDto);
         //Task<(bool issuccess, bool isfound, string message)> AddShopDelivery(DeliveryShopDto deliveryShopDto);

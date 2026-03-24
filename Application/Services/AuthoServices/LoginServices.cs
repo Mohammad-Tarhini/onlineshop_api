@@ -36,9 +36,11 @@ namespace onlineshopowner_api.Application.Services.AuthoServices
 
             }
            await this.RoleVerify(dto.role, person.Id);
-            if (! HashingPassword.VerifyPassword(dto.password,person.Password))
+            dto.password = dto.password?.Trim();
+            
+            if (!HashingPassword.VerifyPassword(dto.password, person.Password))
             {
-                throw new Exception("sorry ");
+                throw new Exception("invalid password ");
             }
             var token = jwtTokenGenerator.GenerateToken(person.Id,dto.role,50);
             return token;
@@ -49,6 +51,10 @@ namespace onlineshopowner_api.Application.Services.AuthoServices
             if(role==null)
                 throw new Exception();
             role=role.ToLower().Trim();
+            if(role !="client" &&  role !="shopowner" &&role != "delivery")
+            {
+                throw new Exception("enter the correct role ");
+            }
             if (role == "client" && await unityOfWork.PersonRepository.GetClientIdByPersonId(personId) == null)
             {
                 throw new Exception(" sorry the user is not client ");

@@ -1,21 +1,13 @@
-﻿using onlineshopowner_api.Infrastructure.MappingDomainModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace onlineshopowner_api.Domain.Entities
+namespace onlineshopowner_api.Domain.Entities.data
 {
-    public class Admin
+    public class Admain
     {
-        public int admainId { get; set; }
-        public int personid {  get; set; }
-        
-        public Admin(int admainId, int personid)
-        {
-            this.admainId = admainId;
-            this.personid = personid;
-        }
-        public Admin() { }
+        public int AdmianId { get; set; }
+        public int PersonId { get; set; }
     }
 }

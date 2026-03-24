@@ -10,6 +10,6 @@ namespace onlineshopowner_api.Domain.Interfaces.IExternalServices
     public  interface IFakeGatewayService
     {
         Task<CheckoutSessionResponse> CreateSessionAsync(CheckoutSessionRequest request);
-        Task ProcessPaymentAsync(string sessionId, string cardNumber);
+        Task<GatewayPayment> ProcessPaymentAsync(string sessionId, string cardNumber);
     }
 }

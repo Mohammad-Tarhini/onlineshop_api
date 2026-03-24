@@ -12,7 +12,7 @@ namespace onlineshopowner_api.Application.Dtos
         public PersonDto personDto {  get; set; }
 
         [Required(ErrorMessage = "Role is required.")]
-        [RegularExpression("^(Client|Admin|ShopOwner)$",
+        [RegularExpression("^(Client|Admin|ShopOwner|Delivery)$",
             ErrorMessage = "Role must be either Client, Admin, or ShopOwner.")]
         public string role { get; set; }
     }

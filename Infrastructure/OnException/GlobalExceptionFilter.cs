@@ -18,8 +18,8 @@ namespace onlineshopowner_api.Infrastructure.OnException
         {
             var ex = context.Exception;
 
-            // TODO: log exception here
-            // _logger.Error(ex);
+            var innerMessage = ex.InnerException != null ? ex.InnerException.Message : null;
+            var innerStack = ex.InnerException != null ? ex.InnerException.StackTrace : null;
 
             HttpResponseMessage response;
 
@@ -30,18 +30,18 @@ namespace onlineshopowner_api.Infrastructure.OnException
                     ex.Message
                 );
             }
-            else if (ex is DbUpdateException)
-            {
-                response = context.Request.CreateErrorResponse(
-                    HttpStatusCode.InternalServerError,
-                    "Database error occurred"
-                );
-            }
             else
             {
-                response = context.Request.CreateErrorResponse(
+                response = context.Request.CreateResponse(
                     HttpStatusCode.InternalServerError,
-                    "Unexpected server error"
+                    new
+                    {
+                        Message = "Unexpected server error",
+                        Exception = ex.Message,
+                        InnerException = innerMessage,
+                        StackTrace = ex.StackTrace,
+                        InnerStackTrace = innerStack
+                    }
                 );
             }
 

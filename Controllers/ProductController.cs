@@ -1,7 +1,5 @@
 ﻿using onlineshopowner_api.Application.Dtos;
 using onlineshopowner_api.Application.Interfaces.Iservices;
-using onlineshopowner_api.Application.ModelBinders;
-using onlineshopowner_api.Infrastructure.BinderModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +43,8 @@ namespace onlineshopowner_api.Controllers
             return Ok("is added");
 
         }
+        [HttpPost]
+        [Route("api/product/updateProduct")]
         public async Task<IHttpActionResult> UpdateProduct()
         {
             var request = System.Web.HttpContext.Current.Request;
@@ -62,6 +62,8 @@ namespace onlineshopowner_api.Controllers
             await _productservices.UpdateProduct(dto);
             return Ok("is updated");
         }
+        [HttpGet]
+        [Route("api/product/GetProduct")]
         public async Task<IHttpActionResult> Getproduct(int shopid = 0, int limit = 30, int page = 1, string searchbyproductname = null, string searchbycategory = null, string searchbyshoptype = null)
         {
             var (products, Rlimit, Rpage) = await _productservices.GetProducts(shopid, limit, page, searchbyproductname, searchbycategory, searchbyshoptype);

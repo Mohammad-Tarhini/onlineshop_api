@@ -22,8 +22,8 @@ namespace onlineshopowner_api.Application.Validatorandclean
         {
             if (email != null)
             {
-                online_shopEntities1 db = new online_shopEntities1();
-                var temp = db.PendingRegistrations.FirstOrDefault(x => x.Email == email && x.OtpCode == otpCode && x.OtpExpiresAt > DateTime.UtcNow);
+                online_shopEntities2 db = new online_shopEntities2();
+                var temp = db.PendingRegistrations.FirstOrDefault(x => x.Email == email && x.OtpCode == otpCode);
                 if (temp == null)
                 {
                     throw new Exception("the is error");
@@ -35,7 +35,7 @@ namespace onlineshopowner_api.Application.Validatorandclean
             }
             else if (phonenumber != null) 
             {
-                online_shopEntities1 db = new online_shopEntities1();
+                online_shopEntities2 db = new online_shopEntities2();
                 var temp = db.PendingRegistrations.FirstOrDefault(x => x.Email == email && x.OtpCode == otpCode && x.OtpExpiresAt > DateTime.UtcNow);
                 if (temp == null)
                 {

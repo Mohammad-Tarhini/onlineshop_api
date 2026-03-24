@@ -1,5 +1,4 @@
 ﻿using onlineshopowner_api.Application.Dtos.DeliveryDtos;
-using onlineshopowner_api.Domain.Constant;
 using onlineshopowner_api.Domain.Entities.Delivery;
 using System;
 using System.Collections.Generic;
@@ -12,7 +11,7 @@ namespace onlineshopowner_api.Domain.Interfaces.IRepository
     public interface IDelivaryRepository
     {
         //+++++++++++++++++++++++++++++new++++++++++++++++++++++++++++++++++
-        Task<int> AddDeliveryProvider(Domain.Entities.Delivery.DeliveryProvider deliveryProvider);
+        Task AddDeliveryProvider(Domain.Entities.Delivery.DeliveryProvider deliveryProvider);
         Task AddDeliveryWorkingHour(Domain.Entities.Delivery.DeliveryWorkigHours deliveryWorkigHours);
 
         Task AddDeliveryRegion(Domain.Entities.Delivery.DeliveryRegion deliveryRegion);

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,14 +20,14 @@ namespace onlineshopowner_api.Infrastructure.Repositories
     {
 
         private string connectionstring { get; }
-        private readonly online_shopEntities1 _dbContext;
-        public DelivaryRepository(online_shopEntities1 dbContext)
+        private readonly online_shopEntities2 _dbContext;
+        public DelivaryRepository(online_shopEntities2 dbContext)
         {
             this.connectionstring = ConfigurationManager.ConnectionStrings["online_shopAdo"].ConnectionString;
             _dbContext = dbContext;
         }
         //+++++++++++++++++++++++++++new+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        public async Task<int> AddDeliveryProvider(Domain.Entities.Delivery.DeliveryProvider deliveryProvider)
+        public async Task AddDeliveryProvider(Domain.Entities.Delivery.DeliveryProvider deliveryProvider)
         {
             var deliveryProviderdb = new Models.DeliveryProvider
             {
@@ -37,8 +38,8 @@ namespace onlineshopowner_api.Infrastructure.Repositories
 
             };
             _dbContext.DeliveryProviders.Add(deliveryProviderdb);
-           await _dbContext.SaveChangesAsync();
-            return deliveryProviderdb.delivery_Id;
+         //  await _dbContext.SaveChangesAsync();
+          //  return deliveryProviderdb.delivery_Id;
 
 
         }
@@ -117,24 +118,26 @@ namespace onlineshopowner_api.Infrastructure.Repositories
 
         public async Task<Domain.Entities.Delivery.DeliveryProvider> GetDeliveryByDeliveryId(int deliveryid)
         {
-            var deliverydb = _dbContext.DeliveryProviders.FirstOrDefault(dp => dp.delivery_Id == deliveryid);
-            var delivey = new Domain.Entities.Delivery.DeliveryProvider
+            var deliverydb = await _dbContext.DeliveryProviders
+                .FirstOrDefaultAsync(dp => dp.delivery_Id == deliveryid);
+
+            if (deliverydb == null)
+            {
+                return null; // or throw exception
+            }
+
+            var delivery = new Domain.Entities.Delivery.DeliveryProvider
             {
                 Delivery_id = deliverydb.delivery_Id,
-                active_bit = deliverydb.active_bit.Value,
 
+                active_bit = deliverydb.active_bit ?? false,  // ✅ safe
                 note_text = deliverydb.note_text,
-                person_id = deliverydb.person_id.Value,
-                price_delivery_per_km = deliverydb.price_per_meter.Value,
 
-
-
-
-
-
-
+                person_id = deliverydb.person_id ?? 0,        // ✅ safe
+                price_delivery_per_km = deliverydb.price_per_meter ?? 0  // ✅ safe
             };
-            return delivey;
+
+            return delivery;
         }
     }
 }

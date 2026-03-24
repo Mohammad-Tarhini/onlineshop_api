@@ -16,18 +16,13 @@ namespace onlineshopowner_api.Infrastructure.Repositories
 {
     public class PersonRepository:IpersonRepository
     {
-        private readonly online_shopEntities1 _dbContext;
-        private readonly IMapper<Domain.Entities.Person, Models.Person> _personmapper;
-        private readonly IMapper<Domain.Entities.ShopOwner, Models.ShopOwner> _shopownermapper;
-        private readonly IMapper<Domain.Entities.Admin,Models.admain> _adminmapper;
-        private readonly IMapper<Domain.Entities.Client, Models.Client> _clientmapper;
-        public PersonRepository(online_shopEntities1 dbContext, IMapper<Domain.Entities.Person, Models.Person> personmapper,IMapper<Domain.Entities.Client,Models.Client> clientmapper,IMapper<Domain.Entities.ShopOwner,Models.ShopOwner> shopownermapper, IMapper<Domain.Entities.Admin, Models.admain> adminmapper)
+        private readonly online_shopEntities2 _dbContext;
+       
+        public PersonRepository(online_shopEntities2 dbContext)
         {
             _dbContext = dbContext;
-            _personmapper = personmapper;
-            _clientmapper = clientmapper;
-            _shopownermapper=shopownermapper;
-            _adminmapper = adminmapper;
+          
+          
         }
 
         //++++++++++++++++++news ++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -69,18 +64,40 @@ namespace onlineshopowner_api.Infrastructure.Repositories
         }
         public async Task<Domain.Entities.Person> GetPersonByEmailOrPhonenumber(string email = null, string phoneNumber = null)
         {
-            var dbPerson = await _dbContext.People
-                .FirstOrDefaultAsync(p => p.email == email || p.phone_number == phoneNumber);
-            return new Domain.Entities.Person
+            try
             {
-                Id = dbPerson.person_id,
-                Email = dbPerson.email,
-                FirstName = dbPerson.first_name,
-                LastName = dbPerson.last_name,
+                var query = _dbContext.People.AsQueryable();
 
-                PhoneNumber = dbPerson.phone_number,
-                CreatedDate = dbPerson.created_date.Value
-            };
+                if (!string.IsNullOrEmpty(email))
+                {
+                    query = query.Where(p => p.email == email);
+                }
+
+                if (!string.IsNullOrEmpty(phoneNumber))
+                {
+                    query = query.Where(p => p.phone_number == phoneNumber);
+                }
+
+                var dbPerson = await query.FirstOrDefaultAsync();
+
+                if (dbPerson == null)
+                    return null;
+
+                return new Domain.Entities.Person
+                {
+                    Id = dbPerson.person_id,
+                    Email = dbPerson.email,
+                    FirstName = dbPerson.first_name,
+                    LastName = dbPerson.last_name,
+                    PhoneNumber = dbPerson.phone_number,
+                    CreatedDate = dbPerson.created_date ?? DateTime.UtcNow,
+                    Password=dbPerson.password,
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
         }
         public async Task<Domain.Entities.Person> GetPersonById(int personId)
         {
@@ -132,11 +149,11 @@ namespace onlineshopowner_api.Infrastructure.Repositories
             _dbContext.ShopOwners.Add(dbShopOwner);
             return Task.CompletedTask;
         }
-        public  Task AddAdminByPerson(Domain.Entities.Admin admin)
+        public  Task AddAdminByPerson(Domain.Entities.data.Admain admin)
         {
             var dbAdmin = new Models.admain
             {
-                person_id = admin.personid,
+                person_id = admin.PersonId,
             };
             _dbContext.admains.Add(dbAdmin);
             return Task.CompletedTask;

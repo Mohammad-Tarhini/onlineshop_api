@@ -37,7 +37,7 @@ namespace onlineshopowner_api
 
             container.AddExtension(new Diagnostic());
             // Register your DbContext, Repositories, UoW, Services
-            container.RegisterType<online_shopEntities1>(new HierarchicalLifetimeManager());
+            container.RegisterType<online_shopEntities2>(new HierarchicalLifetimeManager());
 
             // Example:
 
@@ -51,10 +51,10 @@ namespace onlineshopowner_api
             container.RegisterType<IRegisterationServices, RegisterationService>();
             container.RegisterType<IProductServices, ProductServices>();
             container.RegisterType<IshopServices, ShopServices>();
-            container.RegisterType<IAddCategoryservices, AddCategoryservices>();
+           // container.RegisterType<IAddCategoryservices, AddCategoryservices>();
             container.RegisterType<IDeliveryServices, DeliveryServices>();
             container.RegisterType<IOrderServices, PayAndRegisterOrder>();
-            container.RegisterType<IAddCategoryservices, AddCategoryservices>();
+          //  container.RegisterType<IAddCategoryservices, AddCategoryservices>();
 
             //++++++++++help services ++++++++++
             container.RegisterType<IImageService, ImageService>();
@@ -65,7 +65,7 @@ namespace onlineshopowner_api
             //++++++++++Repository++++++++++
             container.RegisterType<IpersonRepository, PersonRepository>();
             container.RegisterType<IShopRepository, ShopRepository>();
-            container.RegisterType<IcategoryRepository, CategoryRepository>();
+        //    container.RegisterType<IcategoryRepository, CategoryRepository>();
            container.RegisterType<IOrderServices,PayAndRegisterOrder>();
             container.RegisterType<IPaymentRepository, PaymentRepository>();
             container.RegisterType<IPaymentAndOrderRepository, PaymentAndOrderRepository>();

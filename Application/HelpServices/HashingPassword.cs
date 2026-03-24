@@ -70,7 +70,7 @@ namespace onlineshopowner_api.Application.Validatorandclean
             }
         }
 
-        private static bool AreHashesEqual(byte[] hash1, byte[] hash2)
+        private static   bool AreHashesEqual(byte[] hash1, byte[] hash2)
         {
             uint diff = (uint)hash1.Length ^ (uint)hash2.Length;
             for (int i = 0; i < hash1.Length && i < hash2.Length; i++)

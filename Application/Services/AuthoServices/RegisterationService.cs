@@ -1,4 +1,4 @@
-﻿using onlineshopowner_api.Application.Dtos;
+﻿5using onlineshopowner_api.Application.Dtos;
 using onlineshopowner_api.Application.Interfaces.Iservices;
 using onlineshopowner_api.Application.Validatorandclean;
 using onlineshopowner_api.Domain.Entities;
@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http.Results;
 using onlineshopowner_api.Application.Dtos.DeliveryDtos;
+using Microsoft.Ajax.Utilities;
 
 namespace onlineshopowner_api.Application.Services.AuthoServices
 {
@@ -42,24 +43,49 @@ namespace onlineshopowner_api.Application.Services.AuthoServices
         public async Task RegisterClient(RegistrationRequestDto dto)
         {
            if(dto.role.ToLower().Trim() != "client")
-            {
-                throw new DomainException("Role must be client for this method");
-            }
+           {
+               throw new DomainException("Role must be client for this method");
+           }
             var person=await uow.PersonRepository
                 .GetPersonByEmailOrPhonenumber(dto.personDto.Email, dto.personDto.PhoneNumber);
-            if(person != null && uow.PersonRepository.GetClientIdByPersonId(person.Id) != null)
+            if(person != null)
             {
-                throw new DomainException("Already registered as client");
+                var clientId = await uow.PersonRepository.GetClientIdByPersonId(person.Id);
+                if (clientId != null)
+                {
+                    throw new DomainException("Already registered as client");
+                }
+                else
+                {
+                    var client = new Domain.Entities.Client {PersonId=person.Id };
+                    await uow.PersonRepository.AddClientByPerson(client);
+                    await uow.CommitAsync();
+                    return;
+                }
             }
             string token=VerificationTokenLink.GenerateToken(dto.personDto, dto.role);
+            string verificationLink =
+    $"https://localhost:44364//api/Client/verifyregisteration?token={token}";
+            string body = $@"
+<h2>Verify your account</h2>
+<p>Click the button below to verify your account.</p>
 
-            if (!string.IsNullOrEmpty(token)) 
+<a href='{verificationLink}' 
+style='padding:10px 20px;background-color:#4CAF50;color:white;text-decoration:none;border-radius:5px'>
+Verify Account
+</a>
+
+<p>If the button does not work, copy this link:</p>
+<p>{verificationLink}</p>
+";
+
+            if (string.IsNullOrEmpty(token)) 
             {
                 throw new DomainException("Error generating verification token");
             }
             if(!string.IsNullOrEmpty(dto.personDto.Email))
             {
-              await  EmailService.SendEmailAsync(dto.personDto.Email,"", token);
+              await  EmailService.SendEmailAsync(dto.personDto.Email,"account verifaction", body);
             }
             else if(!string.IsNullOrEmpty(dto.personDto.PhoneNumber))
             {
@@ -70,8 +96,6 @@ namespace onlineshopowner_api.Application.Services.AuthoServices
                 throw new DomainException("No email or phone number provided");
             }
 
-
-
         }
 
         public async Task VerifyRegisteration(string token)
@@ -81,17 +105,27 @@ namespace onlineshopowner_api.Application.Services.AuthoServices
                 throw new DomainException("Invalid or expired token");
             }
             var checkPerson = await uow.PersonRepository.GetPersonByEmailOrPhonenumber(personDto.Email, personDto.PhoneNumber);
-            if (checkPerson != null  && await uow.PersonRepository.GetClientIdByPersonId(checkPerson.Id) !=null)
+            int personId;
+            if (checkPerson != null)
             {
-                throw new DomainException("Already registered as client");
+                var clientId = await uow.PersonRepository.GetClientIdByPersonId(checkPerson.Id);
+                if (clientId != null)
+                {
+                    throw new DomainException("Already registered as client");
+                }
+                personId = checkPerson.Id;
             }
-            var personD = new Domain.Entities.Person(
-                            personDto.FirstName, personDto.LastName, personDto.Email, personDto.Sex, personDto.PhoneNumber, personDto.Password);
+            else
+            {
+                var personD = new Domain.Entities.Person(
+                                personDto.FirstName, personDto.LastName, personDto.Email, personDto.Sex, personDto.PhoneNumber, personDto.Password);
 
-            await uow.PersonRepository.AddPersonAsync(personD);
-            await uow.CommitAsync();
+                await uow.PersonRepository.AddPersonAsync(personD);
+                personId=personD.Id;
+                //await uow.CommitAsync();
+            }
 
-            int personId = personD.Id;
+           
            await uow.PersonRepository.AddClientByPerson(new Domain.Entities.Client { PersonId = personId });
             await uow.CommitAsync();
         }
@@ -99,7 +133,7 @@ namespace onlineshopowner_api.Application.Services.AuthoServices
 
         public async Task RegisterShopOwnerorDelivery(RegistrationRequestDto dto)
         {
-            if(dto.role.ToLower().Trim() != "shopowner" || dto.role.ToLower().Trim() != "delivery")
+            if(dto.role.ToLower().Trim() != "shopowner" && dto.role.ToLower().Trim() != "delivery")
             {
                 throw new DomainException("Role must be shopowner for this method");
             }
@@ -146,15 +180,35 @@ namespace onlineshopowner_api.Application.Services.AuthoServices
                 throw new DomainException("there is no phone number and email");
             }
             var temData = OtpService.VerifyOtp(verifyOtpDto.Otp, verifyOtpDto.email, verifyOtpDto.phoneNumber);
-            
-            var person=new Domain.Entities.Person(temData.FirstName,temData.LastName,temData.Email,temData.Sex,temData.PhoneNumber,temData.PasswordHash);
-            await uow.PersonRepository.AddPersonAsync(person);
-            await uow.CommitAsync();
+            if(temData.Role.ToLower().Trim() != "shopowner")
+            {
+                throw new DomainException("sory you are not register as shopowner ");
+            }
+            var checkPerson = await uow.PersonRepository.GetPersonByEmailOrPhonenumber(temData.Email, temData.PhoneNumber);
+            int personId;
+            if (checkPerson != null) 
+            {
+                if(await uow.PersonRepository.GetShopOwnerIdByPersonId(checkPerson.Id) != null)
+                {
+                    throw new DomainException("");
+                }
+                personId= checkPerson.Id;
+            }
+            else
+            {
+                var person = new Domain.Entities.Person(temData.FirstName, temData.LastName, temData.Email, temData.Sex, temData.PhoneNumber, temData.PasswordHash);
+                await uow.PersonRepository.AddPersonAsync(person);
+                personId = person.Id;
+            }
 
-            int personId = person.Id;
-            var shopowner = new Domain.Entities.ShopOwner {PersonId= personId };
+               
+          
+          
+
+
+                var shopowner = new Domain.Entities.ShopOwner { PersonId = personId };
             await uow.PersonRepository.AddShopOwnerByPerson(shopowner);
-            await uow.CommitAsync();
+            //await uow.CommitAsync();
            await uow.PersonRepository.DeletePendingPerson(verifyOtpDto.email, verifyOtpDto.phoneNumber);
             await uow.CommitAsync();
 
@@ -172,49 +226,77 @@ namespace onlineshopowner_api.Application.Services.AuthoServices
             {
                 throw new DomainException("Invalid OTP");
             }
-            var person = new Domain.Entities.Person(temData.FirstName, temData.LastName, temData.Email, temData.Sex, temData.PhoneNumber, temData.PasswordHash);
-            await uow.PersonRepository.AddPersonAsync(person);
-            await uow.CommitAsync();
-            int personId = person.Id;
+            var checkPerson=await uow.PersonRepository.GetPersonByEmailOrPhonenumber(verifyOtpDto.email,verifyOtpDto.phoneNumber);
+            int personId;
+            if(checkPerson != null)
+            {
+                personId = checkPerson.Id;
+                var checkDeliveryId = await uow.PersonRepository.GetDeliveryIdByPersonId(personId);
+                if (checkDeliveryId != null ) 
+                {
+                    throw new DomainException("this delivery is arleady exist ");
+                }
+            }
+            else
+            {
+                var person = new Domain.Entities.Person(temData.FirstName, temData.LastName, temData.Email, temData.Sex, temData.PhoneNumber, temData.PasswordHash);
+                await uow.PersonRepository.AddPersonAsync(person);
+                personId=person.Id;
+
+            }
+
+
+            // await uow.CommitAsync();
+            // int personId = person.Id;
+            if (deliveryProviderDto == null)
+            {
+                throw new DomainException("Delivery data is required");
+            }
             var deliveryProvider = new Domain.Entities.Delivery.DeliveryProvider
             {
                 provider_type = deliveryProviderDto.provider_type,
                 active_bit = deliveryProviderDto.active_bit,
 
 
-                person_id = person.Id,
+                person_id = personId,
                 note_text = deliveryProviderDto.note_text
 
 
             };
-         int delivery_id= await  uow.DelivaryRepository.AddDeliveryProvider(deliveryProvider);
-             await uow.CommitAsync();
+          await  uow.DelivaryRepository.AddDeliveryProvider(deliveryProvider);
+            int delivery_id = deliveryProvider.Delivery_id;
+            //   await uow.CommitAsync();
 
-           
-            foreach (var item in deliveryProviderDto.workHours)
+            if (deliveryProviderDto.workHours != null)
             {
-               
-                var deliveryWorkigHours = new Domain.Entities.Delivery.DeliveryWorkigHours
+                foreach (var item in deliveryProviderDto.workHours)
                 {
-                    WeekDay = item.WeekDay,
-                    Open_time = item.Open_time,
-                    Close_time = item.Close_time,
-                    DeliveryId = delivery_id,
-                };
-                await uow.DelivaryRepository.AddDeliveryWorkingHour(deliveryWorkigHours);
-                List<string> regions = new List<string>();
-            }
-            foreach(var item in deliveryProviderDto.regionnames)
-            {
-                int regionId = await uow.DelivaryRepository.GetRegionIdByRegionName(item);
-                if (regionId == 0)
-                {
-                    //regionId = await uow.RegionRepository.AddRegion(new Domain.Entities.Region { Name = item });
-                    //await uow.CommitAsync();
-                    throw new DomainException($"Region {item} does not exist");
+
+                    var deliveryWorkigHours = new Domain.Entities.Delivery.DeliveryWorkigHours
+                    {
+                        WeekDay = item.WeekDay,
+                        Open_time = item.Open_time,
+                        Close_time = item.Close_time,
+                        DeliveryId = delivery_id,
+                    };
+                    await uow.DelivaryRepository.AddDeliveryWorkingHour(deliveryWorkigHours);
+                    List<string> regions = new List<string>();
                 }
-                await uow.DelivaryRepository.AddDeliveryRegion(new Domain.Entities.Delivery.DeliveryRegion { DeliveryId = delivery_id, RegionId = regionId });
-               
+            }
+            if (deliveryProviderDto.regionnames != null)
+            {
+                foreach (var item in deliveryProviderDto.regionnames)
+                {
+                    var regionId = await uow.DelivaryRepository.GetRegionIdByRegionName(item);
+                    if (regionId == null)
+                    {
+                        //regionId = await uow.RegionRepository.AddRegion(new Domain.Entities.Region { Name = item });
+                        //await uow.CommitAsync();
+                        throw new DomainException($"Region {item} does not exist");
+                    }
+                    await uow.DelivaryRepository.AddDeliveryRegion(new Domain.Entities.Delivery.DeliveryRegion { DeliveryId = delivery_id, RegionId = regionId.Value });
+
+                }
             }
            await uow.CommitAsync();
 

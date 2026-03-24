@@ -68,7 +68,7 @@ namespace onlineshopowner_api.Application.Services
             {
                 throw new Exception("You don't have a shop to update.");
             }
-            var shop = await _Unityofwork.ShopRepository.GetShopByShopOwnerId(shopOwnerId);
+            var shop = await _Unityofwork.ShopRepository.GetShopByShopOwnerIdOrShopId(shopOwnerId);
             if (shop == null)
             {
                 throw new Exception("You don't have a shop to update.");
@@ -122,7 +122,7 @@ namespace onlineshopowner_api.Application.Services
 
             _userId = _usercontext.GetUserId();
             _role = _usercontext.GetUserRole();
-            if (_role != "shopowner")
+            if (_role.ToLower().Trim() != "shopowner")
             {
                 throw new UnauthorizedAccessException("Only shop owners can open a shop.");
             }
@@ -136,22 +136,29 @@ namespace onlineshopowner_api.Application.Services
             }
 
             var shopId = await _Unityofwork.ShopRepository.GetShopIDByShopownerId(shownerId.Value);
-            if (shopId != null || shopId != 0)
+            if (shopId != null )
             {
                 throw new Exception("You already have a shop.");
             }
             string ImageUrl = null;
             string deleteUrl = null;
-            if (dto.File != null || !string.IsNullOrEmpty(dto.logo_url))
+            //if(dto.File==null && dto.logo_url == null)
+            //{
+
+            //}
+            if (dto.File == null && string.IsNullOrEmpty(dto.logo_url))
             {
-                ( ImageUrl,  deleteUrl) = await _imageservice.ProcessImageAsync(100, 199, 100, imageUrl: dto.logo_url, file: dto.File);
+                dto.logo_url = "";
             }
+             ( ImageUrl,  deleteUrl) = await _imageservice.ProcessImageAsync(1000, 19900,10000,imageUrl:dto.logo_url, file: dto.File);
+             if (ImageUrl == null && deleteUrl == null)
+             {
+                 throw new Exception("Failed to process image.");
+             }
+            
            
 
-            if (ImageUrl == null && deleteUrl == null)
-            {
-                throw new Exception("Failed to process image.");
-            }
+           
             var shop = new Domain.Entities.shop(name: dto.Name, d: dto.Description, shopownerid: shownerId.Value, logurl: ImageUrl, deletehashingimage: deleteUrl);
             int newShopId;
             try

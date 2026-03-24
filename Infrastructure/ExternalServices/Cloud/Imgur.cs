@@ -13,7 +13,7 @@ using System.Web.UI.WebControls;
 
 namespace onlineshopowner_api.Infrastructure.ExternalServices
 {
-    public class Imgur: IImgur
+    public class Imgur:IImgur
     {
         private readonly string _clientId;
 
@@ -22,32 +22,44 @@ namespace onlineshopowner_api.Infrastructure.ExternalServices
             _clientId = imgurSetings.ClientId;
         }
 
-        public async Task<( string url, string deleteHash)> UploadImageAsync(Stream imageStream)
+        public async Task<(string url, string deleteHash)> UploadImageAsync(Stream imageStream)
         {
-           {
-                using (var client = new HttpClient())
+            using (var client = new HttpClient())
+            {
+                client.Timeout = TimeSpan.FromSeconds(15);
+
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Client-ID", _clientId);
+
+                imageStream.Position = 0;
+
+                using (var ms = new MemoryStream())
                 {
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Client-ID", _clientId);
+                    await imageStream.CopyToAsync(ms);
+                    var base64Image = Convert.ToBase64String(ms.ToArray());
 
-                    using (var content = new MultipartFormDataContent())
+                    var content = new FormUrlEncodedContent(new[]
                     {
-                        var imageContent = new StreamContent(imageStream);
-                        imageContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/jpeg"); // or "image/png"
-                        content.Add(imageContent, "image");
+                new KeyValuePair<string, string>("image", base64Image)
+            });
 
-                        var response = await client.PostAsync("https://api.imgur.com/3/image", content);
-                        response.EnsureSuccessStatusCode();
+                    var response = await client.PostAsync("https://api.imgur.com/3/image", content);
 
-                        var resultJson = await response.Content.ReadAsStringAsync();
+                    var resultJson = await response.Content.ReadAsStringAsync();
 
-                        dynamic result = Newtonsoft.Json.JsonConvert.DeserializeObject(resultJson);
-                        return (result.data.link, result.data.deletehash.ToString());
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        throw new Exception($"Imgur upload failed: {response.StatusCode} - {resultJson}");
                     }
+
+                    dynamic result = Newtonsoft.Json.JsonConvert.DeserializeObject(resultJson);
+
+                    return (result.data.link.ToString(), result.data.deletehash.ToString());
                 }
             }
-           
-            
         }
+
+
         public async Task< string > DeleteImageAsync(string deleteHash)
         {
            

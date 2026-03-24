@@ -17,9 +17,8 @@ namespace onlineshopowner_api.Infrastructure.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public DeliveryProvider()
         {
-            this.DeliveryOrders = new HashSet<DeliveryOrder>();
-            this.DeliveryWorkingHours = new HashSet<DeliveryWorkingHour>();
             this.clientorders = new HashSet<clientorder>();
+            this.DeliveryWorkingHours = new HashSet<DeliveryWorkingHour>();
             this.regiondeliveries = new HashSet<regiondelivery>();
         }
     
@@ -33,16 +32,11 @@ namespace onlineshopowner_api.Infrastructure.Models
         public Nullable<decimal> price_per_meter { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DeliveryOrder> DeliveryOrders { get; set; }
+        public virtual ICollection<clientorder> clientorders { get; set; }
+        public virtual Person Person { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DeliveryWorkingHour> DeliveryWorkingHours { get; set; }
-        public virtual regiondelivery regiondelivery { get; set; }
-        public virtual regiondelivery regiondelivery1 { get; set; }
-        public virtual regiondelivery regiondelivery2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<clientorder> clientorders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<regiondelivery> regiondeliveries { get; set; }
-        public virtual Person Person { get; set; }
     }
 }

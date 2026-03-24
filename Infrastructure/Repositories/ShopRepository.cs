@@ -53,7 +53,7 @@ namespace onlineshopowner_api.Infrastructure.Repositories
                         }
                         else
                         {
-                            throw new InvalidOperationException("No shop found for the given shop owner id.");
+                            return null;
                         }
                     }
                 }

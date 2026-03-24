@@ -26,9 +26,9 @@ namespace onlineshopowner_api.Application.Services
         private readonly IUnityOfWork unityofwork;
         private readonly IImageService imageservice;
         private readonly IRedisRepository redisRepository;
-        private readonly IImgur imgur;
+        private readonly Imgur imgur;
 
-        public ProductServices(IUserContextService userContextService, IUnityOfWork unityOfWork, IRedisRepository redisRepository, IImageService imageService, IImgur imgur)
+        public ProductServices(IUserContextService userContextService, IUnityOfWork unityOfWork, IRedisRepository redisRepository, IImageService imageService, Imgur imgur)
         {
             usercontext = userContextService;
             unityofwork = unityOfWork;
@@ -141,7 +141,7 @@ namespace onlineshopowner_api.Application.Services
         {
             (var products, var limited, var offset) = await unityofwork.ProductRepository.GetproductsToUser(shopid, limit, page, searchbyproductname, searchbycategory);
 
-            if (products != null)
+            if (products == null)
                 throw new Exception("error in get products");
             var productdtos = new List<ProductReturnDto>();
             foreach (Product product in products)

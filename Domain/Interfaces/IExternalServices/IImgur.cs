@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+
 
 namespace onlineshopowner_api.Domain.Interfaces.IExternalServices
 {
-    public interface IImgur
+    public  interface IImgur
     {
-        Task<( string url, string deleteHash)> UploadImageAsync(Stream imageStream, string fileName);
-        Task<string > DeleteImageAsync(string deleteHash);
-        }
+        Task<(string url, string deleteHash)> UploadImageAsync(Stream imageStream);
+        Task<string> DeleteImageAsync(string deleteHash);
+    }
 }

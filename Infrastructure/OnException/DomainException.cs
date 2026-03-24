@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace onlineshopowner_api.Infrastructure.OnException
 {
     [Serializable]
-    internal class DomainException : Exception
+    public class DomainException : Exception
     {
         public DomainException()
         {

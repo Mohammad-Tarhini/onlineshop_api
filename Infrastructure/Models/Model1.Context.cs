@@ -15,10 +15,10 @@ namespace onlineshopowner_api.Infrastructure.Models
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class online_shopEntities1 : DbContext
+    public partial class online_shopEntities2 : DbContext
     {
-        public online_shopEntities1()
-            : base("name=online_shopEntities1")
+        public online_shopEntities2()
+            : base("name=online_shopEntities2")
         {
         }
     
@@ -32,41 +32,41 @@ namespace onlineshopowner_api.Infrastructure.Models
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Client> Clients { get; set; }
         public virtual DbSet<clientorder> clientorders { get; set; }
-        public virtual DbSet<DeliveryOrder> DeliveryOrders { get; set; }
         public virtual DbSet<DeliveryProvider> DeliveryProviders { get; set; }
         public virtual DbSet<DeliveryWorkingHour> DeliveryWorkingHours { get; set; }
+        public virtual DbSet<InternalTransaction> InternalTransactions { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
-        public virtual DbSet<Payment> Payments { get; set; }
+        public virtual DbSet<Payin> Payins { get; set; }
+        public virtual DbSet<Payout> Payouts { get; set; }
+        public virtual DbSet<PendingRegistration> PendingRegistrations { get; set; }
         public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<ProductImage> ProductImages { get; set; }
         public virtual DbSet<regiondelivery> regiondeliveries { get; set; }
         public virtual DbSet<Region> Regions { get; set; }
         public virtual DbSet<Shop> Shops { get; set; }
         public virtual DbSet<ShopCategory> ShopCategories { get; set; }
         public virtual DbSet<ShopOwner> ShopOwners { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
-        public virtual DbSet<PendingRegistration> PendingRegistrations { get; set; }
     
-        public virtual int addproductimage(Nullable<int> productid, string imgurl, string deletehash, Nullable<bool> isprofile, ObjectParameter success, ObjectParameter errorMessage)
+        public virtual ObjectResult<GetDelivery_Result> GetDelivery(Nullable<decimal> shoplatitude, Nullable<decimal> shoplongitude, Nullable<decimal> clientlatitude, Nullable<decimal> clientlongitude)
         {
-            var productidParameter = productid.HasValue ?
-                new ObjectParameter("productid", productid) :
-                new ObjectParameter("productid", typeof(int));
+            var shoplatitudeParameter = shoplatitude.HasValue ?
+                new ObjectParameter("shoplatitude", shoplatitude) :
+                new ObjectParameter("shoplatitude", typeof(decimal));
     
-            var imgurlParameter = imgurl != null ?
-                new ObjectParameter("imgurl", imgurl) :
-                new ObjectParameter("imgurl", typeof(string));
+            var shoplongitudeParameter = shoplongitude.HasValue ?
+                new ObjectParameter("shoplongitude", shoplongitude) :
+                new ObjectParameter("shoplongitude", typeof(decimal));
     
-            var deletehashParameter = deletehash != null ?
-                new ObjectParameter("deletehash", deletehash) :
-                new ObjectParameter("deletehash", typeof(string));
+            var clientlatitudeParameter = clientlatitude.HasValue ?
+                new ObjectParameter("clientlatitude", clientlatitude) :
+                new ObjectParameter("clientlatitude", typeof(decimal));
     
-            var isprofileParameter = isprofile.HasValue ?
-                new ObjectParameter("isprofile", isprofile) :
-                new ObjectParameter("isprofile", typeof(bool));
+            var clientlongitudeParameter = clientlongitude.HasValue ?
+                new ObjectParameter("clientlongitude", clientlongitude) :
+                new ObjectParameter("clientlongitude", typeof(decimal));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("addproductimage", productidParameter, imgurlParameter, deletehashParameter, isprofileParameter, success, errorMessage);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetDelivery_Result>("GetDelivery", shoplatitudeParameter, shoplongitudeParameter, clientlatitudeParameter, clientlongitudeParameter);
         }
     
         public virtual ObjectResult<getproduct_Result> getproduct(Nullable<int> shopid, Nullable<int> limit, Nullable<int> offset, string searchbyproductname, string searchbycategory, string searchbyshoptype)
@@ -96,6 +96,81 @@ namespace onlineshopowner_api.Infrastructure.Models
                 new ObjectParameter("searchbyshoptype", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getproduct_Result>("getproduct", shopidParameter, limitParameter, offsetParameter, searchbyproductnameParameter, searchbycategoryParameter, searchbyshoptypeParameter);
+        }
+    
+        public virtual int insertorderafterpayment(Nullable<int> shopid, Nullable<decimal> totalpriceProduct, Nullable<decimal> deliverycost, Nullable<decimal> latitude, Nullable<decimal> longitude, Nullable<int> deliveryid, string paymentmethod, Nullable<int> clientId, ObjectParameter orderId)
+        {
+            var shopidParameter = shopid.HasValue ?
+                new ObjectParameter("shopid", shopid) :
+                new ObjectParameter("shopid", typeof(int));
+    
+            var totalpriceProductParameter = totalpriceProduct.HasValue ?
+                new ObjectParameter("totalpriceProduct", totalpriceProduct) :
+                new ObjectParameter("totalpriceProduct", typeof(decimal));
+    
+            var deliverycostParameter = deliverycost.HasValue ?
+                new ObjectParameter("deliverycost", deliverycost) :
+                new ObjectParameter("deliverycost", typeof(decimal));
+    
+            var latitudeParameter = latitude.HasValue ?
+                new ObjectParameter("latitude", latitude) :
+                new ObjectParameter("latitude", typeof(decimal));
+    
+            var longitudeParameter = longitude.HasValue ?
+                new ObjectParameter("longitude", longitude) :
+                new ObjectParameter("longitude", typeof(decimal));
+    
+            var deliveryidParameter = deliveryid.HasValue ?
+                new ObjectParameter("deliveryid", deliveryid) :
+                new ObjectParameter("deliveryid", typeof(int));
+    
+            var paymentmethodParameter = paymentmethod != null ?
+                new ObjectParameter("paymentmethod", paymentmethod) :
+                new ObjectParameter("paymentmethod", typeof(string));
+    
+            var clientIdParameter = clientId.HasValue ?
+                new ObjectParameter("clientId", clientId) :
+                new ObjectParameter("clientId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertorderafterpayment", shopidParameter, totalpriceProductParameter, deliverycostParameter, latitudeParameter, longitudeParameter, deliveryidParameter, paymentmethodParameter, clientIdParameter, orderId);
+        }
+    
+        public virtual int Recieveorderfromdeliverytoclient(Nullable<int> orderid, Nullable<int> delievry_id, string clientdeliveryPin, ObjectParameter isexecute)
+        {
+            var orderidParameter = orderid.HasValue ?
+                new ObjectParameter("orderid", orderid) :
+                new ObjectParameter("orderid", typeof(int));
+    
+            var delievry_idParameter = delievry_id.HasValue ?
+                new ObjectParameter("delievry_id", delievry_id) :
+                new ObjectParameter("delievry_id", typeof(int));
+    
+            var clientdeliveryPinParameter = clientdeliveryPin != null ?
+                new ObjectParameter("clientdeliveryPin", clientdeliveryPin) :
+                new ObjectParameter("clientdeliveryPin", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Recieveorderfromdeliverytoclient", orderidParameter, delievry_idParameter, clientdeliveryPinParameter, isexecute);
+        }
+    
+        public virtual int recieveorderfromshoptoorder(Nullable<int> orderid, Nullable<int> shopid, Nullable<int> delivery_id, string shopdeliverypin, ObjectParameter iscorrectdelivery)
+        {
+            var orderidParameter = orderid.HasValue ?
+                new ObjectParameter("orderid", orderid) :
+                new ObjectParameter("orderid", typeof(int));
+    
+            var shopidParameter = shopid.HasValue ?
+                new ObjectParameter("shopid", shopid) :
+                new ObjectParameter("shopid", typeof(int));
+    
+            var delivery_idParameter = delivery_id.HasValue ?
+                new ObjectParameter("delivery_id", delivery_id) :
+                new ObjectParameter("delivery_id", typeof(int));
+    
+            var shopdeliverypinParameter = shopdeliverypin != null ?
+                new ObjectParameter("shopdeliverypin", shopdeliverypin) :
+                new ObjectParameter("shopdeliverypin", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("recieveorderfromshoptoorder", orderidParameter, shopidParameter, delivery_idParameter, shopdeliverypinParameter, iscorrectdelivery);
         }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
@@ -199,262 +274,6 @@ namespace onlineshopowner_api.Infrastructure.Models
         public virtual int sp_upgraddiagrams()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
-        }
-    
-        public virtual int AddDeliveryAgent(string name, string phone_number, string email, string password, string provider_type, string note_text, Nullable<bool> active_bit, ObjectParameter isfound)
-        {
-            var nameParameter = name != null ?
-                new ObjectParameter("name", name) :
-                new ObjectParameter("name", typeof(string));
-    
-            var phone_numberParameter = phone_number != null ?
-                new ObjectParameter("phone_number", phone_number) :
-                new ObjectParameter("phone_number", typeof(string));
-    
-            var emailParameter = email != null ?
-                new ObjectParameter("email", email) :
-                new ObjectParameter("email", typeof(string));
-    
-            var passwordParameter = password != null ?
-                new ObjectParameter("password", password) :
-                new ObjectParameter("password", typeof(string));
-    
-            var provider_typeParameter = provider_type != null ?
-                new ObjectParameter("provider_type", provider_type) :
-                new ObjectParameter("provider_type", typeof(string));
-    
-            var note_textParameter = note_text != null ?
-                new ObjectParameter("note_text", note_text) :
-                new ObjectParameter("note_text", typeof(string));
-    
-            var active_bitParameter = active_bit.HasValue ?
-                new ObjectParameter("active_bit", active_bit) :
-                new ObjectParameter("active_bit", typeof(bool));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddDeliveryAgent", nameParameter, phone_numberParameter, emailParameter, passwordParameter, provider_typeParameter, note_textParameter, active_bitParameter, isfound);
-        }
-    
-        public virtual int AddDeliveryperson(Nullable<bool> existperson, string first_name, string last_name, string provider_type, string email, string passward, string sex, string phonenumber, string note_text, Nullable<bool> active_bit, string region_Name, ObjectParameter isfound)
-        {
-            var existpersonParameter = existperson.HasValue ?
-                new ObjectParameter("existperson", existperson) :
-                new ObjectParameter("existperson", typeof(bool));
-    
-            var first_nameParameter = first_name != null ?
-                new ObjectParameter("first_name", first_name) :
-                new ObjectParameter("first_name", typeof(string));
-    
-            var last_nameParameter = last_name != null ?
-                new ObjectParameter("last_name", last_name) :
-                new ObjectParameter("last_name", typeof(string));
-    
-            var provider_typeParameter = provider_type != null ?
-                new ObjectParameter("provider_type", provider_type) :
-                new ObjectParameter("provider_type", typeof(string));
-    
-            var emailParameter = email != null ?
-                new ObjectParameter("email", email) :
-                new ObjectParameter("email", typeof(string));
-    
-            var passwardParameter = passward != null ?
-                new ObjectParameter("passward", passward) :
-                new ObjectParameter("passward", typeof(string));
-    
-            var sexParameter = sex != null ?
-                new ObjectParameter("sex", sex) :
-                new ObjectParameter("sex", typeof(string));
-    
-            var phonenumberParameter = phonenumber != null ?
-                new ObjectParameter("phonenumber", phonenumber) :
-                new ObjectParameter("phonenumber", typeof(string));
-    
-            var note_textParameter = note_text != null ?
-                new ObjectParameter("note_text", note_text) :
-                new ObjectParameter("note_text", typeof(string));
-    
-            var active_bitParameter = active_bit.HasValue ?
-                new ObjectParameter("active_bit", active_bit) :
-                new ObjectParameter("active_bit", typeof(bool));
-    
-            var region_NameParameter = region_Name != null ?
-                new ObjectParameter("Region_Name", region_Name) :
-                new ObjectParameter("Region_Name", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddDeliveryperson", existpersonParameter, first_nameParameter, last_nameParameter, provider_typeParameter, emailParameter, passwardParameter, sexParameter, phonenumberParameter, note_textParameter, active_bitParameter, region_NameParameter, isfound);
-        }
-    
-        public virtual int AddDeliveryShop(Nullable<int> shopid, string provider_type, string note_text, Nullable<bool> active_bit, ObjectParameter isfound)
-        {
-            var shopidParameter = shopid.HasValue ?
-                new ObjectParameter("shopid", shopid) :
-                new ObjectParameter("shopid", typeof(int));
-    
-            var provider_typeParameter = provider_type != null ?
-                new ObjectParameter("provider_type", provider_type) :
-                new ObjectParameter("provider_type", typeof(string));
-    
-            var note_textParameter = note_text != null ?
-                new ObjectParameter("note_text", note_text) :
-                new ObjectParameter("note_text", typeof(string));
-    
-            var active_bitParameter = active_bit.HasValue ?
-                new ObjectParameter("active_bit", active_bit) :
-                new ObjectParameter("active_bit", typeof(bool));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddDeliveryShop", shopidParameter, provider_typeParameter, note_textParameter, active_bitParameter, isfound);
-        }
-    
-        public virtual int checkDelivery(string password, string email, string phonenumber, ObjectParameter iscorrect, string deliverytype, ObjectParameter deliveryid)
-        {
-            var passwordParameter = password != null ?
-                new ObjectParameter("password", password) :
-                new ObjectParameter("password", typeof(string));
-    
-            var emailParameter = email != null ?
-                new ObjectParameter("email", email) :
-                new ObjectParameter("email", typeof(string));
-    
-            var phonenumberParameter = phonenumber != null ?
-                new ObjectParameter("phonenumber", phonenumber) :
-                new ObjectParameter("phonenumber", typeof(string));
-    
-            var deliverytypeParameter = deliverytype != null ?
-                new ObjectParameter("deliverytype", deliverytype) :
-                new ObjectParameter("deliverytype", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("checkDelivery", passwordParameter, emailParameter, phonenumberParameter, iscorrect, deliverytypeParameter, deliveryid);
-        }
-    
-        public virtual ObjectResult<GetDelivery_Result> GetDelivery(Nullable<decimal> shoplatitude, Nullable<decimal> shoplongitude, Nullable<decimal> clientlatitude, Nullable<decimal> clientlongitude)
-        {
-            var shoplatitudeParameter = shoplatitude.HasValue ?
-                new ObjectParameter("shoplatitude", shoplatitude) :
-                new ObjectParameter("shoplatitude", typeof(decimal));
-    
-            var shoplongitudeParameter = shoplongitude.HasValue ?
-                new ObjectParameter("shoplongitude", shoplongitude) :
-                new ObjectParameter("shoplongitude", typeof(decimal));
-    
-            var clientlatitudeParameter = clientlatitude.HasValue ?
-                new ObjectParameter("clientlatitude", clientlatitude) :
-                new ObjectParameter("clientlatitude", typeof(decimal));
-    
-            var clientlongitudeParameter = clientlongitude.HasValue ?
-                new ObjectParameter("clientlongitude", clientlongitude) :
-                new ObjectParameter("clientlongitude", typeof(decimal));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetDelivery_Result>("GetDelivery", shoplatitudeParameter, shoplongitudeParameter, clientlatitudeParameter, clientlongitudeParameter);
-        }
-    
-        public virtual ObjectResult<GetItemOfOrder_Result> GetItemOfOrder(Nullable<int> orderid)
-        {
-            var orderidParameter = orderid.HasValue ?
-                new ObjectParameter("orderid", orderid) :
-                new ObjectParameter("orderid", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetItemOfOrder_Result>("GetItemOfOrder", orderidParameter);
-        }
-    
-        public virtual ObjectResult<GetNeworder_Result> GetNeworder(Nullable<int> shopid)
-        {
-            var shopidParameter = shopid.HasValue ?
-                new ObjectParameter("shopid", shopid) :
-                new ObjectParameter("shopid", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetNeworder_Result>("GetNeworder", shopidParameter);
-        }
-    
-        public virtual ObjectResult<GetOrdersForDelivery_Result> GetOrdersForDelivery(Nullable<int> deliveryid)
-        {
-            var deliveryidParameter = deliveryid.HasValue ?
-                new ObjectParameter("deliveryid", deliveryid) :
-                new ObjectParameter("deliveryid", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetOrdersForDelivery_Result>("GetOrdersForDelivery", deliveryidParameter);
-        }
-    
-        public virtual int GetPhoneAndEmailDelivery(Nullable<int> deliveryproviderid, ObjectParameter phonenumber, ObjectParameter email, ObjectParameter providertype, ObjectParameter deliveryname)
-        {
-            var deliveryprovideridParameter = deliveryproviderid.HasValue ?
-                new ObjectParameter("deliveryproviderid", deliveryproviderid) :
-                new ObjectParameter("deliveryproviderid", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetPhoneAndEmailDelivery", deliveryprovideridParameter, phonenumber, email, providertype, deliveryname);
-        }
-    
-        public virtual int insertorderafterpayment(Nullable<int> shopid, Nullable<decimal> totalpriceProduct, Nullable<decimal> deliverycost, Nullable<decimal> latitude, Nullable<decimal> longitude, Nullable<int> deliveryid, string paymentmethod, Nullable<int> clientId, ObjectParameter orderId)
-        {
-            var shopidParameter = shopid.HasValue ?
-                new ObjectParameter("shopid", shopid) :
-                new ObjectParameter("shopid", typeof(int));
-    
-            var totalpriceProductParameter = totalpriceProduct.HasValue ?
-                new ObjectParameter("totalpriceProduct", totalpriceProduct) :
-                new ObjectParameter("totalpriceProduct", typeof(decimal));
-    
-            var deliverycostParameter = deliverycost.HasValue ?
-                new ObjectParameter("deliverycost", deliverycost) :
-                new ObjectParameter("deliverycost", typeof(decimal));
-    
-            var latitudeParameter = latitude.HasValue ?
-                new ObjectParameter("latitude", latitude) :
-                new ObjectParameter("latitude", typeof(decimal));
-    
-            var longitudeParameter = longitude.HasValue ?
-                new ObjectParameter("longitude", longitude) :
-                new ObjectParameter("longitude", typeof(decimal));
-    
-            var deliveryidParameter = deliveryid.HasValue ?
-                new ObjectParameter("deliveryid", deliveryid) :
-                new ObjectParameter("deliveryid", typeof(int));
-    
-            var paymentmethodParameter = paymentmethod != null ?
-                new ObjectParameter("paymentmethod", paymentmethod) :
-                new ObjectParameter("paymentmethod", typeof(string));
-    
-            var clientIdParameter = clientId.HasValue ?
-                new ObjectParameter("clientId", clientId) :
-                new ObjectParameter("clientId", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertorderafterpayment", shopidParameter, totalpriceProductParameter, deliverycostParameter, latitudeParameter, longitudeParameter, deliveryidParameter, paymentmethodParameter, clientIdParameter, orderId);
-        }
-    
-        public virtual int Recieveorderfromdeliverytoclient(Nullable<int> orderid, Nullable<int> delievry_id, string clientdeliveryPin, ObjectParameter isexecute)
-        {
-            var orderidParameter = orderid.HasValue ?
-                new ObjectParameter("orderid", orderid) :
-                new ObjectParameter("orderid", typeof(int));
-    
-            var delievry_idParameter = delievry_id.HasValue ?
-                new ObjectParameter("delievry_id", delievry_id) :
-                new ObjectParameter("delievry_id", typeof(int));
-    
-            var clientdeliveryPinParameter = clientdeliveryPin != null ?
-                new ObjectParameter("clientdeliveryPin", clientdeliveryPin) :
-                new ObjectParameter("clientdeliveryPin", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Recieveorderfromdeliverytoclient", orderidParameter, delievry_idParameter, clientdeliveryPinParameter, isexecute);
-        }
-    
-        public virtual int recieveorderfromshoptoorder(Nullable<int> orderid, Nullable<int> shopid, Nullable<int> delivery_id, string shopdeliverypin, ObjectParameter iscorrectdelivery)
-        {
-            var orderidParameter = orderid.HasValue ?
-                new ObjectParameter("orderid", orderid) :
-                new ObjectParameter("orderid", typeof(int));
-    
-            var shopidParameter = shopid.HasValue ?
-                new ObjectParameter("shopid", shopid) :
-                new ObjectParameter("shopid", typeof(int));
-    
-            var delivery_idParameter = delivery_id.HasValue ?
-                new ObjectParameter("delivery_id", delivery_id) :
-                new ObjectParameter("delivery_id", typeof(int));
-    
-            var shopdeliverypinParameter = shopdeliverypin != null ?
-                new ObjectParameter("shopdeliverypin", shopdeliverypin) :
-                new ObjectParameter("shopdeliverypin", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("recieveorderfromshoptoorder", orderidParameter, shopidParameter, delivery_idParameter, shopdeliverypinParameter, iscorrectdelivery);
         }
     }
 }

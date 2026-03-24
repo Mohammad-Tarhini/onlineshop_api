@@ -37,9 +37,11 @@ namespace onlineshopowner_api.Infrastructure.ExternalServices.googlemap
 
             using (HttpClient client = new HttpClient())
             {
-                // Add your ORS API key to headers
-                client.DefaultRequestHeaders.Add("Authorization", _apiKey);
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
+                client.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _apiKey);
+
+                client.DefaultRequestHeaders.Accept.Add(
+                    new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
                 var content = new StringContent(
                     JsonConvert.SerializeObject(requestBody),
@@ -58,15 +60,14 @@ namespace onlineshopowner_api.Infrastructure.ExternalServices.googlemap
 
                     return new RouteInfoDto
                     {
-                        Distance = route.summary.distance,          // in meters
-                        Duration = (decimal)route.summary.duration,          // in seconds
-                        EncodedPolyline = route.geometry            // ORS polyline
+                        Distance = route.summary.distance,
+                        Duration = (decimal)route.summary.duration,
+                        EncodedPolyline = route.geometry
                     };
                 }
 
-                Console.WriteLine("OpenRouteService API failed or returned no routes.");
                 return null;
             }
         }
-    } 
+        } 
     }

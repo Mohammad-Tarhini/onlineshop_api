@@ -24,8 +24,8 @@ namespace onlineshopowner_api.Controllers.AuthoControllers
         public async Task<IHttpActionResult> Login([FromBody] LoginRequestDto dto)
         {
             
-                await loginService.Login(dto);
-                return Ok("login is succesfull");
+             var result=   await loginService.Login(dto);
+                return Ok(result);
             
             
         }

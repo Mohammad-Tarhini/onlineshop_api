@@ -1,7 +1,6 @@
 ﻿using onlineshopowner_api.Application.Dtos;
 using onlineshopowner_api.Application.Interfaces.Iservices;
 using onlineshopowner_api.Domain.Interfaces.IRepository;
-using onlineshopowner_api.Infrastructure.BinderModel;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Metadata.Edm;
@@ -24,30 +23,44 @@ namespace onlineshopowner_api.Controllers
         {
             this.shopServices = shopServices;
         }
-        [JwtAuthorize(Roles ="shopowner")]
+        [JwtAuthorize(Roles = "shopowner")]
         [HttpPost]
         [Route("api/shop/opennewshop")]
         public async Task<IHttpActionResult> OpenNewShop()
         {
-            var request= HttpContext.Current.Request;
-            var openNewShopDto=new OpenNewShopDto
+            var request = HttpContext.Current.Request;
+
+            var openNewShopDto = new OpenNewShopDto
             {
                 Name = request.Form["Name"],
                 Description = request.Form["Description"],
-                logo_url = request.Form["logo_url"],
-                Categories = request.Form["Categories"].Split(',').Select(int.Parse).ToList(),
-                File = request.Files["File"]
+                logo_url = string.IsNullOrEmpty(request.Form["logo_url"]) ? null : request.Form["logo_url"],
+                Categories = string.IsNullOrEmpty(request.Form["Categories"])
+                    ? new List<int>()
+                    : request.Form["Categories"].Split(',')
+                          .Where(s => int.TryParse(s, out _))
+                          .Select(int.Parse)
+                          .ToList(),
+                File = request.Files.Count > 0 ? request.Files["File"] : null
             };
-            string response= await shopServices.OpenShop(openNewShopDto);
-            if (response == "success")
+
+            string response;
+            try
             {
-                return Ok(response);
+                response = await shopServices.OpenShop(openNewShopDto);
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest(response);
+                return BadRequest(
+                 ex.Message +ex.InnerException?.Message
+                );
             }
+
+            return Ok(response);
         }
+        [JwtAuthorize(Roles = "shopowner")]
+        [HttpPost]
+        [Route("api/shop/updateshop")]
         public async Task<IHttpActionResult> updataShop()
         {
             var request = HttpContext.Current.Request;

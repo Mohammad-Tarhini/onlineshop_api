@@ -49,6 +49,7 @@ namespace onlineshopowner_api.Infrastructure.Repositories
                     cmd.Parameters.AddWithValue("@latitude", clientOrder.latitude);
                     cmd.Parameters.AddWithValue("@longitude", clientOrder.longitude);
                     cmd.Parameters.AddWithValue("@deliveryid", clientOrder.deliveryProviderId);
+                  //  cmd.Parameters.AddWithValue("@paymentmethod", paymentMethod);
                     SqlParameter orderidParam = new SqlParameter("@orderid", SqlDbType.Int)
                     {
                         Direction = ParameterDirection.Output
@@ -56,8 +57,9 @@ namespace onlineshopowner_api.Infrastructure.Repositories
                     cmd.Parameters.Add(orderidParam);
                     await cmd.ExecuteNonQueryAsync();
                     int orderId = Convert.ToInt32(orderidParam.Value);
-                    return orderId;
                     connect.Close();
+                    return orderId;
+                    
                 }
             }
         }
@@ -65,12 +67,12 @@ namespace onlineshopowner_api.Infrastructure.Repositories
         {
             using (SqlConnection con = new SqlConnection(connectionstring))
             {
-                con.OpenAsync();
+               await con.OpenAsync();
                 string sql = "select * from clientorder where order_id=@orderId ";
+
                 using (SqlCommand cmd = new SqlCommand(sql, con))
                 {
                     cmd.Parameters.AddWithValue("@orderId", OrderId);
-                    await con.OpenAsync();
                     using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
                     {
                         if (reader.Read())
@@ -84,15 +86,17 @@ namespace onlineshopowner_api.Infrastructure.Repositories
                                 latitude = reader.GetDecimal(reader.GetOrdinal("latitude")),
                                 longitude = reader.GetDecimal(reader.GetOrdinal("longitude"))
                             };
-
+                            con.Close();
                             return order;
                         }
                         else
                         {
+                            con.Close();
                             return null;
                         }
+
                     }
-                    con.Close();
+                   
                 }
             }
         }
@@ -170,6 +174,7 @@ namespace onlineshopowner_api.Infrastructure.Repositories
         {
             using (SqlConnection connection = new SqlConnection(connectionstring))
             {
+                await connection.OpenAsync();
                 string query = "update clientorder set status=@status  where order_id=@orderId ";
                 using (SqlCommand cmd = new SqlCommand(query, connection))
                 {
@@ -177,6 +182,7 @@ namespace onlineshopowner_api.Infrastructure.Repositories
                     cmd.Parameters.AddWithValue("@status", status);
                     await cmd.ExecuteNonQueryAsync();
                 }
+                connection.Close();
             }
         }
         public async Task<List<OrderDetail>> GetItemsOfOrder(int orderid)

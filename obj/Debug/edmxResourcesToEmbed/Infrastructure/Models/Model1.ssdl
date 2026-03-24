@@ -59,6 +59,7 @@
     <Property Name="created_at" Type="datetime" />
     <Property Name="update_at" Type="datetime" />
     <Property Name="person_id" Type="int" />
+    <Property Name="price_per_meter" Type="decimal" Precision="18" Scale="0" />
   </EntityType>
   <EntityType Name="DeliveryWorkingHours">
     <Key>
@@ -70,6 +71,18 @@
     <Property Name="open_time" Type="time" Precision="7" Nullable="false" />
     <Property Name="close_time" Type="time" Precision="7" Nullable="false" />
   </EntityType>
+  <EntityType Name="InternalTransactions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="TransactionType" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="255" />
+    <Property Name="CreatedAt" Type="datetime" />
+    <Property Name="orderid" Type="int" />
+  </EntityType>
   <EntityType Name="OrderDetail">
     <Key>
       <PropertyRef Name="order_detail_id" />
@@ -80,14 +93,28 @@
     <Property Name="quantity" Type="int" />
     <Property Name="order_detail_status" Type="varchar" MaxLength="50" />
   </EntityType>
-  <EntityType Name="Payment">
+  <EntityType Name="Payin">
     <Key>
-      <PropertyRef Name="payment_id" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="payment_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="order_id" Type="int" />
-    <Property Name="payment_status" Type="varchar" MaxLength="50" />
-    <Property Name="payment_method" Type="varchar" MaxLength="50" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderId" Type="int" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="PaymentMethod" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" MaxLength="20" />
+    <Property Name="GatewayTransactionId" Type="nvarchar" MaxLength="100" />
+    <Property Name="CreatedAt" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Payout">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Method" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Status" Type="nvarchar" MaxLength="20" />
+    <Property Name="CreatedAt" Type="datetime" />
   </EntityType>
   <EntityType Name="PendingRegistrations">
     <Key>
@@ -130,16 +157,8 @@
     <Property Name="status" Type="varchar" MaxLength="50" />
     <Property Name="quantity" Type="int" />
     <Property Name="shop_id" Type="int" />
-    <Property Name="imgurl_id" Type="int" />
-  </EntityType>
-  <EntityType Name="ProductImages">
-    <Key>
-      <PropertyRef Name="ImageId" />
-    </Key>
-    <Property Name="ImageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ProductId" Type="int" />
-    <Property Name="ImageUrl" Type="nvarchar" MaxLength="500" Nullable="false" />
-    <Property Name="deletehash" Type="varchar" MaxLength="100" />
+    <Property Name="img_url" Type="varchar" MaxLength="100" />
+    <Property Name="img_delete_code" Type="varchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="regiondelivery">
     <Key>
@@ -305,6 +324,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__InternalT__order__7908F585">
+    <End Role="clientorder" Type="Self.clientorder" Multiplicity="0..1" />
+    <End Role="InternalTransactions" Type="Self.InternalTransactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="clientorder">
+        <PropertyRef Name="order_id" />
+      </Principal>
+      <Dependent Role="InternalTransactions">
+        <PropertyRef Name="orderid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__InternalT__UserI__6319B466">
+    <End Role="Person" Type="Self.Person" Multiplicity="1" />
+    <End Role="InternalTransactions" Type="Self.InternalTransactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="person_id" />
+      </Principal>
+      <Dependent Role="InternalTransactions">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__OrderDeta__order__5BE2A6F2">
     <End Role="clientorder" Type="Self.clientorder" Multiplicity="0..1" />
     <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
@@ -329,15 +372,27 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Payment__order_i__6D0D32F4">
-    <End Role="clientorder" Type="Self.clientorder" Multiplicity="0..1" />
-    <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+  <Association Name="FK__Payin__OrderId__59904A2C">
+    <End Role="clientorder" Type="Self.clientorder" Multiplicity="1" />
+    <End Role="Payin" Type="Self.Payin" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="clientorder">
         <PropertyRef Name="order_id" />
       </Principal>
-      <Dependent Role="Payment">
-        <PropertyRef Name="order_id" />
+      <Dependent Role="Payin">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Payout__UserId__5E54FF49">
+    <End Role="Person" Type="Self.Person" Multiplicity="1" />
+    <End Role="Payout" Type="Self.Payout" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="person_id" />
+      </Principal>
+      <Dependent Role="Payout">
+        <PropertyRef Name="UserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -362,18 +417,6 @@
       </Principal>
       <Dependent Role="Product">
         <PropertyRef Name="shop_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__ProductIm__Produ__02FC7413">
-    <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
-    <End Role="ProductImages" Type="Self.ProductImages" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Product">
-        <PropertyRef Name="product_id" />
-      </Principal>
-      <Dependent Role="ProductImages">
-        <PropertyRef Name="ProductId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -449,88 +492,12 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Product_ImgUrl">
-    <End Role="ProductImages" Type="Self.ProductImages" Multiplicity="0..1" />
-    <End Role="Product" Type="Self.Product" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProductImages">
-        <PropertyRef Name="ImageId" />
-      </Principal>
-      <Dependent Role="Product">
-        <PropertyRef Name="imgurl_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Function Name="AddDeliveryAgent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="name" Type="varchar" Mode="In" />
-    <Parameter Name="phone_number" Type="varchar" Mode="In" />
-    <Parameter Name="email" Type="varchar" Mode="In" />
-    <Parameter Name="password" Type="varchar" Mode="In" />
-    <Parameter Name="provider_type" Type="varchar" Mode="In" />
-    <Parameter Name="note_text" Type="text" Mode="In" />
-    <Parameter Name="active_bit" Type="bit" Mode="In" />
-    <Parameter Name="isfound" Type="bit" Mode="InOut" />
-  </Function>
-  <Function Name="AddDeliveryperson" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="existperson" Type="bit" Mode="In" />
-    <Parameter Name="first_name" Type="varchar" Mode="In" />
-    <Parameter Name="last_name" Type="varchar" Mode="In" />
-    <Parameter Name="provider_type" Type="varchar" Mode="In" />
-    <Parameter Name="email" Type="varchar" Mode="In" />
-    <Parameter Name="passward" Type="varchar" Mode="In" />
-    <Parameter Name="sex" Type="varchar" Mode="In" />
-    <Parameter Name="phonenumber" Type="varchar" Mode="In" />
-    <Parameter Name="note_text" Type="text" Mode="In" />
-    <Parameter Name="active_bit" Type="bit" Mode="In" />
-    <Parameter Name="Region_Name" Type="varchar" Mode="In" />
-    <Parameter Name="isfound" Type="bit" Mode="InOut" />
-  </Function>
-  <Function Name="AddDeliveryShop" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="shopid" Type="int" Mode="In" />
-    <Parameter Name="provider_type" Type="varchar" Mode="In" />
-    <Parameter Name="note_text" Type="text" Mode="In" />
-    <Parameter Name="active_bit" Type="bit" Mode="In" />
-    <Parameter Name="isfound" Type="bit" Mode="InOut" />
-  </Function>
-  <Function Name="addproductimage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="productid" Type="int" Mode="In" />
-    <Parameter Name="imgurl" Type="varchar" Mode="In" />
-    <Parameter Name="deletehash" Type="varchar" Mode="In" />
-    <Parameter Name="isprofile" Type="bit" Mode="In" />
-    <Parameter Name="Success" Type="bit" Mode="InOut" />
-    <Parameter Name="ErrorMessage" Type="nvarchar" Mode="InOut" />
-  </Function>
-  <Function Name="checkDelivery" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="password" Type="varchar" Mode="In" />
-    <Parameter Name="email" Type="varchar" Mode="In" />
-    <Parameter Name="phonenumber" Type="varchar" Mode="In" />
-    <Parameter Name="iscorrect" Type="bit" Mode="InOut" />
-    <Parameter Name="deliverytype" Type="varchar" Mode="In" />
-    <Parameter Name="deliveryid" Type="int" Mode="InOut" />
-  </Function>
   <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
   <Function Name="GetDelivery" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="shoplatitude" Type="decimal" Mode="In" />
     <Parameter Name="shoplongitude" Type="decimal" Mode="In" />
     <Parameter Name="clientlatitude" Type="decimal" Mode="In" />
     <Parameter Name="clientlongitude" Type="decimal" Mode="In" />
-    <Parameter Name="shopid" Type="int" Mode="In" />
-  </Function>
-  <Function Name="GetItemOfOrder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="orderid" Type="int" Mode="In" />
-  </Function>
-  <Function Name="GetNeworder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="shopid" Type="int" Mode="In" />
-  </Function>
-  <Function Name="GetOrdersForDelivery" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="deliveryid" Type="int" Mode="In" />
-  </Function>
-  <Function Name="GetPhoneAndEmailDelivery" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="deliveryproviderid" Type="int" Mode="In" />
-    <Parameter Name="phonenumber" Type="varchar" Mode="InOut" />
-    <Parameter Name="email" Type="varchar" Mode="InOut" />
-    <Parameter Name="providertype" Type="varchar" Mode="InOut" />
-    <Parameter Name="deliveryname" Type="varchar" Mode="InOut" />
   </Function>
   <Function Name="getproduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="shopid" Type="int" Mode="In" />
@@ -541,16 +508,15 @@
     <Parameter Name="searchbyshoptype" Type="varchar" Mode="In" />
   </Function>
   <Function Name="insertorderafterpayment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="personid" Type="int" Mode="In" />
     <Parameter Name="shopid" Type="int" Mode="In" />
-    <Parameter Name="totalprice" Type="decimal" Mode="In" />
+    <Parameter Name="totalpriceProduct" Type="decimal" Mode="In" />
     <Parameter Name="deliverycost" Type="decimal" Mode="In" />
     <Parameter Name="latitude" Type="decimal" Mode="In" />
     <Parameter Name="longitude" Type="decimal" Mode="In" />
     <Parameter Name="deliveryid" Type="int" Mode="In" />
     <Parameter Name="paymentmethod" Type="varchar" Mode="In" />
-    <Parameter Name="shopdeliverypin" Type="varchar" Mode="In" />
-    <Parameter Name="clientdeliverypin" Type="varchar" Mode="In" />
+    <Parameter Name="clientId" Type="int" Mode="In" />
+    <Parameter Name="orderId" Type="int" Mode="InOut" />
   </Function>
   <Function Name="Recieveorderfromdeliverytoclient" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="orderid" Type="int" Mode="In" />
@@ -603,12 +569,13 @@
     <EntitySet Name="clientorder" EntityType="Self.clientorder" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DeliveryProvider" EntityType="Self.DeliveryProvider" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DeliveryWorkingHours" EntityType="Self.DeliveryWorkingHours" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="InternalTransactions" EntityType="Self.InternalTransactions" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Payin" EntityType="Self.Payin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Payout" EntityType="Self.Payout" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PendingRegistrations" EntityType="Self.PendingRegistrations" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="ProductImages" EntityType="Self.ProductImages" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="regiondelivery" EntityType="Self.regiondelivery" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Regions" EntityType="Self.Regions" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Shop" EntityType="Self.Shop" Schema="dbo" store:Type="Tables" />
@@ -651,6 +618,14 @@
       <End Role="DeliveryProvider" EntitySet="DeliveryProvider" />
       <End Role="DeliveryWorkingHours" EntitySet="DeliveryWorkingHours" />
     </AssociationSet>
+    <AssociationSet Name="FK__InternalT__order__7908F585" Association="Self.FK__InternalT__order__7908F585">
+      <End Role="clientorder" EntitySet="clientorder" />
+      <End Role="InternalTransactions" EntitySet="InternalTransactions" />
+    </AssociationSet>
+    <AssociationSet Name="FK__InternalT__UserI__6319B466" Association="Self.FK__InternalT__UserI__6319B466">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="InternalTransactions" EntitySet="InternalTransactions" />
+    </AssociationSet>
     <AssociationSet Name="FK__OrderDeta__order__5BE2A6F2" Association="Self.FK__OrderDeta__order__5BE2A6F2">
       <End Role="clientorder" EntitySet="clientorder" />
       <End Role="OrderDetail" EntitySet="OrderDetail" />
@@ -659,9 +634,13 @@
       <End Role="Product" EntitySet="Product" />
       <End Role="OrderDetail" EntitySet="OrderDetail" />
     </AssociationSet>
-    <AssociationSet Name="FK__Payment__order_i__6D0D32F4" Association="Self.FK__Payment__order_i__6D0D32F4">
+    <AssociationSet Name="FK__Payin__OrderId__59904A2C" Association="Self.FK__Payin__OrderId__59904A2C">
       <End Role="clientorder" EntitySet="clientorder" />
-      <End Role="Payment" EntitySet="Payment" />
+      <End Role="Payin" EntitySet="Payin" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Payout__UserId__5E54FF49" Association="Self.FK__Payout__UserId__5E54FF49">
+      <End Role="Person" EntitySet="Person" />
+      <End Role="Payout" EntitySet="Payout" />
     </AssociationSet>
     <AssociationSet Name="FK__Product__categor__534D60F1" Association="Self.FK__Product__categor__534D60F1">
       <End Role="Category" EntitySet="Category" />
@@ -670,10 +649,6 @@
     <AssociationSet Name="FK__Product__shop_id__5441852A" Association="Self.FK__Product__shop_id__5441852A">
       <End Role="Shop" EntitySet="Shop" />
       <End Role="Product" EntitySet="Product" />
-    </AssociationSet>
-    <AssociationSet Name="FK__ProductIm__Produ__02FC7413" Association="Self.FK__ProductIm__Produ__02FC7413">
-      <End Role="Product" EntitySet="Product" />
-      <End Role="ProductImages" EntitySet="ProductImages" />
     </AssociationSet>
     <AssociationSet Name="FK__regiondel__deliv__32767D0B" Association="Self.FK__regiondel__deliv__32767D0B">
       <End Role="DeliveryProvider" EntitySet="DeliveryProvider" />
@@ -698,10 +673,6 @@
     <AssociationSet Name="FK__ShopOwner__perso__45F365D3" Association="Self.FK__ShopOwner__perso__45F365D3">
       <End Role="Person" EntitySet="Person" />
       <End Role="ShopOwner" EntitySet="ShopOwner" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Product_ImgUrl" Association="Self.FK_Product_ImgUrl">
-      <End Role="ProductImages" EntitySet="ProductImages" />
-      <End Role="Product" EntitySet="Product" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

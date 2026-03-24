@@ -1,8 +1,10 @@
 ﻿using onlineshopowner_api.Application.Dtos;
+using onlineshopowner_api.Application.Dtos.AuthoDto;
 using onlineshopowner_api.Application.Dtos.DeliveryDtos;
 using onlineshopowner_api.Application.Interfaces.Iservices;
 using onlineshopowner_api.Application.Services;
 using onlineshopowner_api.Application.Services.AuthoServices;
+using onlineshopowner_api.Application.Validatorandclean;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,9 +34,9 @@ namespace onlineshopowner_api.Controllers.AuthoControllers
 
 
         }
-        [HttpPost]
-        [Route("api/Client/VerifyRregisteration")]
-        public async Task<IHttpActionResult> verifyregisteration([FromBody] string token)
+        [HttpGet]
+        [Route("api/Client/VerifyRegisteration")]
+        public async Task<IHttpActionResult> verifyregisteration([FromUri] string token)
         {
 
             await RegisterationService.VerifyRegisteration(token);
@@ -50,22 +52,38 @@ namespace onlineshopowner_api.Controllers.AuthoControllers
             return Ok("you will reach message go and check it ");
         }
 
-        [HttpPost]
-        [Route("api/Shopowner/VerifyRegisteration")]
+        [HttpGet]
+        [Route("api/Shopowner/VerifyShopownerRegisteration")]
 
-        public async Task<IHttpActionResult> VerifyRegisteration([FromBody] VerifyOtpDto dto)
+        public async Task<IHttpActionResult> VerifyRegisteration([FromUri] VerifyOtpDto dto)
         {
             await RegisterationService.AddVerifiedShopowner(dto);
             return Ok("");
         }
-        [HttpPost]
+        [HttpGet]
         [Route("api/Delivery/VerifyRegisteration")]
-        public async Task<IHttpActionResult> VerifyDeliveryRegisteration([FromBody] DeliveryProviderDto deliveryProviderDto, [FromBody] VerifyOtpDto verifyOtpDto)
+        public async Task<IHttpActionResult> VerifyDeliveryRegisteration([FromUri] VerifyDeliveryRequestDto dto)
         {
-            await RegisterationService.AddVerifiedDelivery(deliveryProviderDto, verifyOtpDto);
+            await RegisterationService.AddVerifiedDelivery(dto.DeliveryProviderDto,dto.VerifyOtpDto);
             return Ok("");
 
 
+        }
+
+        [HttpPost]
+        [Route("api/Testing")]
+        public IHttpActionResult TestHash(string password)
+        {
+            var hash = HashingPassword.HashPassword(password);
+
+            bool verify = HashingPassword.VerifyPassword(password, hash);
+
+            return Ok(new
+            {
+                Password = password,
+                Hash = hash,
+                Verification = verify
+            });
         }
     }
 }

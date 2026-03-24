@@ -25,7 +25,7 @@ namespace onlineshopowner_api.Domain.Interfaces.IRepository
         System.Threading.Tasks.Task AddClientByPerson(Domain.Entities.Client client);
 
         System.Threading.Tasks.Task AddShopOwnerByPerson(Domain.Entities.ShopOwner shopOwner);
-        System.Threading.Tasks.Task AddAdminByPerson(Domain.Entities.Admin admin);
+        System.Threading.Tasks.Task AddAdminByPerson(Domain.Entities.data.Admain admin);
         //System.Threading.Tasks.Task AddDeliveryPersonByPersonId(Domain.Entities.del);
 
         System.Threading.Tasks.Task AddToPandingRegisteration(Domain.Entities.Person person, string otpCode, string role);

@@ -14,9 +14,10 @@ namespace onlineshopowner_api.Infrastructure.ExternalServices.comunicate
         {
             try
             {
-
+                var addTo=new MailAddress(to);
                 var message = new MailMessage();
                 message.To.Add(to);
+                message.From=new MailAddress("tarhinimohammadbaker@gmail.com");
                 message.Subject = subject;
                 message.Body = body;
                 message.IsBodyHtml = true;
@@ -25,6 +26,7 @@ namespace onlineshopowner_api.Infrastructure.ExternalServices.comunicate
                 {
                     await smtp.SendMailAsync(message);
                 }
+                //var sent =await EmailService.sendEmailAsync(to, subject, body);
             }
             catch (Exception ex)
             {

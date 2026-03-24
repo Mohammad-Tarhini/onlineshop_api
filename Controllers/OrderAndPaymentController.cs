@@ -36,42 +36,24 @@ namespace onlineshopowner_api.Controllers
         }
         //fake payment endpoint for testing
         [JwtAuthorize(Roles = "client")]
-        [HttpPost]
+        [HttpGet]
         [Route("api/gateway/paymentProcess")]
-        public async Task<IHttpActionResult> ProcessPayment([FromUri] string sessionId, [FromUri] string checkOutUrl)
+        public async Task<IHttpActionResult> ProcessPayment([FromUri] string sessionId, [FromUri] string cardNumber=null)
         {
-            await _fakeGatewayService.ProcessPaymentAsync(sessionId, checkOutUrl);
-            return Ok("Payment processed");
+          var gateWayPayment=  await _fakeGatewayService.ProcessPaymentAsync(sessionId, cardNumber);
+          await _orderServices.HandlePaymentWebhookAsync(gateWayPayment);
+          return Ok("Payment processed");
 
         }
-        [AllowAnonymous]
-        [HttpPost]
-        [Route("api/gateway/webhook")]
-        public async Task<IHttpActionResult> PaymentWebhook([FromBody] GatewayPayment gatewayPayment)
-        {
+        //[AllowAnonymous]
+        //[HttpPost]
+        //[Route("api/gateway/webhook")]
+        //public async Task<IHttpActionResult> PaymentWebhook([FromBody] GatewayPayment gatewayPayment)
+        //{
 
-            await _orderServices.HandlePaymentWebhookAsync(gatewayPayment);
-            return Ok("Webhook received and processed");
-
-
-            //// Here you would typically update your order status based on the payment result
-            //// For example, you might mark the order as paid if the payment was successful
-            //// or mark it as failed if the payment failed.
-            //// Simulating order status update based on payment result
-            //if (gatewayPayment.PaymentStatus == "Paid")
-            //{
-            //    // Update order status to paid in your database
-            //    // await _orderServices.UpdateOrderStatusAsync(request.OrderId, "Paid");
-            //    return Ok("Order marked as paid");
-            //}
-            //else if (request.PaymentStatus == "Failed")
-            //{
-            //    // Update order status to failed in your database
-            //    // await _orderServices.UpdateOrderStatusAsync(request.OrderId, "Failed");
-            //    return Ok("Order marked as failed");
-            //}
-            //return BadRequest("Invalid payment status");
-        }
+        //    await _orderServices.HandlerPaymentWebhookAsync(gatewayPayment);
+        //    return Ok("Webhook received and processed");
+        //}
         [JwtAuthorize(Roles = "shopowner,admin")]
         [HttpPost]
         [Route("api/order/getNewordersForShop")]

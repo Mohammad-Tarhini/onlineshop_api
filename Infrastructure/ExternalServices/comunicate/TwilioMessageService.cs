@@ -21,9 +21,9 @@ namespace onlineshopowner_api.Infrastructure.ExternalServices.comunicate
 
         public  TwilioMessageService()
         {
-            string accountSid = ConfigurationManager.AppSettings["TwilioAccountSid"];
-            string authToken = ConfigurationManager.AppSettings["TwilioAuthToken"];
-            string fromPhone = ConfigurationManager.AppSettings["TwilioPhoneNumber"];
+             accountSid = ConfigurationManager.AppSettings["TwilioAccountSid"];
+             authToken = ConfigurationManager.AppSettings["TwilioAuthToken"];
+             fromPhone = ConfigurationManager.AppSettings["TwilioPhoneNumber"];
             TwilioClient.Init(accountSid, authToken);
         }
 
@@ -36,6 +36,10 @@ namespace onlineshopowner_api.Infrastructure.ExternalServices.comunicate
                     from: new PhoneNumber(fromPhone),
                     body: message
                 );
+                if(result.ErrorCode != null)
+                {
+                    throw new Exception(result.ErrorMessage);
+                }
 
                 // Check status or SID to confirm success
                // return result.ErrorCode == null;

@@ -16,8 +16,6 @@ namespace onlineshopowner_api.Infrastructure.Models
         public int delivery_Id { get; set; }
         public string Provider_Type { get; set; }
         public string note_text { get; set; }
-        public Nullable<bool> active_bit { get; set; }
-        public Nullable<System.DateTime> created_at { get; set; }
         public string first_name { get; set; }
         public string last_name { get; set; }
         public string email { get; set; }

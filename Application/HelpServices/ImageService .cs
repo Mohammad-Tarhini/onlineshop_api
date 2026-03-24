@@ -44,9 +44,9 @@ namespace onlineshopowner_api.Application.Validatorandclean
 
                 string safeFileName = Guid.NewGuid() + ".jpg";
 
-                var (url, deleteHash) = await _imgur.UploadImageAsync(cleanStream, safeFileName);
+                var (url, deleteHash) = await _imgur.UploadImageAsync(stream);
 
-                if (string.IsNullOrEmpty(url) || string.IsNullOrEmpty(deleteHash))
+                if (string.IsNullOrEmpty(url) && string.IsNullOrEmpty(deleteHash))
                     throw new Exception("Cloud upload failed.");
 
                 return (url, deleteHash);
@@ -70,8 +70,7 @@ namespace onlineshopowner_api.Application.Validatorandclean
 
             private void ValidateImage(Stream stream, int maxWidth, int maxHeight)
             {
-                try
-                {
+                
                     using (var image = System.Drawing.Image.FromStream(stream, true, true))
                     {
                         if (image.Width > maxWidth || image.Height > maxHeight)
@@ -83,11 +82,8 @@ namespace onlineshopowner_api.Application.Validatorandclean
                     }
 
                     stream.Position = 0;
-                }
-                catch
-                {
-                    throw new Exception("Invalid or corrupted image.");
-                }
+                
+                
             }
 
             private MemoryStream ReEncodeToJpeg(Stream original)

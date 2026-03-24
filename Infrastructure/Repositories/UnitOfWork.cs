@@ -12,22 +12,22 @@ namespace onlineshopowner_api.Infrastructure.Repositories
 {
     public class UnitOfWork: IUnityOfWork
     {
-        private readonly online_shopEntities1 _db;
+        private readonly online_shopEntities2 _db;
         public IpersonRepository PersonRepository { get;  set; }
     
-        public IcategoryRepository CategoryRepository { get; set; }
+        //public IcategoryRepository CategoryRepository { get; set; }
         public IShopRepository ShopRepository { get; set; }
         public IProductRepository ProductRepository { get; set; }
         public IRedisRepository RedisRepository { get; set; }
          public IDelivaryRepository  DelivaryRepository { get; set; }
         public IPaymentAndOrderRepository paymentAndOrderRepository { get; set; }
         public IPaymentRepository paymentRepository { get; set; }
-        public UnitOfWork(online_shopEntities1 dbContext, IpersonRepository personRepository, IShopRepository shopRepository, IcategoryRepository categoryRepository,IShopRepository shopRepository1,IProductRepository productRepository,IRedisRepository redisRepository,IDelivaryRepository delivaryRepository,IPaymentAndOrderRepository paymentAndOrderRepository ,IPaymentRepository paymentRepository)
+        public UnitOfWork(online_shopEntities2 dbContext, IpersonRepository personRepository, IShopRepository shopRepository,IShopRepository shopRepository1,IProductRepository productRepository,IRedisRepository redisRepository,IDelivaryRepository delivaryRepository,IPaymentAndOrderRepository paymentAndOrderRepository ,IPaymentRepository paymentRepository)
         {
             _db = dbContext;
             PersonRepository = personRepository;
            
-            CategoryRepository = categoryRepository;
+           // CategoryRepository = categoryRepository;
             ShopRepository = shopRepository1;
             ProductRepository = productRepository;
             RedisRepository = redisRepository;

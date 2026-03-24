@@ -18,7 +18,6 @@ namespace onlineshopowner_api.Infrastructure.Models
         public Product()
         {
             this.OrderDetails = new HashSet<OrderDetail>();
-            this.ProductImages = new HashSet<ProductImage>();
         }
     
         public int product_id { get; set; }
@@ -29,7 +28,6 @@ namespace onlineshopowner_api.Infrastructure.Models
         public string status { get; set; }
         public Nullable<int> quantity { get; set; }
         public Nullable<int> shop_id { get; set; }
-        public Nullable<int> imgurl_id { get; set; }
         public string img_url { get; set; }
         public string img_delete_code { get; set; }
     
@@ -37,8 +35,5 @@ namespace onlineshopowner_api.Infrastructure.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual Shop Shop { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductImage> ProductImages { get; set; }
-        public virtual ProductImage ProductImage { get; set; }
     }
 }
