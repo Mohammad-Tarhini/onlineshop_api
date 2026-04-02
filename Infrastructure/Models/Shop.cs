@@ -18,9 +18,9 @@ namespace onlineshopowner_api.Infrastructure.Models
         public Shop()
         {
             this.branches = new HashSet<branch>();
+            this.clientorders = new HashSet<clientorder>();
             this.Products = new HashSet<Product>();
             this.ShopCategories = new HashSet<ShopCategory>();
-            this.ShopDeliveries = new HashSet<ShopDelivery>();
         }
     
         public int shop_id { get; set; }
@@ -37,11 +37,11 @@ namespace onlineshopowner_api.Infrastructure.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<branch> branches { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<clientorder> clientorders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Products { get; set; }
         public virtual ShopOwner ShopOwner { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ShopCategory> ShopCategories { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ShopDelivery> ShopDeliveries { get; set; }
     }
 }

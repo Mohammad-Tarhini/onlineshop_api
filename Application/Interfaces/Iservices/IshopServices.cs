@@ -9,9 +9,13 @@ namespace onlineshopowner_api.Application.Interfaces.Iservices
 {
     public interface IshopServices
     {
-        Task<(bool IsSuccess, string message)> PutProfileForShop(UpdatProfileShopeDto dto);
-        Task<(bool IsSuccess, string message)> OpenShop(OpenNewShopDto dto);
-        Task<(bool issuccess, List<string> types, int page, int pagesize, string message)> GetShopTypes(int limit = 30, int page = 1, string search = null);
-        Task<(bool issuccess, List<ShopSumaryDto> Dtoshops, string message)> GetShops(int limit = 20, int pagenb = 1, string searchbyshopname = null, string searchbyshoptype = null);
+        Task<string> OpenShop(OpenNewShopDto dto);
+        Task<string> updataShop(OpenNewShopDto dto);
+        Task<(List<ShopSumaryDto> ,int limit ,int page)> GetShops(int limit = 20, int page = 1, string name = null, string type = null);
+        Task<(List<string> Types, int Page, int PageSize, string Message)> GetShopTypes(int limit = 30, int page = 1, string search = null);
+        //Task<(bool IsSuccess, string message)> PutProfileForShop(UpdatProfileShopeDto dto);
+        //Task<(bool IsSuccess, string message)> OpenShop(OpenNewShopDto dto);
+        //Task<(bool IsSuccess, List<string> Types, int Page, int PageSize, string Message)>GetShopTypes(int limit = 30, int page = 1, string search = null);
+        //Task<(bool IsSuccess, List<ShopSumaryDto> Shops, string Message)> GetShops(int limit = 20, int page = 1, string name = null, string type = null);
     }
 }

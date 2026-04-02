@@ -15,7 +15,7 @@ namespace onlineshopowner_api.Domain.Interfaces.IRepository
   string searchbyshoptype = null,
   string searchbycategory = null);
         Task<String> SetShopInRedis(List<ShopSumaryDto> shops);
-        Task<(string status, List<ProductDto> productDtos, string message)> GetProductFromRedis(int shopid = 0, int limit = 30, int pagenb = 1, string searchbyproductname = null, string searchbyproductcategory = null, string searchbytype = null);
-        Task<string> SetProductInRedis(ProductDto products);
+        //Task<(string status, List<ProductRequestDto> productDtos, string message)> GetProductFromRedis(int shopid = 0, int limit = 30, int pagenb = 1, string searchbyproductname = null, string searchbyproductcategory = null, string searchbytype = null);
+        //Task<string> SetProductInRedis(ProductRequestDto products);
     }
 }

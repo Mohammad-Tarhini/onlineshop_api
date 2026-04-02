@@ -9,15 +9,17 @@ namespace onlineshopowner_api.Application.Interfaces.Iservices
 {
     public interface IUnityOfWork:IDisposable
     {
+
         Task<int> CommitAsync();
         IpersonRepository PersonRepository { get; set; }
        
-        IcategoryRepository CategoryRepository { get; set; }
+      //  IcategoryRepository CategoryRepository { get; set; }
         IShopRepository ShopRepository { get; set; }
         IProductRepository ProductRepository { get; set; }
 
         IRedisRepository RedisRepository { get; set; }
         IDelivaryRepository DelivaryRepository { get; set; }
         IPaymentAndOrderRepository paymentAndOrderRepository {  get; set; }
+         IPaymentRepository paymentRepository { get; set; }
     }
 }

@@ -185,3 +185,11 @@ C:\Users\pc\source\repos\onlineshopowner_api\bin\zh-Hant\Microsoft.VisualStudio.
 C:\Users\pc\source\repos\onlineshopowner_api\obj\Debug\onlinesh.DDC5F7CF.Up2Date
 C:\Users\pc\source\repos\onlineshopowner_api\obj\Debug\onlineshopowner_api.dll
 C:\Users\pc\source\repos\onlineshopowner_api\obj\Debug\onlineshopowner_api.pdb
+C:\Users\pc\source\repos\onlineshopowner_api\bin\System.Web.Cors.dll
+C:\Users\pc\source\repos\onlineshopowner_api\bin\System.Web.Http.Cors.dll
+C:\Users\pc\source\repos\onlineshopowner_api\bin\System.Web.Http.Cors.xml
+C:\Users\pc\source\repos\onlineshopowner_api\bin\Swashbuckle.Core.dll
+C:\Users\pc\source\repos\onlineshopowner_api\bin\WebActivatorEx.dll
+C:\Users\pc\source\repos\onlineshopowner_api\bin\log4net.dll
+C:\Users\pc\source\repos\onlineshopowner_api\bin\log4net.pdb
+C:\Users\pc\source\repos\onlineshopowner_api\bin\log4net.xml

@@ -16,10 +16,11 @@ namespace onlineshopowner_api.Infrastructure.Models
         public int product_id { get; set; }
         public string status { get; set; }
         public string name { get; set; }
-        public Nullable<int> imgurl_id { get; set; }
+        public string img_url { get; set; }
+        public string img_delete_code { get; set; }
         public Nullable<decimal> price { get; set; }
         public string description { get; set; }
-        public int category_id { get; set; }
+        public string categoryname { get; set; }
         public Nullable<int> shop_id { get; set; }
     }
 }

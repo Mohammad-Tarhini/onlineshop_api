@@ -8,6 +8,6 @@ namespace onlineshopowner_api.Domain.Interfaces.IExternalServices
 {
     public interface ITwilioMessageService
     {
-        Task<bool> SendSmsAsync(string toPhoneNumber, string message);
+        Task SendSmsAsync(string toPhoneNumber, string message);
     }
 }
