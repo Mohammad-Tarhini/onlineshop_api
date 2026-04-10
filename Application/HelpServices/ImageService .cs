@@ -43,8 +43,8 @@ namespace onlineshopowner_api.Application.Validatorandclean
                 var cleanStream = ReEncodeToJpeg(stream);
 
                 string safeFileName = Guid.NewGuid() + ".jpg";
-
-                var (url, deleteHash) = await _imgur.UploadImageAsync(stream);
+               cleanStream.Position= 0;
+                var (url, deleteHash) = await _imgur.UploadImageAsync(cleanStream);
 
                 if (string.IsNullOrEmpty(url) && string.IsNullOrEmpty(deleteHash))
                     throw new Exception("Cloud upload failed.");

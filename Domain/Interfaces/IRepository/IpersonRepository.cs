@@ -19,6 +19,7 @@ namespace onlineshopowner_api.Domain.Interfaces.IRepository
         Task<int?> GetAdminIdByPersonId(int personId);
         Task<int?> GetDeliveryIdByPersonId(int personId);
         Task<Domain.Entities.Person> GetPersonByEmailOrPhonenumber(string email = null, string phoneNumber = null);
+        Task<Domain.Entities.Person> GetPersonByEmail(string email);
         Task<Domain.Entities.Person> GetPersonById(int personId);
         System.Threading.Tasks.Task AddPersonAsync(Domain.Entities.Person person);
 

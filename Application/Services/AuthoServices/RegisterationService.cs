@@ -1,4 +1,4 @@
-﻿5using onlineshopowner_api.Application.Dtos;
+﻿using onlineshopowner_api.Application.Dtos;
 using onlineshopowner_api.Application.Interfaces.Iservices;
 using onlineshopowner_api.Application.Validatorandclean;
 using onlineshopowner_api.Domain.Entities;
@@ -138,7 +138,7 @@ Verify Account
                 throw new DomainException("Role must be shopowner for this method");
             }
             var persondb=await uow.PersonRepository
-                .GetPersonByEmailOrPhonenumber(dto.personDto.Email, dto.personDto.PhoneNumber);
+                .GetPersonByEmail(dto.personDto.Email);
                 if (persondb != null && ((dto.role.ToLower().Trim() == "shopowner" && uow.PersonRepository.GetShopOwnerIdByPersonId(persondb.Id) != null) || (dto.role.ToLower().Trim() == "delivery" && uow.PersonRepository.GetDeliveryIdByPersonId(persondb.Id) != null)))
             {
                 throw new DomainException($"Already registered as {dto.role}");

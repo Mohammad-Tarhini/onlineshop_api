@@ -62,6 +62,25 @@ namespace onlineshopowner_api.Infrastructure.Repositories
             var dbDeliveryPerson = await _dbContext.DeliveryProviders.FirstOrDefaultAsync(dp => dp.person_id == personId);
             return dbDeliveryPerson?.delivery_Id;
         }
+        public async Task<Domain.Entities.Person> GetPersonByEmail(string email)
+        {
+            var query=_dbContext.People.AsQueryable();
+            query=query.Where(p=>p.email== email);
+            var dbPerson= await query.FirstOrDefaultAsync();
+            if (dbPerson != null)
+            {
+                return null;
+            }
+            return new Domain.Entities.Person
+            {
+                Id=dbPerson.person_id,
+                Email=dbPerson.email,
+                FirstName=dbPerson.first_name,
+                LastName=dbPerson.last_name,
+                PhoneNumber=dbPerson.phone_number,
+                CreatedDate=dbPerson.created_date??DateTime.UtcNow,
+            };
+        }
         public async Task<Domain.Entities.Person> GetPersonByEmailOrPhonenumber(string email = null, string phoneNumber = null)
         {
             try

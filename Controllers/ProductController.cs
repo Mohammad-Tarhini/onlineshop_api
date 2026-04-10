@@ -43,6 +43,7 @@ namespace onlineshopowner_api.Controllers
             return Ok("is added");
 
         }
+        [JwtAuthorize(Roles ="shopowner")]
         [HttpPost]
         [Route("api/product/updateProduct")]
         public async Task<IHttpActionResult> UpdateProduct()

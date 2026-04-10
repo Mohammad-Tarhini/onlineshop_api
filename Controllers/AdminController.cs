@@ -13,7 +13,10 @@ using System.Web.Http;
 
 namespace onlineshopowner_api.Controllers
 {
-    public class AdminController : ApiController { }
+    public class AdminController : ApiController 
+    {
+        
+    }
     //{
     //    private AddCategoryservices _AddCategoryservices { get; set; }
     //    private IRedisCacheService _redisCacheService;

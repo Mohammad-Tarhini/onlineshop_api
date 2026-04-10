@@ -332,6 +332,7 @@
     <Compile Include="Application\Dtos\PaymentAndOrder\returnItemOrder.cs" />
     <Compile Include="Application\Dtos\PaymentAndOrder\returnOrderForDeliveryDto.cs" />
     <Compile Include="Application\Dtos\PaymentAndOrder\returnOrderForShopDto.cs" />
+    <Compile Include="Application\Services\AdminServices.cs" />
     <Compile Include="Controllers\TestingController.cs" />
     <Compile Include="Domain\Entities\data\Admain.cs" />
     <Compile Include="Domain\Entities\Payment\InternalTransaction.cs" />

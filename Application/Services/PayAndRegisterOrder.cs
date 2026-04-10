@@ -186,7 +186,6 @@ namespace onlineshopowner_api.Application.Services
             await unityOfWork.paymentAndOrderRepository.updateStatusOnClientOrder(order.orderId, "paid");
             var PayInD = new Domain.Entities.Payment.PayIn
             {
-
                 OrderId = order.orderId,
                 Amount = gatwayPayment.Amount,
                 PaymentDate = DateTime.UtcNow,

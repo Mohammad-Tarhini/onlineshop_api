@@ -49,15 +49,17 @@ namespace onlineshopowner_api.Infrastructure.Repositories
                         if (reader.Read())
                         {
                             int shopid = reader.GetInt32(reader.GetOrdinal("shop_id"));
+                            connection.Close();
                             return shopid;
                         }
                         else
                         {
+                            //connection.Close();
                             return null;
                         }
                     }
                 }
-                connection.Close();
+                
             }
 
         }
@@ -132,11 +134,11 @@ namespace onlineshopowner_api.Infrastructure.Repositories
                     command.Parameters.AddWithValue("@name", shop.name);
                     command.Parameters.AddWithValue("@description", shop.description);
                     command.Parameters.AddWithValue("@shopowner_id", shop.shopownerid);
-                    command.Parameters.AddWithValue("@logo_url", shop.logoUrl);
-                    command.Parameters.AddWithValue("@deletehashimage", shop.deletehashingimage);
-                    command.Parameters.AddWithValue("@type", shop.type);
-                    command.Parameters.AddWithValue("@latitude", shop.shoplatitude);
-                    command.Parameters.AddWithValue("@longitude", shop.shopLongitude);
+                    command.Parameters.AddWithValue("@logo_url", (object)shop.logoUrl ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@deletehashimage", (object)shop.deletehashingimage ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@latitude", (object)shop.shoplatitude ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@longitude", (object)shop.shopLongitude ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@type", (object)shop.type ?? DBNull.Value);
 
                     var result = await command.ExecuteScalarAsync();
                     if(result==null || result==DBNull.Value)
@@ -161,13 +163,13 @@ namespace onlineshopowner_api.Infrastructure.Repositories
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@shopid", shop.shopid);
-                    command.Parameters.AddWithValue("@name", shop.name);
-                    command.Parameters.AddWithValue("@description", shop.description);
-                    command.Parameters.AddWithValue("@logo_url", shop.logoUrl);
-                    command.Parameters.AddWithValue("@deletehashimage", shop.deletehashingimage);
-                    command.Parameters.AddWithValue("@type", shop.type);
-                    command.Parameters.AddWithValue("@latitude", shop.shoplatitude);
-                    command.Parameters.AddWithValue("@longitude", shop.shopLongitude);
+                    command.Parameters.AddWithValue("@name", (object)shop.name ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@description", (object)shop.description ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@logo_url", (object)shop.logoUrl ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@deletehashimage", (object)shop.deletehashingimage ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@type", (object)shop.type ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@latitude", (object)shop.shoplatitude ?? DBNull.Value);
+                    command.Parameters.AddWithValue("@longitude", (object)shop.shopLongitude ?? DBNull.Value);
                     await connection.OpenAsync();
                     await command.ExecuteNonQueryAsync();
                 }

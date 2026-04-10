@@ -73,7 +73,7 @@ namespace onlineshopowner_api.Application.Services
             {
                 throw new Exception("You don't have a shop to update.");
             }
-            if (string.IsNullOrEmpty(dto.logo_url) && dto.File == null && string.IsNullOrEmpty(dto.Name) && string.IsNullOrEmpty(dto.Description))
+            if (string.IsNullOrEmpty(dto.logo_url) && dto.File == null && string.IsNullOrEmpty(dto.Name) && string.IsNullOrEmpty(dto.Description) && dto.Latitude==0 && dto.Longitude==0 )
             {
                 throw new Exception("No data to update.");
             }
@@ -102,6 +102,14 @@ namespace onlineshopowner_api.Application.Services
             if (!string.IsNullOrEmpty(dto.Description))
             {
                 shop.description = dto.Description;
+            }
+            if(dto.Latitude != 0)
+            {
+                shop.shoplatitude = dto.Latitude;
+            }
+            if(dto.Longitude != 0)
+            {
+                shop.shopLongitude = dto.Longitude;
             }
             try
             {
@@ -146,27 +154,31 @@ namespace onlineshopowner_api.Application.Services
             //{
 
             //}
-            if (dto.File == null && string.IsNullOrEmpty(dto.logo_url))
+            if (dto.File != null || ! string.IsNullOrEmpty(dto.logo_url))
             {
-                dto.logo_url = "";
-            }
-             ( ImageUrl,  deleteUrl) = await _imageservice.ProcessImageAsync(1000, 19900,10000,imageUrl:dto.logo_url, file: dto.File);
-             if (ImageUrl == null && deleteUrl == null)
-             {
-                 throw new Exception("Failed to process image.");
-             }
-            
-           
+                (ImageUrl, deleteUrl) = await _imageservice.ProcessImageAsync(1000, 19900, 10000, imageUrl: dto.logo_url, file: dto.File);
+                if (string.IsNullOrEmpty(ImageUrl) || string.IsNullOrEmpty(deleteUrl))
+                {
+                    throw new Exception("Failed to process image properly.");
+                }
 
-           
-            var shop = new Domain.Entities.shop(name: dto.Name, d: dto.Description, shopownerid: shownerId.Value, logurl: ImageUrl, deletehashingimage: deleteUrl);
+            }
+
+            
+ 
+            var shop = new Domain.Entities.shop(name: dto.Name, d: dto.Description, shopownerid: shownerId.Value, logurl: ImageUrl, deletehashingimage: deleteUrl ,shoplatitude:dto.Latitude, shopLongitude:dto.Longitude);
             int newShopId;
             try
             {
               newShopId=  await _Unityofwork.ShopRepository.AddShop(shop);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
-                _imgur.DeleteImageAsync(deleteUrl).Wait();
+                if (!string.IsNullOrEmpty(deleteUrl) )
+                {
+                    await _imgur.DeleteImageAsync(deleteUrl);
+                }
+
                 throw new Exception("Failed to add shop to database: " + ex.Message);
             }
             await _Unityofwork.ShopRepository.AddShopCategory(shopid: newShopId, dto.Categories);

@@ -24,7 +24,7 @@ namespace onlineshopowner_api.Domain.Entities
 
         public decimal shopLongitude { get; set; }
 
-        public shop(string name,string d ,int shopownerid, string logurl = null,string deletehashingimage=null)
+        public shop(string name,string d ,int shopownerid, decimal shoplatitude, decimal shopLongitude, string logurl = null,string deletehashingimage=null)
         {
             
             this.name = name;
@@ -32,6 +32,9 @@ namespace onlineshopowner_api.Domain.Entities
             this.logoUrl = logurl;
             this.shopownerid = shopownerid;
             this.deletehashingimage = deletehashingimage;
+            this.shoplatitude = shoplatitude;
+            this.shopLongitude = shopLongitude;
+
         }
         public shop() { }
 

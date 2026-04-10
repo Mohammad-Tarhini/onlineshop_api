@@ -41,7 +41,10 @@ namespace onlineshopowner_api.Controllers
                           .Where(s => int.TryParse(s, out _))
                           .Select(int.Parse)
                           .ToList(),
-                File = request.Files.Count > 0 ? request.Files["File"] : null
+                File = request.Files.Count > 0 ? request.Files["File"] : null,
+                Latitude = request.Form["Latitude"] != null && decimal.TryParse(request.Form["Latitude"], out var lat) ? lat : 0,
+                Longitude = request.Form["Longitude"] != null && decimal.TryParse(request.Form["Longitude"], out var lng) ? lng : 0
+
             };
 
             string response;
@@ -70,7 +73,10 @@ namespace onlineshopowner_api.Controllers
                 Description = request.Form["Description"],
                 Categories = request.Form["Categories"].Split(',').Select(int.Parse).ToList(),
                 logo_url = request.Form["logo_url"],
-                File = request.Files["File"]
+                File = request.Files["File"],
+                Latitude=request.Form["Latitude"]!=null?decimal.Parse(request.Form["Latitude"]):0,
+                Longitude=request.Form["Longitude"]!=null?decimal.Parse(request.Form["Longitude"]): 0
+
             };
             string response = await shopServices.updataShop(updateShopDto);
             if (response == "success")

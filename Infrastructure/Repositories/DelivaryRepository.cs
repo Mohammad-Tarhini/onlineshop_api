@@ -109,8 +109,9 @@ namespace onlineshopowner_api.Infrastructure.Repositories
                             };
                             deliveries.Add(delivery);
                         }
-                        return deliveries;
                         connect.Close();
+                        return deliveries;
+                       
                     }
                 }
             }

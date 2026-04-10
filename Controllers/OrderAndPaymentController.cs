@@ -43,7 +43,6 @@ namespace onlineshopowner_api.Controllers
           var gateWayPayment=  await _fakeGatewayService.ProcessPaymentAsync(sessionId, cardNumber);
           await _orderServices.HandlePaymentWebhookAsync(gateWayPayment);
           return Ok("Payment processed");
-
         }
         //[AllowAnonymous]
         //[HttpPost]
@@ -55,7 +54,7 @@ namespace onlineshopowner_api.Controllers
         //    return Ok("Webhook received and processed");
         //}
         [JwtAuthorize(Roles = "shopowner,admin")]
-        [HttpPost]
+        [HttpGet]
         [Route("api/order/getNewordersForShop")]
         public async Task<IHttpActionResult> GetNewOrdersForShop()
         {
@@ -68,7 +67,7 @@ namespace onlineshopowner_api.Controllers
 
         }
         [JwtAuthorize(Roles = "delivery,admin")]
-        [HttpPost]
+        [HttpGet]
         [Route("api/order/getOrdersForDelivery")]
         public async Task<IHttpActionResult> GetOrdersForDelivery()
         {

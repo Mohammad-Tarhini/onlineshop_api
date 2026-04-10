@@ -21,7 +21,6 @@ namespace onlineshopowner_api.Infrastructure.ExternalServices
         {
             _clientId = imgurSetings.ClientId;
         }
-
         public async Task<(string url, string deleteHash)> UploadImageAsync(Stream imageStream)
         {
             using (var client = new HttpClient())
@@ -33,15 +32,12 @@ namespace onlineshopowner_api.Infrastructure.ExternalServices
 
                 imageStream.Position = 0;
 
-                using (var ms = new MemoryStream())
+                using (var content = new MultipartFormDataContent())
                 {
-                    await imageStream.CopyToAsync(ms);
-                    var base64Image = Convert.ToBase64String(ms.ToArray());
+                    var streamContent = new StreamContent(imageStream);
+                    streamContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
 
-                    var content = new FormUrlEncodedContent(new[]
-                    {
-                new KeyValuePair<string, string>("image", base64Image)
-            });
+                    content.Add(streamContent, "image", "upload.jpg");
 
                     var response = await client.PostAsync("https://api.imgur.com/3/image", content);
 
@@ -58,6 +54,44 @@ namespace onlineshopowner_api.Infrastructure.ExternalServices
                 }
             }
         }
+
+        //public async Task<(string url, string deleteHash)> UploadImageAsync(Stream imageStream)
+        //{
+        //    using (var client = new HttpClient())
+        //    {
+
+        //        client.Timeout = TimeSpan.FromSeconds(15);
+
+        //        client.DefaultRequestHeaders.Authorization =
+        //            new AuthenticationHeaderValue("Client-ID", _clientId);
+
+        //        imageStream.Position = 0;
+
+        //        using (var ms = new MemoryStream())
+        //        {
+        //            await imageStream.CopyToAsync(ms);
+        //            var base64Image = Convert.ToBase64String(ms.ToArray());
+
+        //            var content = new FormUrlEncodedContent(new[]
+        //            {
+        //        new KeyValuePair<string, string>("image", base64Image)
+        //    });
+
+        //            var response = await client.PostAsync("https://api.imgur.com/3/image", content);
+
+        //            var resultJson = await response.Content.ReadAsStringAsync();
+
+        //            if (!response.IsSuccessStatusCode)
+        //            {
+        //                throw new Exception($"Imgur upload failed: {response.StatusCode} - {resultJson}");
+        //            }
+
+        //            dynamic result = Newtonsoft.Json.JsonConvert.DeserializeObject(resultJson);
+
+        //            return (result.data.link.ToString(), result.data.deletehash.ToString());
+        //        }
+        //    }
+        //}
 
 
         public async Task< string > DeleteImageAsync(string deleteHash)
